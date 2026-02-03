@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luciana Telles Ferri | Psicologia</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fontes Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Allison&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- React, ReactDOM e Babel -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --peach-50: #fff9f5;
+            --peach-100: #ffeedb;
+            --peach-200: #ffdeba;
+            --peach-300: #ffc98f;
+            --sage-50: #f4f7f4;
+            --sage-100: #e7ece7;
+            --sage-600: #556955;
+            --terracotta-50: #fdf5f3;
+            --terracotta-200: #f1bfb5;
+            --terracotta-400: #e28a78;
+            --terracotta-600: #c15b46;
+            --terracotta-700: #a14a39;
+            --terracotta-800: #853e2f;
+            --terracotta-900: #5a2a1f;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: #FFFDFB; margin: 0; padding: 0; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .font-allison { font-family: 'Allison', cursive; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        
+        @keyframes bounce-slow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        .animate-bounce-slow { animation: bounce-slow 4s ease-in-out infinite; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const Icon = ({ name, size = 24, className = "" }) => {
+            useEffect(() => {
+                if (window.lucide) window.lucide.createIcons();
+            }, [name]);
+            return <i data-lucide={name} style={{width: size, height: size}} className={`inline-block shrink-0 ${className}`}></i>;
+        };
+
+        const LucianaLogo = ({ className = "w-10 h-10" }) => (
+            <svg viewBox="0 0 100 100" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 50C20 75 40 85 50 85C60 85 80 75 80 50C80 40 70 35 50 45C30 55 20 40 20 50Z" fill="var(--terracotta-600)" opacity="0.9" />
+                <path d="M20 50C20 65 35 75 50 75C65 75 80 65 80 50C80 55 65 65 50 65C35 65 20 55 20 50Z" fill="var(--terracotta-800)" opacity="0.3" />
+                <circle cx="35" cy="35" r="1.5" fill="var(--terracotta-400)" />
+                <circle cx="42" cy="30" r="1.2" fill="var(--terracotta-400)" />
+                <circle cx="48" cy="28" r="1" fill="var(--terracotta-400)" />
+                <circle cx="30" cy="42" r="1.3" fill="var(--terracotta-400)" />
+                <circle cx="38" cy="38" r="0.8" fill="var(--terracotta-400)" />
+                <circle cx="55" cy="26" r="1.1" fill="var(--terracotta-400)" />
+                <circle cx="62" cy="29" r="0.9" fill="var(--terracotta-400)" />
+                <path d="M25 55C35 60 45 58 55 52" stroke="var(--peach-100)" strokeWidth="0.5" opacity="0.5" />
+            </svg>
+        );
+
+        const App = () => {
+            const [activeTab, setActiveTab] = useState('home');
+            const [vlogFilter, setVlogFilter] = useState('todos');
+            const [isMenuOpen, setIsMenuOpen] = useState(false);
+            const [scrolled, setScrolled] = useState(false);
+
+            useEffect(() => {
+                const handleScroll = () => setScrolled(window.scrollY > 50);
+                window.addEventListener('scroll', handleScroll);
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            useEffect(() => {
+                window.scrollTo(0, 0);
+                setIsMenuOpen(false);
+            }, [activeTab]);
+
+            const vlogItems = [
+                { id: 1, title: "Acolhimento no Diagnóstico", category: "oncologia", desc: "Como lidar com as primeiras notícias.", thumb: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=400" },
+                { id: 2, title: "O que são Cuidados Paliativos?", category: "paliativos", desc: "Desmistificando o conceito de cuidado.", thumb: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=400" },
+                { id: 3, title: "Vivenciando o Luto", category: "luto", desc: "Respeitando o tempo de cada dor.", thumb: "https://images.unsplash.com/photo-1516589174184-c6852b51cefb?auto=format&fit=crop&q=80&w=400" },
+                { id: 4, title: "Saúde Mental do Cuidador", category: "reflexão", desc: "Quem cuida também precisa de amparo.", thumb: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=400" },
+            ];
+
+            const blogPosts = [
+                { id: 1, title: "Comunicação Difícil na Saúde", summary: "Como falar sobre verdades dolorosas com empatia.", tag: "Comunicação" },
+                { id: 2, title: "Dilemas Éticos no Fim da Vida", summary: "Reflexões sobre autonomia e dignidade do paciente.", tag: "Ética" },
+                { id: 3, title: "O Luto Não é uma Doença", summary: "Entendendo os processos naturais de despedida.", tag: "Luto" },
+                { id: 4, title: "Saúde Emocional e Câncer", summary: "O papel da psicologia na jornada do tratamento.", tag: "Saúde" },
+            ];
+
+            const NavLink = ({ id, label }) => (
+                <button 
+                    onClick={() => setActiveTab(id)}
+                    className={`px-4 py-2 font-medium transition-all duration-300 relative group ${activeTab === id ? 'text-[#c15b46]' : 'text-gray-600 hover:text-[#c15b46]'}`}
+                >
+                    {label}
+                    <span className={`absolute bottom-0 left-0 w-full h-0.5 bg-[#c15b46] transform transition-transform duration-300 ${activeTab === id ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-50'}`}></span>
+                </button>
+            );
+
+            return (
+                <div className="min-h-screen">
+                    <nav className={`fixed w-full z-50 transition-all duration-500 ${scrolled ? 'bg-white/60 backdrop-blur-xl shadow-sm py-2' : 'bg-transparent py-4'}`}>
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="flex justify-between h-20 items-center">
+                                <div className="flex items-center gap-3 cursor-pointer group" onClick={() => setActiveTab('home')}>
+                                    <LucianaLogo className="w-10 h-10 md:w-12 md:h-12 transition-transform duration-500 group-hover:rotate-12" />
+                                    <div className="flex flex-col">
+                                        <span className="text-4xl md:text-5xl font-allison text-[#5a2a1f] leading-none pt-2">luciana telles</span>
+                                        <span className="text-[9px] md:text-[11px] uppercase tracking-[0.15em] text-[#556955] font-bold mt-1">Psicologia Clínica & Onco-Hematologia</span>
+                                    </div>
+                                </div>
+                                <div className="hidden lg:flex items-center space-x-2">
+                                    <NavLink id="home" label="Início" />
+                                    <NavLink id="trajetoria" label="Trajetória" />
+                                    <NavLink id="vlog" label="Vlog" />
+                                    <NavLink id="blog" label="Blog" />
+                                    <button onClick={() => setActiveTab('contato')} className="ml-6 bg-[#c15b46] text-white px-7 py-3 rounded-full hover:bg-[#a14a39] shadow-lg font-bold">Agendar Consulta</button>
+                                </div>
+                                <div className="lg:hidden">
+                                    <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-[#5a2a1f] p-2">
+                                        <Icon name={isMenuOpen ? "x" : "menu"} size={32} />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+
+                    <main>
+                        {activeTab === 'home' && (
+                            <>
+                                <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden px-4">
+                                    <div className="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 w-[600px] h-[600px] bg-[#ffeedb]/50 rounded-full blur-3xl opacity-60"></div>
+                                    <div className="max-w-7xl mx-auto relative z-10 flex flex-col lg:flex-row items-center gap-16">
+                                        <div className="lg:w-1/2 space-y-8 text-center lg:text-left">
+                                            <div className="inline-flex items-center gap-2 px-5 py-2 bg-[#ffeedb] text-[#853e2f] rounded-full text-sm font-bold uppercase tracking-widest animate-bounce-slow">
+                                                <Icon name="sparkles" size={16} /> Seja Gentil com Você!
+                                            </div>
+                                            <h1 className="text-5xl md:text-7xl font-serif text-gray-900 leading-tight">
+                                                Acolher o <span className="text-[#c15b46]">desafio</span> com dignidade.
+                                            </h1>
+                                            <p className="text-xl text-gray-600 max-w-xl mx-auto lg:mx-0 font-medium">
+                                                Psicóloga dedicada a transformar momentos de transição em processos de suporte e cuidado humanizado.
+                                            </p>
+                                            <div className="flex flex-wrap justify-center lg:justify-start gap-4">
+                                                <button onClick={() => setActiveTab('contato')} className="bg-[#c15b46] text-white px-10 py-5 rounded-2xl font-bold text-lg hover:bg-[#a14a39] shadow-xl">Agendar Consulta</button>
+                                                <button onClick={() => setActiveTab('trajetoria')} className="bg-white text-[#853e2f] border-2 border-[#ffdeba] px-10 py-5 rounded-2xl font-bold text-lg">Ver Trajetória</button>
+                                            </div>
+                                        </div>
+                                        <div className="lg:w-1/2 relative">
+                                            <div className="aspect-[4/5] bg-[#fff9f5] rounded-[3rem] overflow-hidden shadow-2xl border-[12px] border-white animate-float flex items-center justify-center">
+                                                <Icon name="user" size={120} className="text-[#ffdeba]" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <section className="py-24 bg-[#fff9f5]/50 px-4">
+                                    <div className="max-w-7xl mx-auto text-center mb-16">
+                                        <h2 className="text-4xl font-serif mb-4">Temas Centrais</h2>
+                                        <div className="w-20 h-1.5 bg-[#c15b46] mx-auto rounded-full"></div>
+                                    </div>
+                                    <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-10">
+                                        {[
+                                            { title: "Psico-Oncologia", icon: "heart", color: "bg-rose-500", desc: "Acompanhamento no diagnóstico e tratamento do câncer." },
+                                            { title: "Cuidados Paliativos", icon: "sun", color: "bg-amber-500", desc: "Qualidade de vida e manejo emocional de doenças graves." },
+                                            { title: "Clínica do Luto", icon: "sparkles", color: "bg-indigo-500", desc: "Acolhimento de perdas e processos de despedida." }
+                                        ].map((item, idx) => (
+                                            <div key={idx} className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-[#ffeedb] hover:shadow-2xl transition-all group">
+                                                <div className={`w-14 h-14 ${item.color} text-white rounded-2xl flex items-center justify-center mb-6`}>
+                                                    <Icon name={item.icon} size={28} />
+                                                </div>
+                                                <h3 className="text-2xl font-serif mb-4">{item.title}</h3>
+                                                <p className="text-gray-600 mb-6">{item.desc}</p>
+                                                <button onClick={() => setActiveTab('contato')} className="font-bold text-[#c15b46] flex items-center gap-2">Saiba mais <Icon name="arrow-right" size={18} /></button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </section>
+
+                                <section className="py-24 bg-[#5a2a1f] text-white px-4">
+                                    <div className="max-w-7xl mx-auto text-center mb-16">
+                                        <h2 className="text-4xl font-serif mb-4">Eventos e Palestras 2025</h2>
+                                        <p className="text-[#ffeedb]">Presença ativa nos principais congressos nacionais.</p>
+                                    </div>
+                                    <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12">
+                                        <div className="space-y-6">
+                                            {[
+                                                "12º Congresso Todos Juntos Contra o Câncer (TJCC)",
+                                                "SINTOMA 2025 – Simpósio Internacional",
+                                                "Encontro Humanização Ubatuba",
+                                                "3º Simpósio Câncer Cabeça e Pescoço"
+                                            ].map((e, i) => (
+                                                <div key={i} className="flex gap-4 p-5 bg-white/10 rounded-2xl border border-white/5">
+                                                    <Icon name="award" className="text-[#ffc98f]" />
+                                                    <span className="font-bold">{e}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                        <div className="bg-white/5 backdrop-blur-md p-10 rounded-[3rem] border border-white/10">
+                                            <h3 className="text-2xl font-serif mb-6 italic text-[#ffc98f]">Colaborações Ativas</h3>
+                                            <p className="opacity-80">• Movimento “Unidos pelo Único” (2025-2027).</p>
+                                            <p className="opacity-80">• Parcerias com a Abrale.</p>
+                                            <p className="opacity-80">• Lives com a Ophicina de Cuidados Paliativos.</p>
+                                        </div>
+                                    </div>
+                                </section>
+                            </>
+                        )}
+
+                        {activeTab === 'trajetoria' && (
+                            <section className="pt-40 pb-32 px-4 max-w-4xl mx-auto">
+                                <h2 className="text-4xl font-serif text-center mb-12">Trajetória Profissional</h2>
+                                <div className="space-y-12">
+                                    <div className="p-8 bg-[#fff9f5] border-l-8 border-[#c15b46] rounded-3xl">
+                                        <h3 className="text-2xl font-bold text-[#853e2f] mb-4">Experiência</h3>
+                                        <p className="mb-4"><strong>Psicóloga Clínica na Abrale:</strong> Foco em onco-hematologia.</p>
+                                        <p className="mb-4"><strong>Instituto de Imunologia e Oncologia:</strong> Psico-oncologista.</p>
+                                        <p><strong>Rede Nacional de Tanatologia:</strong> Docente.</p>
+                                    </div>
+                                    <div className="grid md:grid-cols-2 gap-6">
+                                        {["Mackenzie (Psicologia)", "Espec. Psico-Oncologia", "Espec. Cuidados Paliativos", "Aperfeiçoamento em Luto"].map((edu, i) => (
+                                            <div key={i} className="p-5 border border-[#e7ece7] rounded-2xl flex items-center gap-3 bg-white">
+                                                <Icon name="book-open" size={20} className="text-[#556955]" />
+                                                <span className="font-medium text-gray-700">{edu}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </section>
+                        )}
+
+                        {activeTab === 'vlog' && (
+                            <section className="pt-40 pb-32 px-4 text-center">
+                                <h2 className="text-4xl font-serif mb-8">Vlog: Diálogos Abertos</h2>
+                                <div className="flex flex-wrap justify-center gap-4 mb-12">
+                                    {['todos', 'oncologia', 'paliativos', 'luto'].map(cat => (
+                                        <button key={cat} onClick={() => setVlogFilter(cat)} className={`px-6 py-2 rounded-full capitalize transition-all ${vlogFilter === cat ? 'bg-[#c15b46] text-white shadow-md' : 'bg-[#fff9f5] text-gray-600'}`}>{cat}</button>
+                                    ))}
+                                </div>
+                                <div className="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                    {vlogItems.filter(v => vlogFilter === 'todos' || v.category === vlogFilter).map(item => (
+                                        <div key={item.id} className="bg-white rounded-3xl overflow-hidden shadow-lg border border-[#ffeedb] text-left">
+                                            <div className="aspect-video bg-gray-100 flex items-center justify-center relative">
+                                                <Icon name="play-circle" size={48} className="text-[#c15b46]/50" />
+                                                <span className="absolute top-4 left-4 px-3 py-1 bg-white/90 rounded-full text-[10px] font-bold uppercase text-[#c15b46]">{item.category}</span>
+                                            </div>
+                                            <div className="p-6">
+                                                <h4 className="text-xl font-serif font-bold mb-2">{item.title}</h4>
+                                                <p className="text-sm text-gray-500">{item.desc}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
+
+                        {activeTab === 'blog' && (
+                            <section className="pt-40 pb-32 px-4 max-w-7xl mx-auto">
+                                <h2 className="text-4xl font-serif text-center mb-12">Escritas do Cuidar</h2>
+                                <div className="grid md:grid-cols-2 gap-8">
+                                    {blogPosts.map(post => (
+                                        <article key={post.id} className="bg-[#fff9f5] p-10 rounded-[2.5rem] border border-[#ffeedb] hover:bg-white transition-all group">
+                                            <span className="text-[10px] font-bold uppercase text-[#c15b46]">{post.tag}</span>
+                                            <h3 className="text-2xl font-serif font-bold mt-4 mb-4 group-hover:text-[#c15b46]">{post.title}</h3>
+                                            <p className="text-gray-600 mb-8">{post.summary}</p>
+                                            <button className="font-bold flex items-center gap-2 text-[#853e2f]">Ler completo <Icon name="arrow-right" size={18} /></button>
+                                        </article>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
+
+                        {activeTab === 'contato' && (
+                            <section className="pt-40 pb-32 px-4 max-w-7xl mx-auto text-center">
+                                <h2 className="text-4xl font-serif mb-12">Canais de Contato</h2>
+                                <div className="grid md:grid-cols-2 gap-12">
+                                    <div className="space-y-6">
+                                        <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-[#ffeedb] flex items-center gap-6 text-left">
+                                            <div className="p-4 bg-[#fff9f5] text-[#c15b46] rounded-2xl"><Icon name="phone" size={30} /></div>
+                                            <div><p className="text-xs font-bold text-gray-400">Atendimento</p><p className="text-xl font-bold">(11) 3149-5190</p></div>
+                                        </div>
+                                        <div className="bg-[#c15b46] p-8 rounded-[2rem] shadow-xl text-white flex items-center gap-6 text-left">
+                                            <div className="p-4 bg-white/20 rounded-2xl"><Icon name="message-circle" size={30} /></div>
+                                            <div><p className="text-xs font-bold opacity-70 uppercase">WhatsApp / 0800</p><p className="text-xl font-bold">0800-773-9973</p></div>
+                                        </div>
+                                        <p className="text-gray-400 mt-8">Rua Paulistânia, 661, Sumarezinho, São Paulo – SP.</p>
+                                    </div>
+                                    <div className="bg-white p-10 rounded-[3rem] shadow-2xl border border-[#ffeedb]">
+                                        <h3 className="text-2xl font-serif mb-6 text-[#5a2a1f]">Mensagem Direta</h3>
+                                        <input type="text" placeholder="Nome" className="w-full p-4 mb-4 bg-[#fff9f5] rounded-2xl outline-none" />
+                                        <textarea placeholder="Sua mensagem" rows="4" className="w-full p-4 mb-4 bg-[#fff9f5] rounded-2xl outline-none"></textarea>
+                                        <button className="w-full bg-[#c15b46] text-white p-5 rounded-2xl font-bold">Enviar</button>
+                                    </div>
+                                </div>
+                            </section>
+                        )}
+                    </main>
+
+                    <footer className="py-12 border-t border-[#ffeedb] text-center bg-white">
+                        <LucianaLogo className="mx-auto mb-4 w-12 h-12" />
+                        <p className="font-allison text-[#5a2a1f] text-4xl">luciana telles</p>
+                        <p className="text-xs text-gray-400 mt-4 italic">CRP 06/XXXXXX • © 2025 Luciana Telles Ferri. Todos os direitos reservados.</p>
+                    </footer>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

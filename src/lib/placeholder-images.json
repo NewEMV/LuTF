@@ -1,3 +1,34 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-portrait",
+      "description": "Portrait of a woman.",
+      "imageUrl": "https://images.unsplash.com/photo-1557053910-d9eadeed1c58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHx3b21hbiUyMHBvcnRyYWl0fGVufDB8fHx8MTc3MDAxODk3OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "woman portrait"
+    },
+    {
+      "id": "vlog-oncologia",
+      "description": "A doctor and patient talking.",
+      "imageUrl": "https://images.unsplash.com/photo-1666214277730-e9c7e755e5a3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxkb2N0b3IlMjBwYXRpZW50fGVufDB8fHx8MTc3MDA4OTc5Mnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "doctor patient"
+    },
+    {
+      "id": "vlog-paliativos",
+      "description": "A hand holding another hand.",
+      "imageUrl": "https://images.unsplash.com/photo-1676755029584-5650586944d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxoYW5kJTIwY2FyZXxlbnwwfHx8fDE3NzAwODk3OTJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "hand care"
+    },
+    {
+      "id": "vlog-luto",
+      "description": "A person looking sad.",
+      "imageUrl": "https://images.unsplash.com/photo-1527236438218-d82077ae1f85?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8c2FkJTIwcGVyc29ufGVufDB8fHx8MTc3MDAyOTQxNnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "sad person"
+    },
+    {
+      "id": "vlog-reflexao",
+      "description": "A person doing yoga.",
+      "imageUrl": "https://images.unsplash.com/photo-1616376392785-8e7e283571e6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx5b2dhJTIwbWVkaXRhdGlvbnxlbnwwfHx8fDE3NzAwODk3OTJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "yoga meditation"
+    }
+  ]
 }
