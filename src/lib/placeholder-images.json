@@ -2,9 +2,9 @@
   "placeholderImages": [
     {
       "id": "hero-portrait",
-      "description": "Portrait of a woman.",
-      "imageUrl": "https://images.unsplash.com/photo-1557053910-d9eadeed1c58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHx3b21hbiUyMHBvcnRyYWl0fGVufDB8fHx8MTc3MDAxODk3OXww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "woman portrait"
+      "description": "Foto de Luciana Telles Ferri",
+      "imageUrl": "/images/LucianaTF_Hero.jpg",
+      "imageHint": "Luciana Telles"
     },
     {
       "id": "vlog-oncologia",
