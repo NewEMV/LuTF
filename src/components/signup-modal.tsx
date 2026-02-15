@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { X } from 'lucide-react';
+import { Eye, EyeOff } from 'lucide-react';
 import { useAuth, SignupData } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import {
@@ -39,6 +39,8 @@ export function SignupModal({ open, onClose }: SignupModalProps) {
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const {
         register,
@@ -157,13 +159,22 @@ export function SignupModal({ open, onClose }: SignupModalProps) {
 
                         <div>
                             <Label htmlFor="password">Senha</Label>
-                            <Input
-                                id="password"
-                                type="password"
-                                {...register('password')}
-                                placeholder="••••••"
-                                className="mt-1"
-                            />
+                            <div className="relative mt-1">
+                                <Input
+                                    id="password"
+                                    type={showPassword ? 'text' : 'password'}
+                                    {...register('password')}
+                                    placeholder="••••••"
+                                    className="pr-10"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                                >
+                                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                                </button>
+                            </div>
                             {errors.password && (
                                 <p className="text-sm text-red-600 dark:text-red-400 mt-1">{errors.password.message}</p>
                             )}
@@ -171,13 +182,22 @@ export function SignupModal({ open, onClose }: SignupModalProps) {
 
                         <div>
                             <Label htmlFor="confirmPassword">Confirmar Senha</Label>
-                            <Input
-                                id="confirmPassword"
-                                type="password"
-                                {...register('confirmPassword')}
-                                placeholder="••••••"
-                                className="mt-1"
-                            />
+                            <div className="relative mt-1">
+                                <Input
+                                    id="confirmPassword"
+                                    type={showConfirmPassword ? 'text' : 'password'}
+                                    {...register('confirmPassword')}
+                                    placeholder="••••••"
+                                    className="pr-10"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                                >
+                                    {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                                </button>
+                            </div>
                             {errors.confirmPassword && (
                                 <p className="text-sm text-red-600 dark:text-red-400 mt-1">{errors.confirmPassword.message}</p>
                             )}

@@ -1,10 +1,11 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import Link from 'next/link';
+import { Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { SignupModal } from '@/components/signup-modal';
 import { Button } from '@/components/ui/button';
@@ -25,6 +26,7 @@ export default function LoginPage() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [showSignup, setShowSignup] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     const {
         register,
@@ -50,7 +52,7 @@ export default function LoginPage() {
     };
 
     // Redirecionar baseado no role e status
-    useState(() => {
+    useEffect(() => {
         if (user) {
             if (user.role === 'admin') {
                 router.push('/admin');
@@ -64,7 +66,7 @@ export default function LoginPage() {
                 }
             }
         }
-    });
+    }, [user, router]);
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5 p-4">
@@ -104,13 +106,22 @@ export default function LoginPage() {
 
                         <div>
                             <Label htmlFor="password">Senha</Label>
-                            <Input
-                                id="password"
-                                type="password"
-                                {...register('password')}
-                                placeholder="••••••"
-                                className="mt-1"
-                            />
+                            <div className="relative mt-1">
+                                <Input
+                                    id="password"
+                                    type={showPassword ? 'text' : 'password'}
+                                    {...register('password')}
+                                    placeholder="••••••"
+                                    className="pr-10"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                                >
+                                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                                </button>
+                            </div>
                             {errors.password && (
                                 <p className="text-sm text-red-600 dark:text-red-400 mt-1">{errors.password.message}</p>
                             )}
