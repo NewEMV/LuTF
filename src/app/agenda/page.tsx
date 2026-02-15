@@ -1,6 +1,8 @@
 'use client';
 import { ProtectedRoute } from '@/components/protected-route';
 
+export const dynamic = 'force-dynamic';
+
 export default function AgendaPage() {
     return (
         <ProtectedRoute requireApprovedClient>

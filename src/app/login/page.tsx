@@ -43,17 +43,20 @@ export default function LoginPage() {
         try {
             await login(data.email, data.password);
 
-            // O redirect será feito no useEffect quando user mudar
+            // Esperar um pouco para o AuthContext atualizar o user
+            setTimeout(() => {
+                // Forçar reload da página - isso vai carregar o user do AuthContext
+                window.location.href = '/';
+            }, 1000);
         } catch (err: any) {
             setError(err.message || 'Erro ao fazer login');
-        } finally {
             setLoading(false);
         }
     };
 
-    // Redirecionar baseado no role e status
+    // Redirecionar baseado no role e status quando user estiver disponível
     useEffect(() => {
-        if (user) {
+        if (user && !loading) {
             if (user.role === 'admin') {
                 router.push('/admin');
             } else if (user.role === 'client') {
@@ -66,7 +69,7 @@ export default function LoginPage() {
                 }
             }
         }
-    }, [user, router]);
+    }, [user, loading, router]);
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5 p-4">
