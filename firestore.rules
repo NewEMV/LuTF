@@ -1,0 +1,46 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Função para verificar se o usuário é admin
+    function isAdmin() {
+      return request.auth != null && 
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Função para verificar se é o próprio usuário
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Users: leitura própria ou admin, criação livre (cadastro), update/delete apenas admin
+    match /users/{userId} {
+      allow read: if isAdmin() || isOwner(userId);
+      allow create: if request.auth != null; // Qualquer um pode se cadastrar
+      allow update, delete: if isAdmin();
+    }
+    
+    // Eventos: leitura pública, escrita apenas admin
+    match /eventos/{eventoId} {
+      allow read: if true; // Público
+      allow write: if isAdmin();
+    }
+    
+    // Posts: leitura pública, escrita apenas admin
+    match /posts/{postId} {
+      allow read: if true; // Público
+      allow write: if isAdmin();
+    }
+    
+    // Vídeos: leitura pública, escrita apenas admin
+    match /videos/{videoId} {
+      allow read: if true; // Público
+      allow write: if isAdmin();
+    }
+    
+    // Mail: apenas admin
+    match /mail/{mailId} {
+      allow read, write: if isAdmin();
+    }
+  }
+}
