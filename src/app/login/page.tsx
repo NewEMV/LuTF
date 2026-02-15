@@ -45,13 +45,13 @@ export default function LoginPage() {
         try {
             const userData = await login(data.email, data.password);
 
-            // Redirecionar imediatamente baseado no role e status
+            // Redirecionar usando window.location para garantir que funciona com static export
             if (userData) {
                 if (userData.role === 'admin') {
-                    router.push('/admin');
+                    window.location.href = '/admin';
                 } else if (userData.role === 'client') {
                     if (userData.status === 'approved') {
-                        router.push('/agenda');
+                        window.location.href = '/agenda';
                     } else if (userData.status === 'pending') {
                         setError('Seu cadastro está aguardando aprovação');
                         setLoading(false);
