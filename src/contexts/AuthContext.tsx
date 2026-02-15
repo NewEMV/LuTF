@@ -25,7 +25,7 @@ export interface User {
 interface AuthContextType {
     user: User | null;
     loading: boolean;
-    login: (email: string, password: string) => Promise<void>;
+    login: (email: string, password: string) => Promise<User | null>;
     signup: (userData: SignupData) => Promise<void>;
     logout: () => Promise<void>;
 }
@@ -90,6 +90,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const userData = await fetchUserData(userCredential.user);
             setUser(userData);
+            return userData; // Retornar dados do usuário
         } catch (error: any) {
             console.error('Erro no login:', error);
 

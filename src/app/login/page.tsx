@@ -13,6 +13,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { LucianaLogo } from '@/components/luciana-logo';
 
+export const dynamic = 'force-dynamic';
+
 const loginSchema = z.object({
     email: z.string().email('Email inválido'),
     password: z.string().min(1, 'Senha é obrigatória'),
@@ -41,13 +43,24 @@ export default function LoginPage() {
         setError('');
 
         try {
-            await login(data.email, data.password);
+            const userData = await login(data.email, data.password);
 
-            // Esperar um pouco para o AuthContext atualizar o user
-            setTimeout(() => {
-                // Forçar reload da página - isso vai carregar o user do AuthContext
-                window.location.href = '/';
-            }, 1000);
+            // Redirecionar imediatamente baseado no role e status
+            if (userData) {
+                if (userData.role === 'admin') {
+                    router.push('/admin');
+                } else if (userData.role === 'client') {
+                    if (userData.status === 'approved') {
+                        router.push('/agenda');
+                    } else if (userData.status === 'pending') {
+                        setError('Seu cadastro está aguardando aprovação');
+                        setLoading(false);
+                    } else if (userData.status === 'denied') {
+                        setError('Seu cadastro foi negado. Entre em contato para mais informações');
+                        setLoading(false);
+                    }
+                }
+            }
         } catch (err: any) {
             setError(err.message || 'Erro ao fazer login');
             setLoading(false);
