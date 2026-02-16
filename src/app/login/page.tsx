@@ -39,29 +39,40 @@ export default function LoginPage() {
     });
 
     const onSubmit = async (data: LoginFormData) => {
+        console.log('1. onSubmit iniciado', data);
         setLoading(true);
         setError('');
 
         try {
+            console.log('2. Tentando fazer login...');
             const userData = await login(data.email, data.password);
+            console.log('3. Login concluído, userData:', userData);
 
             // Redirecionar usando window.location para garantir que funciona com static export
             if (userData) {
+                console.log('4. userData existe, role:', userData.role, 'status:', userData.status);
                 if (userData.role === 'admin') {
+                    console.log('5. Redirecionando para /admin');
                     window.location.href = '/admin';
                 } else if (userData.role === 'client') {
                     if (userData.status === 'approved') {
+                        console.log('5. Redirecionando para /agenda');
                         window.location.href = '/agenda';
                     } else if (userData.status === 'pending') {
+                        console.log('5. Status pending');
                         setError('Seu cadastro está aguardando aprovação');
                         setLoading(false);
                     } else if (userData.status === 'denied') {
+                        console.log('5. Status denied');
                         setError('Seu cadastro foi negado. Entre em contato para mais informações');
                         setLoading(false);
                     }
                 }
+            } else {
+                console.log('4. userData é null!');
             }
         } catch (err: any) {
+            console.error('ERRO no login:', err);
             setError(err.message || 'Erro ao fazer login');
             setLoading(false);
         }

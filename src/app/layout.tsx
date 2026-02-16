@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { AuthProvider } from '@/contexts/AuthContext';
-import { ThemeProvider } from '@/components/theme-provider';
+import { ThemeProvider } from '@/contexts/ThemeContext';
 
 export const metadata: Metadata = {
   title: "Luciana Telles Ferri | Psicologia",
@@ -24,11 +24,11 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body bg-background text-foreground antialiased">
-        <AuthProvider>
-          <ThemeProvider>
+        <ThemeProvider>
+          <AuthProvider>
             {children}
-          </ThemeProvider>
-        </AuthProvider>
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

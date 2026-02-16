@@ -26,6 +26,12 @@ service firebase.storage {
       allow write: if isAdmin();
     }
     
+    // Galeria: leitura pública, upload apenas admin
+    match /galeria/{albumId}/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
     // Users: leitura pública, upload apenas o próprio usuário ou admin
     match /users/{userId}/{allPaths=**} {
       allow read: if true;

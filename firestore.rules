@@ -38,6 +38,17 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
     
+    // Galeria: leitura pública, escrita apenas admin
+    match /galeria/{albumId} {
+      allow read: if true; // Público
+      allow write: if isAdmin();
+    }
+    
+    match /galeria_images/{imageId} {
+      allow read: if true; // Público
+      allow write: if isAdmin();
+    }
+    
     // Mail: apenas admin
     match /mail/{mailId} {
       allow read, write: if isAdmin();
