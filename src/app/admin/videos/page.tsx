@@ -151,7 +151,9 @@ function SortableVideoCard({ video, onEdit, onDelete, onTogglePin }: {
                 <div className="flex items-center justify-between pt-2">
                     <Badge variant="outline">{video.category}</Badge>
                     <span className="text-xs text-muted-foreground">
-                        {format(video.publishedAt.toDate(), 'dd MMM yyyy', { locale: ptBR })}
+                        {video.publishedAt
+                            ? format(video.publishedAt.toDate(), 'dd MMM yyyy', { locale: ptBR })
+                            : '-'}
                     </span>
                 </div>
             </CardContent>
@@ -237,9 +239,9 @@ export default function VideosPage() {
     };
 
     const filteredVideos = videos.filter((video) =>
-        video.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        video.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        video.category.toLowerCase().includes(searchQuery.toLowerCase())
+        (video.title?.toLowerCase() || '').includes(searchQuery.toLowerCase()) ||
+        (video.description?.toLowerCase() || '').includes(searchQuery.toLowerCase()) ||
+        (video.category?.toLowerCase() || '').includes(searchQuery.toLowerCase())
     );
 
     return (
