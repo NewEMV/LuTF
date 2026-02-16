@@ -144,7 +144,7 @@ export default function Home() {
               <div className="hidden lg:flex items-center space-x-2">
                 <NavLink id="home" label="Início" />
                 <NavLink id="trajetoria" label="Trajetória" />
-                <NavLink id="vlog" label="Vlog" />
+                <NavLink id="vlog" label="Vídeos" />
                 <NavLink id="blog" label="Blog" />
                 <div className="ml-4">
                   <ThemeToggle />
@@ -230,7 +230,7 @@ export default function Home() {
               <section className="py-24 bg-gradient-to-br from-primary/95 to-accent/95 text-white px-4">
                 <div className="max-w-7xl mx-auto text-center mb-16">
                   <ScrollReveal direction="up">
-                    <h2 className="text-4xl font-headline mb-4">Eventos e Palestras 2025</h2>
+                    <h2 className="text-4xl font-headline mb-4">Eventos e Palestras 2026</h2>
                     <p className="text-white/80">Presença ativa nos principais congressos nacionais.</p>
                   </ScrollReveal>
                 </div>
@@ -294,7 +294,7 @@ export default function Home() {
           {activeTab === 'vlog' && (
             <section className="pt-40 pb-32 px-4 text-center">
               <ScrollReveal direction="up">
-                <h2 className="text-4xl font-headline mb-8">Vlog: Diálogos Abertos</h2>
+                <h2 className="text-4xl font-headline mb-8">Vídeos: Diálogos Abertos</h2>
               </ScrollReveal>
               <ScrollReveal direction="up" delay={100}>
                 <div className="flex flex-wrap justify-center gap-4 mb-12">
@@ -360,11 +360,7 @@ export default function Home() {
               <ScrollReveal direction="up" delay={100}>
                 <InteractiveCalendar />
               </ScrollReveal>
-              <ScrollReveal direction="up" delay={300}>
-                <p className="text-muted-foreground mt-8 text-center">
-                  Rua Paulistânia, 661, Sumarezinho, São Paulo – SP.
-                </p>
-              </ScrollReveal>
+
             </section>
           )}
         </main>
@@ -411,7 +407,7 @@ export default function Home() {
             </a>
           </div>
 
-          <p className="text-xs text-muted-foreground mt-4 italic">CRP 06/XXXXXX • © 2026 Luciana Telles Ferri. Todos os direitos reservados.</p>
+          <p className="text-xs text-muted-foreground mt-4 italic">CRP 06/88158 • © 2026 Luciana Telles Ferri. Todos os direitos reservados.</p>
         </footer>
       </div>
 
