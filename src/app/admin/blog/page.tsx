@@ -98,7 +98,7 @@ function SortableRow({ post, onEdit, onDelete, onTogglePin }: {
                 </Badge>
             </TableCell>
             <TableCell>
-                {post.categories.join(', ') || '-'}
+                {post.categories?.join(', ') || '-'}
             </TableCell>
             <TableCell>
                 {post.publishedAt
@@ -228,8 +228,8 @@ export default function BlogPage() {
     };
 
     const filteredPosts = posts.filter((post) => {
-        const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            post.content.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesSearch = (post.title?.toLowerCase() || '').includes(searchQuery.toLowerCase()) ||
+            (post.content?.toLowerCase() || '').includes(searchQuery.toLowerCase());
         const matchesStatus = statusFilter === 'all' || post.status === statusFilter;
 
         return matchesSearch && matchesStatus;

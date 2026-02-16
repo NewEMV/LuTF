@@ -26,7 +26,7 @@ import { FloatingChat } from '@/components/floating-chat';
 import { PageLoader } from '@/components/page-loader';
 import { InteractiveCalendar } from '@/components/interactive-calendar';
 import { ScrollProgress, BackToTop } from '@/components/scroll-components';
-import { ThemeToggle } from '@/components/theme-provider';
+import { ThemeToggle } from '@/contexts/ThemeContext';
 import { CardMovingBorder } from '@/components/card-moving-border';
 import { useAuth } from '@/contexts/AuthContext';
 

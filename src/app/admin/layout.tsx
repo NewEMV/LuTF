@@ -1,7 +1,7 @@
 'use client';
 import { ProtectedRoute } from '@/components/protected-route';
 import { AdminSidebar } from '@/components/admin-sidebar';
-import { ThemeToggle } from '@/components/theme-provider';
+import { ThemeToggle } from '@/contexts/ThemeContext';
 
 export default function AdminLayout({
     children,
