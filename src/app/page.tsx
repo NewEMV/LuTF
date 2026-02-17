@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import Image from "next/image";
 import {
   Sparkles,
@@ -29,6 +30,10 @@ import { ScrollProgress, BackToTop } from '@/components/scroll-components';
 import { ThemeToggle } from '@/contexts/ThemeContext';
 import { CardMovingBorder } from '@/components/card-moving-border';
 import { useAuth } from '@/contexts/AuthContext';
+import { getPublishedPosts } from '@/lib/blog';
+import { getVideos } from '@/lib/videos';
+import type { BlogPost } from '@/types/blog';
+import type { Video } from '@/types/video';
 
 const heroImage = PlaceHolderImages.find(p => p.id === 'hero-portrait');
 const vlogThumbOncologia = PlaceHolderImages.find(p => p.id === 'vlog-oncologia');
@@ -44,10 +49,26 @@ export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [realPosts, setRealPosts] = useState<BlogPost[]>([]);
+  const [realVideos, setRealVideos] = useState<Video[]>([]);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 2000);
-    return () => clearTimeout(timer);
+    const loadData = async () => {
+      try {
+        const [postsData, videosData] = await Promise.all([
+          getPublishedPosts(4),
+          getVideos({ limit: 6 })
+        ]);
+        setRealPosts(postsData);
+        setRealVideos(videosData);
+      } catch (error) {
+        console.error("Erro ao carregar dados reais:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadData();
   }, []);
 
   useEffect(() => {
@@ -89,19 +110,38 @@ export default function Home() {
     }
   };
 
-  const vlogItems = [
-    { id: 1, title: "Acolhimento no Diagnóstico", category: "oncologia", desc: "Como lidar com as primeiras notícias.", thumb: vlogThumbOncologia?.imageUrl, hint: vlogThumbOncologia?.imageHint },
-    { id: 2, title: "O que são Cuidados Paliativos?", category: "paliativos", desc: "Desmistificando o conceito de cuidado.", thumb: vlogThumbPaliativos?.imageUrl, hint: vlogThumbPaliativos?.imageHint },
-    { id: 3, title: "Vivenciando o Luto", category: "luto", desc: "Respeitando o tempo de cada dor.", thumb: vlogThumbLuto?.imageUrl, hint: vlogThumbLuto?.imageHint },
-    { id: 4, title: "Saúde Mental do Cuidador", category: "reflexão", desc: "Quem cuida também precisa de amparo.", thumb: vlogThumbReflexao?.imageUrl, hint: vlogThumbReflexao?.imageHint },
-  ];
+  // Mapear dados reais para o formato esperado pelo componente (ou usar diretamente)
+  const vlogItems = realVideos.length > 0
+    ? realVideos.map(v => ({
+      id: v.id,
+      title: v.title,
+      category: v.category,
+      desc: v.description,
+      thumb: v.thumbnail,
+      hint: v.title
+    }))
+    : [
+      { id: 1, title: "Acolhimento no Diagnóstico", category: "oncologia", desc: "Como lidar com as primeiras notícias.", thumb: vlogThumbOncologia?.imageUrl, hint: vlogThumbOncologia?.imageHint },
+      { id: 2, title: "O que são Cuidados Paliativos?", category: "paliativos", desc: "Desmistificando o conceito de cuidado.", thumb: vlogThumbPaliativos?.imageUrl, hint: vlogThumbPaliativos?.imageHint },
+      { id: 3, title: "Vivenciando o Luto", category: "luto", desc: "Respeitando o tempo de cada dor.", thumb: vlogThumbLuto?.imageUrl, hint: vlogThumbLuto?.imageHint },
+      { id: 4, title: "Saúde Mental do Cuidador", category: "reflexão", desc: "Quem cuida também precisa de amparo.", thumb: vlogThumbReflexao?.imageUrl, hint: vlogThumbReflexao?.imageHint },
+    ];
 
-  const blogPosts = [
-    { id: 1, title: "Comunicação Difícil na Saúde", summary: "Como falar sobre verdades dolorosas com empatia.", tag: "Comunicação" },
-    { id: 2, title: "Dilemas Éticos no Fim da Vida", summary: "Reflexões sobre autonomia e dignidade do paciente.", tag: "Ética" },
-    { id: 3, title: "O Luto Não é uma Doença", summary: "Entendendo os processos naturais de despedida.", tag: "Luto" },
-    { id: 4, title: "Saúde Emocional e Câncer", summary: "O papel da psicologia na jornada do tratamento.", tag: "Saúde" },
-  ];
+  const blogPosts = realPosts.length > 0
+    ? realPosts.map(p => ({
+      id: p.id,
+      title: p.title,
+      summary: p.excerpt,
+      tag: p.categories[0],
+      slug: p.slug,
+      image: p.coverImage
+    }))
+    : [
+      { id: 1, title: "Comunicação Difícil na Saúde", summary: "Como falar sobre verdades dolorosas com empatia.", tag: "Comunicação", image: "" },
+      { id: 2, title: "Dilemas Éticos no Fim da Vida", summary: "Reflexões sobre autonomia e dignidade do paciente.", tag: "Ética", image: "" },
+      { id: 3, title: "O Luto Não é uma Doença", summary: "Entendendo os processos naturais de despedida.", tag: "Luto", image: "" },
+      { id: 4, title: "Saúde Emocional e Câncer", summary: "O papel da psicologia na jornada do tratamento.", tag: "Saúde", image: "" },
+    ];
 
   const NavLink = ({ id, label }: { id: string; label: string }) => (
     <button
@@ -307,7 +347,7 @@ export default function Home() {
                 {vlogItems.filter(v => v.category === vlogFilter || vlogFilter === 'todos').map((item, idx) => (
                   <ScrollReveal key={item.id} direction="up" delay={idx * 100}>
                     <CardMovingBorder className="shadow-lg transition-all duration-300 group overflow-hidden" borderRadius="1.5rem">
-                      <div className="bg-card text-left">
+                      <Link href={`/videos/${item.id}`} className="block bg-card text-left">
                         <div className="aspect-video bg-secondary flex items-center justify-center relative">
                           {item.thumb ? (
                             <Image src={item.thumb} alt={item.title} fill style={{ objectFit: "cover" }} data-ai-hint={item.hint} />
@@ -320,7 +360,7 @@ export default function Home() {
                           <h4 className="text-xl font-headline font-bold mb-2 group-hover:text-primary transition-colors">{item.title}</h4>
                           <p className="text-sm text-muted-foreground">{item.desc}</p>
                         </div>
-                      </div>
+                      </Link>
                     </CardMovingBorder>
                   </ScrollReveal>
                 ))}
@@ -336,15 +376,39 @@ export default function Home() {
               <div className="grid md:grid-cols-2 gap-8">
                 {blogPosts.map((post, idx) => (
                   <ScrollReveal key={post.id} direction="up" delay={idx * 100}>
-                    <CardMovingBorder className="shadow-sm transition-all duration-300 group" borderRadius="2.5rem">
-                      <article className="p-10">
-                        <span className="text-[10px] font-bold uppercase text-primary">{post.tag}</span>
-                        <h3 className="text-2xl font-headline font-bold mt-4 mb-4 group-hover:text-primary transition-colors">{post.title}</h3>
-                        <p className="text-muted-foreground mb-8">{post.summary}</p>
-                        <button className="font-bold flex items-center gap-2 text-muted-foreground group-hover:text-primary group-hover:gap-4 transition-all">
-                          Ler completo <ArrowRight size={18} />
-                        </button>
-                      </article>
+                    <CardMovingBorder className="shadow-sm transition-all duration-300 group overflow-hidden" borderRadius="2.5rem">
+                      <Link href={`/blog/${post.slug || post.id}`} className="block h-full">
+                        <div className="aspect-[16/10] bg-secondary relative overflow-hidden">
+                          {post.image ? (
+                            <Image
+                              src={post.image}
+                              alt={post.title}
+                              fill
+                              className="object-cover group-hover:scale-105 transition-transform duration-500"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center bg-primary/5">
+                              <BookOpen size={48} className="text-primary/20" />
+                            </div>
+                          )}
+                          <div className="absolute top-4 left-4">
+                            <span className="px-3 py-1 glass rounded-full text-[10px] font-bold uppercase text-primary">
+                              {post.tag}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="p-8">
+                          <h3 className="text-2xl font-headline font-bold mb-4 group-hover:text-primary transition-colors line-clamp-2">
+                            {post.title}
+                          </h3>
+                          <p className="text-muted-foreground mb-8 line-clamp-3">
+                            {post.summary}
+                          </p>
+                          <div className="font-bold flex items-center gap-2 text-muted-foreground group-hover:text-primary group-hover:gap-4 transition-all mt-auto">
+                            Ler completo <ArrowRight size={18} />
+                          </div>
+                        </div>
+                      </Link>
                     </CardMovingBorder>
                   </ScrollReveal>
                 ))}

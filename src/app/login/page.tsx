@@ -107,8 +107,8 @@ export default function LoginPage() {
                 </div>
 
                 <div className="bg-card border border-border rounded-3xl p-8 shadow-lg">
-                    <h2 className="text-2xl font-headline mb-2">Bem-vinda de volta</h2>
-                    <p className="text-muted-foreground mb-6">Entre com suas credenciais</p>
+                    <h2 className="text-2xl font-headline mb-2">Agende sua Consulta</h2>
+                    <p className="text-muted-foreground mb-6">Entre com suas credenciais ou Crie sua Conta</p>
 
                     {error && (
                         <div className="p-3 bg-red-100 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-800 dark:text-red-200 text-sm mb-4">
