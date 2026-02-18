@@ -32,8 +32,10 @@ import { CardMovingBorder } from '@/components/card-moving-border';
 import { useAuth } from '@/contexts/AuthContext';
 import { getPublishedPosts } from '@/lib/blog';
 import { getVideos } from '@/lib/videos';
+import { getEventos } from '@/lib/eventos';
 import type { BlogPost } from '@/types/blog';
 import type { Video } from '@/types/video';
+import type { Evento } from '@/types/evento';
 
 const heroImage = PlaceHolderImages.find(p => p.id === 'hero-portrait');
 const vlogThumbOncologia = PlaceHolderImages.find(p => p.id === 'vlog-oncologia');
@@ -51,16 +53,19 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [realPosts, setRealPosts] = useState<BlogPost[]>([]);
   const [realVideos, setRealVideos] = useState<Video[]>([]);
+  const [realEventos, setRealEventos] = useState<Evento[]>([]);
 
   useEffect(() => {
     const loadData = async () => {
       try {
-        const [postsData, videosData] = await Promise.all([
+        const [postsData, videosData, eventosData] = await Promise.all([
           getPublishedPosts(4),
-          getVideos({ limit: 6 })
+          getVideos({ limit: 6 }),
+          getEventos(4)
         ]);
         setRealPosts(postsData);
         setRealVideos(videosData);
+        setRealEventos(eventosData);
       } catch (error) {
         console.error("Erro ao carregar dados reais:", error);
       } finally {
@@ -160,7 +165,8 @@ export default function Home() {
         <NavLink id="trajetoria" label="Trajetória" />
         <NavLink id="vlog" label="Vlog" />
         <NavLink id="blog" label="Blog" />
-        <Button onClick={() => setActiveTab('contato')} className="mt-4" size="lg">Agendar Consulta</Button>
+        <Link href="/galeria" className="px-4 py-2 font-medium text-gray-600 dark:text-gray-300 hover:text-primary transition-colors">Galeria</Link>
+        <Button onClick={() => setActiveTab('contato')} className="mt-4" size="lg">Contato | Agendamento</Button>
       </div>
     </div>
   );
@@ -186,10 +192,11 @@ export default function Home() {
                 <NavLink id="trajetoria" label="Trajetória" />
                 <NavLink id="vlog" label="Vídeos" />
                 <NavLink id="blog" label="Blog" />
+                <Link href="/galeria" className="px-4 py-2 font-medium text-gray-600 dark:text-gray-300 hover:text-primary transition-colors">Galeria</Link>
                 <div className="ml-4">
                   <ThemeToggle />
                 </div>
-                <Button onClick={handleAgendarConsulta} className="ml-6 rounded-full px-7 py-3 font-bold" size="lg">Agendar Consulta</Button>
+                <Button onClick={handleAgendarConsulta} className="ml-6 rounded-full px-7 py-3 font-bold" size="lg">Contato | Agendamento</Button>
               </div>
               <div className="lg:hidden flex items-center gap-3">
                 <ThemeToggle />
@@ -276,19 +283,40 @@ export default function Home() {
                 </div>
                 <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12">
                   <div className="space-y-6">
-                    {[
-                      "12º Congresso Todos Juntos Contra o Câncer (TJCC)",
-                      "SINTOMA 2025 – Simpósio Internacional",
-                      "Encontro Humanização Ubatuba",
-                      "3º Simpósio Câncer Cabeça e Pescoço"
-                    ].map((e, i) => (
-                      <ScrollReveal key={i} direction="left" delay={i * 100}>
-                        <div className="flex items-center gap-4 p-5 bg-white/10 rounded-2xl border border-white/10 hover:bg-white/20 transition-all">
-                          <Award className="text-accent flex-shrink-0" />
-                          <span className="font-bold">{e}</span>
-                        </div>
-                      </ScrollReveal>
-                    ))}
+                    {realEventos.length > 0 ? (
+                      realEventos.map((e, i) => (
+                        <ScrollReveal key={e.id} direction="left" delay={i * 100}>
+                          <Link href="/galeria" className="block group">
+                            <div className="flex items-center gap-4 p-5 bg-purple-50/90 rounded-2xl border border-primary/10 hover:shadow-lg transition-all">
+                              <div className="w-16 h-16 relative rounded-xl overflow-hidden flex-shrink-0 border-2 border-primary/10">
+                                <Image src={e.coverImage} alt={e.title} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                              </div>
+                              <div className="flex-grow">
+                                <span className="text-[10px] uppercase tracking-widest text-primary font-bold">
+                                  {e.date.toDate().toLocaleDateString('pt-BR', { day: '2-digit', month: 'long' })}
+                                </span>
+                                <h4 className="font-bold leading-tight text-purple-950 group-hover:text-primary transition-colors">{e.title}</h4>
+                              </div>
+                              <ArrowRight className="w-5 h-5 text-primary opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all font-bold" />
+                            </div>
+                          </Link>
+                        </ScrollReveal>
+                      ))
+                    ) : (
+                      [
+                        "12º Congresso Todos Juntos Contra o Câncer (TJCC)",
+                        "SINTOMA 2025 – Simpósio Internacional",
+                        "Encontro Humanização Ubatuba",
+                        "3º Simpósio Câncer Cabeça e Pescoço"
+                      ].map((e, i) => (
+                        <ScrollReveal key={i} direction="left" delay={i * 100}>
+                          <div className="flex items-center gap-4 p-5 bg-white/10 rounded-2xl border border-white/10 hover:bg-white/20 transition-all">
+                            <Award className="text-accent flex-shrink-0" />
+                            <span className="font-bold">{e}</span>
+                          </div>
+                        </ScrollReveal>
+                      ))
+                    )}
                   </div>
                   <ScrollReveal direction="right" delay={200}>
                     <div className="glass-dark p-10 rounded-[3rem] border border-white/10">

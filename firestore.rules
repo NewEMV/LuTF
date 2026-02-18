@@ -22,30 +22,43 @@ service cloud.firestore {
     
     // Eventos: leitura pública, escrita apenas admin
     match /eventos/{eventoId} {
-      allow read: if true; // Público
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /events/{eventId} {
+      allow read: if true;
       allow write: if isAdmin();
     }
     
     // Posts: leitura pública, escrita apenas admin
     match /posts/{postId} {
-      allow read: if true; // Público
+      allow read: if true;
       allow write: if isAdmin();
     }
     
     // Vídeos: leitura pública, escrita apenas admin
     match /videos/{videoId} {
-      allow read: if true; // Público
+      allow read: if true;
       allow write: if isAdmin();
     }
     
-    // Galeria: leitura pública, escrita apenas admin
+    // Galeria/Álbuns: leitura pública, escrita apenas admin
+    match /albums/{albumId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
     match /galeria/{albumId} {
-      allow read: if true; // Público
+      allow read: if true;
       allow write: if isAdmin();
     }
     
+    // Imagens da Galeria: leitura pública, escrita apenas admin
+    match /gallery_images/{imageId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
     match /galeria_images/{imageId} {
-      allow read: if true; // Público
+      allow read: if true;
       allow write: if isAdmin();
     }
     
