@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Link from 'next/link';
 import Image from "next/image";
 import { getVideos } from '@/lib/videos';
+import { getServices } from '@/lib/services';
 import type { Video } from '@/types/video';
 import { LucianaLogo } from "@/components/luciana-logo";
 import { Button } from "@/components/ui/button";
@@ -12,21 +13,26 @@ import { CardMovingBorder } from '@/components/card-moving-border';
 
 export default function VideoListPage() {
     const [videos, setVideos] = useState<Video[]>([]);
+    const [hasServices, setHasServices] = useState(false);
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState('todos');
 
     useEffect(() => {
-        const loadVideos = async () => {
+        const loadData = async () => {
             try {
-                const data = await getVideos();
-                setVideos(data);
+                const [videosData, servicesData] = await Promise.all([
+                    getVideos(),
+                    getServices(false)
+                ]);
+                setVideos(videosData);
+                setHasServices(servicesData.length > 0);
             } catch (error) {
-                console.error("Erro ao carregar vídeos:", error);
+                console.error("Erro ao carregar dados:", error);
             } finally {
                 setLoading(false);
             }
         };
-        loadVideos();
+        loadData();
     }, []);
 
     const categories = ['todos', ...Array.from(new Set(videos.map(v => v.category)))];
@@ -51,9 +57,14 @@ export default function VideoListPage() {
                         <LucianaLogo className="w-8 h-8 transition-transform group-hover:rotate-12" />
                         <span className="text-2xl font-allison pt-1">luciana telles</span>
                     </Link>
-                    <Button variant="outline" size="sm" asChild className="rounded-full">
-                        <Link href="/">Voltar ao Início</Link>
-                    </Button>
+                    <div className="flex items-center gap-4">
+                        {hasServices && (
+                            <Link href="/servicos" className="hidden md:block text-sm font-medium hover:text-primary transition-colors">Serviços</Link>
+                        )}
+                        <Button variant="outline" size="sm" asChild className="rounded-full">
+                            <Link href="/">Voltar ao Início</Link>
+                        </Button>
+                    </div>
                 </div>
             </nav>
 
@@ -87,8 +98,8 @@ export default function VideoListPage() {
                             <CardMovingBorder className="shadow-lg transition-all duration-300 group overflow-hidden h-full" borderRadius="1.5rem">
                                 <Link href={`/videos/${video.id}`} className="block h-full bg-card">
                                     <div className="aspect-video bg-secondary flex items-center justify-center relative">
-                                        {video.thumbnail ? (
-                                            <Image src={video.thumbnail} alt={video.title} fill className="object-cover" />
+                                        {video.customCover || video.thumbnail ? (
+                                            <Image src={video.customCover || video.thumbnail} alt={video.title} fill className="object-cover" />
                                         ) : (
                                             <PlayCircle size={48} className="text-primary/50" />
                                         )}

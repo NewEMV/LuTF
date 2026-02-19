@@ -29,6 +29,7 @@ interface Client {
     email: string;
     phone: string;
     status: 'pending' | 'approved' | 'denied';
+    subject?: string;
     createdAt: any;
 }
 
@@ -62,7 +63,7 @@ export default function ClientesPage() {
         fetchClients();
     }, []);
 
-    const updateStatus = async (clientId: string, newStatus: 'approved' | 'denied') => {
+    const updateStatus = async (clientId: string, newStatus: 'approved' | 'denied' | 'pending') => {
         try {
             const clientRef = doc(db, 'users', clientId);
             await updateDoc(clientRef, { status: newStatus });
@@ -76,7 +77,8 @@ export default function ClientesPage() {
     const filteredClients = clients.filter(client =>
         client.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         client.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        client.phone?.includes(searchTerm)
+        client.phone?.includes(searchTerm) ||
+        client.subject?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     const getStatusIcon = (status: string) => {
@@ -129,6 +131,7 @@ export default function ClientesPage() {
                             <tr className="bg-muted/30 border-b border-border">
                                 <th className="p-4 font-semibold text-sm">Paciente</th>
                                 <th className="p-4 font-semibold text-sm">Contato</th>
+                                <th className="p-4 font-semibold text-sm">Assunto</th>
                                 <th className="p-4 font-semibold text-sm">Status</th>
                                 <th className="p-4 font-semibold text-sm">Data de Cadastro</th>
                                 <th className="p-4 font-semibold text-sm text-right">Ações</th>
@@ -170,6 +173,11 @@ export default function ClientesPage() {
                                                     <Phone className="w-3.5 h-3.5" />
                                                     <span>{client.phone}</span>
                                                 </div>
+                                            </div>
+                                        </td>
+                                        <td className="p-4">
+                                            <div className="max-w-[200px] truncate text-muted-foreground italic text-xs" title={client.subject}>
+                                                {client.subject || 'Sem assunto específico'}
                                             </div>
                                         </td>
                                         <td className="p-4">

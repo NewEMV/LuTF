@@ -18,6 +18,7 @@ export interface User {
     role: 'admin' | 'client';
     status: 'pending' | 'approved' | 'denied';
     phone?: string;
+    subject?: string;
     createdAt?: Date;
 }
 
@@ -36,6 +37,7 @@ export interface SignupData {
     email: string;
     phone: string;
     password: string;
+    subject?: string;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -58,6 +60,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                     role: data.role,
                     status: data.status,
                     phone: data.phone,
+                    subject: data.subject,
                     createdAt: data.createdAt?.toDate(),
                 };
             }
@@ -124,6 +127,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 name: userData.name,
                 email: userData.email,
                 phone: userData.phone,
+                subject: userData.subject || '',
                 role: 'client',
                 status: 'pending',
                 createdAt: new Date(),

@@ -67,6 +67,7 @@ export async function createVideo(data: CreateVideoData): Promise<string> {
         ...data,
         youtubeId,
         thumbnail,
+        customCover: data.customCover || '',
         publishedAt: data.publishedAt || now,
         createdAt: now,
     };

@@ -136,7 +136,7 @@ function SortableVideoCard({ video, onEdit, onDelete, onTogglePin }: {
                 {/* Thumbnail */}
                 <div className="aspect-video overflow-hidden rounded-t-lg bg-muted">
                     <img
-                        src={video.thumbnail}
+                        src={video.customCover || video.thumbnail}
                         alt={video.title}
                         className="w-full h-full object-cover"
                     />

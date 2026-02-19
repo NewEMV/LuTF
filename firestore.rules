@@ -66,5 +66,29 @@ service cloud.firestore {
     match /mail/{mailId} {
       allow read, write: if isAdmin();
     }
+
+    // Serviços: leitura pública, escrita apenas admin
+    match /services/{serviceId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Eventos Futuros: leitura pública, escrita apenas admin
+    match /future_events/{eventId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Trajetória: leitura pública, escrita apenas admin
+    match /trajectory/{itemId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Depoimentos: leitura pública, escrita apenas admin
+    match /testimonials/{testimonialId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
   }
 }

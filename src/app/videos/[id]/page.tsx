@@ -135,10 +135,10 @@ export default function VideoPage() {
                             </div>
                         </div>
                         <div className="flex flex-col items-center gap-3">
-                            <p className="text-sm text-muted-foreground text-center max-w-[250px]">Crie sua conta para agendar uma consulta com a Luciana.</p>
+                            <p className="text-sm text-muted-foreground text-center max-w-[300px]">entre em contato para agendar uma consulta personalizada ou convite a participação em eventos.</p>
                             <Button size="lg" className="rounded-full px-10 h-14 text-lg font-bold shadow-xl shadow-primary/20 hover:scale-105 transition-all" asChild>
                                 <Link href="/login">
-                                    Agendar Consulta
+                                    Contato | Agendamento
                                 </Link>
                             </Button>
                         </div>

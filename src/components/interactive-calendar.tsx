@@ -40,12 +40,12 @@ export function InteractiveCalendar() {
     const startingDayOfWeek = firstDay.getDay();
 
     const days = [];
-    
+
     // Previous month days
     for (let i = 0; i < startingDayOfWeek; i++) {
       days.push({ day: 0, isCurrentMonth: false });
     }
-    
+
     // Current month days
     for (let i = 1; i <= daysInMonth; i++) {
       days.push({ day: i, isCurrentMonth: true });
@@ -94,7 +94,7 @@ export function InteractiveCalendar() {
         <div className="bg-gradient-to-r from-primary to-accent p-8 text-white">
           <div className="flex items-center gap-3 mb-2">
             <CalendarIcon className="w-8 h-8" />
-            <h2 className="text-3xl font-headline">Agendar Consulta</h2>
+            <h2 className="text-3xl font-headline">Contato | Agendamento</h2>
           </div>
           <p className="text-white/80">Escolha a melhor data e horário para você</p>
         </div>
@@ -143,9 +143,9 @@ export function InteractiveCalendar() {
                       disabled={!dayObj.isCurrentMonth}
                       className={`
                         aspect-square rounded-xl flex items-center justify-center text-sm font-medium transition-all
-                        ${!dayObj.isCurrentMonth 
-                        ? 'text-gray-300 dark:text-gray-700 cursor-not-allowed' 
-                        : 'text-gray-900 dark:text-white'
+                        ${!dayObj.isCurrentMonth
+                          ? 'text-gray-300 dark:text-gray-700 cursor-not-allowed'
+                          : 'text-gray-900 dark:text-white'
                         }
                           ${isSelected ? 'bg-gradient-to-br from-primary to-accent !text-white shadow-lg scale-110' : ''}
                           ${!isSelected && dayObj.isCurrentMonth ? 'hover:bg-secondary dark:hover:bg-white/10 hover:scale-105' : ''}
@@ -203,12 +203,12 @@ export function InteractiveCalendar() {
                     {selectedDate.toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' })}
                   </p>
                   <p className="text-primary font-bold text-xl">{selectedTime}</p>
-                  
+
                   <Button
                     onClick={handleConfirm}
                     className="w-full mt-4 h-12 rounded-xl font-bold shadow-lg"
                   >
-                    Confirmar Agendamento
+                    Confirmar Contato | Agendamento
                   </Button>
                 </div>
               )}

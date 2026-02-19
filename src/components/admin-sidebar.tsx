@@ -9,6 +9,7 @@ import {
     BookOpen,
     Video,
     Image as ImageIcon,
+    LayoutGrid,
     ChevronLeft,
     ChevronRight,
     LogOut,
@@ -41,6 +42,11 @@ const navItems: NavItem[] = [
         icon: Calendar,
     },
     {
+        title: 'Eventos Futuros',
+        href: '/admin/eventos-futuros',
+        icon: Calendar,
+    },
+    {
         title: 'Blog',
         href: '/admin/blog',
         icon: BookOpen,
@@ -49,6 +55,21 @@ const navItems: NavItem[] = [
         title: 'Vídeos',
         href: '/admin/videos',
         icon: Video,
+    },
+    {
+        title: 'Serviços',
+        href: '/admin/servicos',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Trajetória',
+        href: '/admin/trajetoria',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Depoimentos',
+        href: '/admin/depoimentos',
+        icon: Users,
     },
     {
         title: 'Galeria',

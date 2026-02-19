@@ -27,6 +27,16 @@ service firebase.storage {
       allow read: if true;
       allow write: if isAdmin();
     }
+
+    // Trajetória e Vídeos: leitura pública, upload apenas admin
+    match /trajectory/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /video-covers/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
     
     // Users: leitura pública, upload apenas o próprio usuário ou admin
     match /users/{userId}/{allPaths=**} {
