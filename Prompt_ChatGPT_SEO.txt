@@ -1,0 +1,33 @@
+--- COMANDOS PARA O CHATGPT (SEO & AEO) ---
+
+Luciana, utilize os comandos abaixo para garantir que seus textos e vídeos sejam encontrados facilmente no Google e recomendados por IAs.
+
+-------------------------------------------------------
+COMANDO 1: GERAR TÍTULO E DESCRIÇÃO PARA O BLOG
+-------------------------------------------------------
+COPIE E COLE NO CHATGPT:
+
+"Eu sou Luciana Telles, psicóloga especialista em Luto e Psico-oncologia. Acabei de escrever um post para o meu blog com o título: [COLE O TÍTULO DO SEU POST AQUI]. 
+
+Por favor, gere para mim:
+1. Um 'Meta Title' (Título para o Google) atrativo com no máximo 60 caracteres.
+2. Uma 'Meta Description' comercial e acolhedora com no máximo 155 caracteres, focada em convencer o leitor a clicar.
+3. Três palavras-chave importantes que devo incluir no texto para ser encontrada por quem busca ajuda sobre este tema."
+
+-------------------------------------------------------
+COMANDO 2: GERAR DESCRIÇÃO PARA VÍDEO DO YOUTUBE
+-------------------------------------------------------
+COPIE E COLE NO CHATGPT:
+
+"Vou publicar um vídeo no meu site sobre [DIGA O ASSUNTO DO VÍDEO]. O assunto principal é [EX: Acolhimento no diagnóstico]. 
+
+Por favor, crie:
+1. Um Título otimizado para busca (SEO) que desperte curiosidade.
+2. Um resumo de 2 parágrafos curto e empático para a descrição do site.
+3. Uma Meta Descrição de 150 caracteres para os buscadores."
+
+-------------------------------------------------------
+DICA DE OURO: 
+Se o ChatGPT te der um texto muito longo, basta dizer pra ele: 
+"Ficou ótimo, mas encurte a Meta Descrição para ter no máximo 150 caracteres para não cortar no Google."
+-------------------------------------------------------
