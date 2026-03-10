@@ -7,16 +7,15 @@ export interface Evento {
     description: string;
     coverImage: string;
     coverImageAlt: string;
-    date: Timestamp; // Data do evento
-    time: string; // Horário
-    location: string; // Presencial ou online
-    locationDetails: string; // Endereço ou link
+    date: Timestamp;
+    time: string;
+    location: string;
+    locationDetails: string;
     maxParticipants?: number;
     currentParticipants: number;
     registrationOpen: boolean;
     createdAt: Timestamp;
     updatedAt: Timestamp;
-    // SEO
     metaTitle: string;
     metaDescription: string;
 }
