@@ -67,8 +67,6 @@ export async function createVideo(data: CreateVideoData): Promise<string> {
         ...data,
         youtubeId,
         thumbnail,
-        customCover: data.customCover || '',
-        publishedAt: data.publishedAt || now,
         createdAt: now,
     };
 
@@ -155,9 +153,7 @@ export async function getVideos(filters?: {
         }
 
         // Se order igual, ordenar por data (mais recente primeiro)
-        const dateA = a.publishedAt?.seconds || a.createdAt?.seconds || 0;
-        const dateB = b.publishedAt?.seconds || b.createdAt?.seconds || 0;
-        return dateB - dateA;
+        return b.publishedAt.seconds - a.publishedAt.seconds;
     });
 
     // Aplicar limit se especificado

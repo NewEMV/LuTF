@@ -14,7 +14,6 @@ import { SEOFields } from '@/components/seo-fields';
 import { ArrowLeft, Save, Loader2, Youtube } from 'lucide-react';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
-import { ImageUpload } from '@/components/image-upload';
 
 export default function VideoFormPage() {
     const router = useRouter();
@@ -29,7 +28,6 @@ export default function VideoFormPage() {
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('');
     const [isPinned, setIsPinned] = useState(false);
-    const [customCover, setCustomCover] = useState('');
 
     // SEO
     const [metaTitle, setMetaTitle] = useState('');
@@ -79,7 +77,6 @@ export default function VideoFormPage() {
             setIsPinned(video.isPinned);
             setMetaTitle(video.metaTitle);
             setMetaDescription(video.metaDescription);
-            setCustomCover(video.customCover || '');
         } catch (error) {
             console.error('Erro ao carregar vídeo:', error);
         } finally {
@@ -118,7 +115,6 @@ export default function VideoFormPage() {
                 publishedAt: Timestamp.now(),
                 metaTitle,
                 metaDescription,
-                customCover,
             };
 
             if (isEditing) {
@@ -254,20 +250,6 @@ export default function VideoFormPage() {
                             placeholder="Descreva o conteúdo do vídeo..."
                             rows={4}
                         />
-                    </div>
-
-                    {/* Capa Personalizada */}
-                    <div className="space-y-2">
-                        <Label>Capa Personalizada (Opcional)</Label>
-                        <ImageUpload
-                            value={customCover}
-                            onChange={(url) => setCustomCover(url)}
-                            onRemove={() => setCustomCover('')}
-                            storagePath="video-covers"
-                        />
-                        <p className="text-xs text-muted-foreground">
-                            Se deixado em branco, será usada a miniatura automática do YouTube.
-                        </p>
                     </div>
 
                     {/* SEO Fields */}

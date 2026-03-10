@@ -5,9 +5,12 @@ import {
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
     signOut,
-    onAuthStateChanged
+    onAuthStateChanged,
+    GoogleAuthProvider,
+    signInWithPopup,
+    sendPasswordResetEmail
 } from 'firebase/auth';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase';
 
 // Tipo do usuário com dados completos do Firestore
@@ -18,7 +21,6 @@ export interface User {
     role: 'admin' | 'client';
     status: 'pending' | 'approved' | 'denied';
     phone?: string;
-    subject?: string;
     createdAt?: Date;
 }
 
@@ -28,6 +30,8 @@ interface AuthContextType {
     loading: boolean;
     login: (email: string, password: string) => Promise<User | null>;
     signup: (userData: SignupData) => Promise<void>;
+    signInWithGoogle: () => Promise<User | null>;
+    resetPassword: (email: string) => Promise<void>;
     logout: () => Promise<void>;
 }
 
@@ -37,7 +41,6 @@ export interface SignupData {
     email: string;
     phone: string;
     password: string;
-    subject?: string;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -60,7 +63,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                     role: data.role,
                     status: data.status,
                     phone: data.phone,
-                    subject: data.subject,
                     createdAt: data.createdAt?.toDate(),
                 };
             }
@@ -127,10 +129,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 name: userData.name,
                 email: userData.email,
                 phone: userData.phone,
-                subject: userData.subject || '',
                 role: 'client',
                 status: 'pending',
-                createdAt: new Date(),
+                createdAt: serverTimestamp(),
             });
 
             // Fazer logout após cadastro (usuário precisa aguardar aprovação)
@@ -151,6 +152,66 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
     };
 
+    // Google Sign-In
+    const signInWithGoogle = async () => {
+        try {
+            const provider = new GoogleAuthProvider();
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+
+            // Verificar se o usuário já existe no Firestore
+            const userDoc = await getDoc(doc(db, 'users', user.uid));
+            
+            if (!userDoc.exists()) {
+                // Se não existir, cria o cadastro inicial
+                await setDoc(doc(db, 'users', user.uid), {
+                    name: user.displayName || 'Usuário Google',
+                    email: user.email,
+                    role: 'client',
+                    status: 'pending', // Fica pendente de aprovação, assim como no email/senha
+                    createdAt: serverTimestamp(),
+                });
+                
+                // O estado onAuthStateChanged detectará a mudança e chamará fetchUserData,
+                // que pode ainda não encontrar os dados ou re-iniciar. 
+                // Após o signup via Google, idealmente fazemos logout até ser aprovado, 
+                // ou apenas retornamos os dados gerados temporários:
+                await signOut(auth);
+                setUser(null);
+                throw new Error('Cadastro realizado com sucesso! Aguarde a aprovação inicial.');
+            }
+
+            const userData = await fetchUserData(user);
+            setUser(userData);
+            return userData;
+        } catch (error: any) {
+            console.error('Erro no login com Google:', error);
+            if (error.message.includes('Aguarde a aprovação')) {
+                throw new Error('Seu cadastro está aguardando aprovação.');
+            } else if (error.code === 'auth/popup-closed-by-user') {
+                throw new Error('O login foi cancelado.');
+            } else {
+                throw new Error('Erro ao fazer login com o Google.');
+            }
+        }
+    };
+
+    // Recuperação de Senha
+    const resetPassword = async (email: string) => {
+        try {
+            await sendPasswordResetEmail(auth, email);
+        } catch (error: any) {
+            console.error('Erro na recuperação de senha:', error);
+            if (error.code === 'auth/user-not-found') {
+                throw new Error('Usuário não encontrado');
+            } else if (error.code === 'auth/invalid-email') {
+                throw new Error('Email inválido');
+            } else {
+                throw new Error('Erro ao enviar email de recuperação');
+            }
+        }
+    };
+
     // Logout
     const logout = async () => {
         try {
@@ -167,6 +228,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         loading,
         login,
         signup,
+        signInWithGoogle,
+        resetPassword,
         logout,
     };
 

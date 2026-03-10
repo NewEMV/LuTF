@@ -22,73 +22,36 @@ service cloud.firestore {
     
     // Eventos: leitura pública, escrita apenas admin
     match /eventos/{eventoId} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
-    match /events/{eventId} {
-      allow read: if true;
+      allow read: if true; // Público
       allow write: if isAdmin();
     }
     
     // Posts: leitura pública, escrita apenas admin
     match /posts/{postId} {
-      allow read: if true;
+      allow read: if true; // Público
       allow write: if isAdmin();
     }
     
     // Vídeos: leitura pública, escrita apenas admin
     match /videos/{videoId} {
-      allow read: if true;
+      allow read: if true; // Público
       allow write: if isAdmin();
     }
     
-    // Galeria/Álbuns: leitura pública, escrita apenas admin
-    match /albums/{albumId} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
+    // Galeria: leitura pública, escrita apenas admin
     match /galeria/{albumId} {
-      allow read: if true;
+      allow read: if true; // Público
       allow write: if isAdmin();
     }
     
-    // Imagens da Galeria: leitura pública, escrita apenas admin
-    match /gallery_images/{imageId} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
     match /galeria_images/{imageId} {
-      allow read: if true;
+      allow read: if true; // Público
       allow write: if isAdmin();
     }
     
     // Mail: apenas admin
     match /mail/{mailId} {
       allow read, write: if isAdmin();
-    }
-
-    // Serviços: leitura pública, escrita apenas admin
-    match /services/{serviceId} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
-
-    // Eventos Futuros: leitura pública, escrita apenas admin
-    match /future_events/{eventId} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
-
-    // Trajetória: leitura pública, escrita apenas admin
-    match /trajectory/{itemId} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
-
-    // Depoimentos: leitura pública, escrita apenas admin
-    match /testimonials/{testimonialId} {
-      allow read: if true;
-      allow write: if isAdmin();
     }
   }
 }

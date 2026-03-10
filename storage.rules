@@ -8,32 +8,26 @@ service firebase.storage {
              firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role == 'admin';
     }
     
-    // Eventos e Capas: leitura pública, upload apenas admin
+    // Eventos: leitura pública, upload apenas admin
     match /eventos/{eventoId}/{allPaths=**} {
       allow read: if true;
       allow write: if isAdmin();
     }
-    match /event-covers/{allPaths=**} {
+    
+    // Posts: leitura pública, upload apenas admin
+    match /posts/{postId}/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // Vídeos: leitura pública, upload apenas admin
+    match /videos/{videoId}/{allPaths=**} {
       allow read: if true;
       allow write: if isAdmin();
     }
     
     // Galeria: leitura pública, upload apenas admin
     match /galeria/{albumId}/{allPaths=**} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
-    match /gallery/{allPaths=**} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
-
-    // Trajetória e Vídeos: leitura pública, upload apenas admin
-    match /trajectory/{allPaths=**} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
-    match /video-covers/{allPaths=**} {
       allow read: if true;
       allow write: if isAdmin();
     }

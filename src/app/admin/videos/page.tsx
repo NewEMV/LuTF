@@ -136,7 +136,7 @@ function SortableVideoCard({ video, onEdit, onDelete, onTogglePin }: {
                 {/* Thumbnail */}
                 <div className="aspect-video overflow-hidden rounded-t-lg bg-muted">
                     <img
-                        src={video.customCover || video.thumbnail}
+                        src={video.thumbnail}
                         alt={video.title}
                         className="w-full h-full object-cover"
                     />
@@ -151,9 +151,7 @@ function SortableVideoCard({ video, onEdit, onDelete, onTogglePin }: {
                 <div className="flex items-center justify-between pt-2">
                     <Badge variant="outline">{video.category}</Badge>
                     <span className="text-xs text-muted-foreground">
-                        {video.publishedAt
-                            ? format(video.publishedAt.toDate(), 'dd MMM yyyy', { locale: ptBR })
-                            : '-'}
+                        {format(video.publishedAt.toDate(), 'dd MMM yyyy', { locale: ptBR })}
                     </span>
                 </div>
             </CardContent>
@@ -239,9 +237,9 @@ export default function VideosPage() {
     };
 
     const filteredVideos = videos.filter((video) =>
-        (video.title?.toLowerCase() || '').includes(searchQuery.toLowerCase()) ||
-        (video.description?.toLowerCase() || '').includes(searchQuery.toLowerCase()) ||
-        (video.category?.toLowerCase() || '').includes(searchQuery.toLowerCase())
+        video.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        video.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        video.category.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (
