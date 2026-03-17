@@ -14,7 +14,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     const [theme, setTheme] = useState<Theme>('light');
     const [mounted, setMounted] = useState(false);
 
-    // Carregar tema do localStorage ao montar
     useEffect(() => {
         const savedTheme = localStorage.getItem('theme') as Theme | null;
         if (savedTheme) {
@@ -24,7 +23,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
         setMounted(true);
     }, []);
 
-    // Aplicar tema quando mudar
     useEffect(() => {
         if (mounted) {
             document.documentElement.classList.toggle('dark', theme === 'dark');
@@ -36,7 +34,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
         setTheme(prev => prev === 'light' ? 'dark' : 'light');
     };
 
-    // Evitar flash de conteúdo não estilizado
     if (!mounted) {
         return <>{children}</>;
     }

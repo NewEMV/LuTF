@@ -1,9 +1,9 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { Video } from '@/types/video';
-import { ArrowLeft, PlayCircle, Tag, Loader2, Share2, Link as LinkIcon } from 'lucide-react';
+import { ArrowLeft, Tag, Loader2, Share2, Link as LinkIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { LucianaLogo } from '@/components/luciana-logo';
 import { ScrollReveal } from '@/components/scroll-reveal';
@@ -23,7 +23,6 @@ export default function VideoPage() {
                 setLoading(true);
                 const docRef = doc(db, 'videos', videoId);
                 const docSnap = await getDoc(docRef);
-
                 if (docSnap.exists()) {
                     setVideo({ id: docSnap.id, ...docSnap.data() } as Video);
                 }
@@ -33,27 +32,18 @@ export default function VideoPage() {
                 setLoading(false);
             }
         };
-
-        if (videoId) {
-            loadVideo();
-        }
+        if (videoId) loadVideo();
     }, [videoId]);
 
     if (loading) {
-        return (
-            <div className="flex items-center justify-center min-h-screen">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            </div>
-        );
+        return <div className="flex items-center justify-center min-h-screen"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>;
     }
 
     if (!video) {
         return (
             <div className="flex flex-col items-center justify-center min-h-screen space-y-4">
                 <h1 className="text-4xl font-headline">Vídeo não encontrado</h1>
-                <Button asChild>
-                    <Link href="/">Voltar para o início</Link>
-                </Button>
+                <Button asChild><Link href="/">Voltar para o início</Link></Button>
             </div>
         );
     }
@@ -105,13 +95,9 @@ export default function VideoPage() {
                 <ScrollReveal direction="up" delay={400} className="space-y-8">
                     <div className="prose prose-purple dark:prose-invert max-w-none">
                         <h3 className="font-headline text-2xl">Sobre este vídeo</h3>
-                        <p className="text-lg text-muted-foreground leading-relaxed whitespace-pre-wrap">
-                            {video.description}
-                        </p>
+                        <p className="text-lg text-muted-foreground leading-relaxed whitespace-pre-wrap">{video.description}</p>
                     </div>
-
                     <Separator className="my-8" />
-
                     <div className="flex flex-col md:flex-row justify-between items-center gap-8 py-8 px-8 bg-secondary/30 rounded-[2.5rem] border border-primary/10">
                         <div className="space-y-4 text-center md:text-left">
                             <h4 className="text-2xl font-headline font-bold">Compartilhe este vídeo</h4>
@@ -121,15 +107,8 @@ export default function VideoPage() {
                                         <Share2 size={20} />
                                     </a>
                                 </Button>
-                                <Button
-                                    variant="outline"
-                                    size="icon"
-                                    className="rounded-full w-12 h-12 hover:bg-primary hover:text-white transition-all"
-                                    onClick={() => {
-                                        navigator.clipboard.writeText(window.location.href);
-                                        alert('Link copiado!');
-                                    }}
-                                >
+                                <Button variant="outline" size="icon" className="rounded-full w-12 h-12 hover:bg-primary hover:text-white transition-all"
+                                    onClick={() => { navigator.clipboard.writeText(window.location.href); alert('Link copiado!'); }}>
                                     <LinkIcon size={20} />
                                 </Button>
                             </div>
@@ -137,9 +116,7 @@ export default function VideoPage() {
                         <div className="flex flex-col items-center gap-3">
                             <p className="text-sm text-muted-foreground text-center max-w-[300px]">entre em contato para agendar uma consulta personalizada ou convite a participação em eventos.</p>
                             <Button size="lg" className="rounded-full px-10 h-14 text-lg font-bold shadow-xl shadow-primary/20 hover:scale-105 transition-all" asChild>
-                                <Link href="/login">
-                                    Contato | Agendamento
-                                </Link>
+                                <Link href="/login">Contato | Agendamento</Link>
                             </Button>
                         </div>
                     </div>

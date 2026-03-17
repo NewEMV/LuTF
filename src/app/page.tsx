@@ -89,7 +89,6 @@ export default function Home() {
         if (results[5].status === 'fulfilled') setRealTrajectory(results[5].value);
         if (results[6].status === 'fulfilled') setRealTestimonials(results[6].value);
 
-        // Opcional: Logar erros individuais para debug
         results.forEach((result, idx) => {
           if (result.status === 'rejected') {
             console.warn(`Erro ao carregar módulo ${idx}:`, result.reason);
@@ -117,16 +116,13 @@ export default function Home() {
     setIsMenuOpen(false);
   }, [activeTab]);
 
-  // Função para lidar com clique no botão "Agendar Consulta"
   const handleAgendarConsulta = () => {
     if (!user) {
-      // Não está logado - redireciona para login
       router.push('/login');
       return;
     }
 
     if (user.status === 'pending') {
-      // Cadastro pendente
       alert('Seu cadastro está aguardando aprovação. Você receberá um email quando for aprovado.');
       return;
     }
@@ -137,15 +133,12 @@ export default function Home() {
     }
 
     if (user.role === 'client' && user.status === 'approved') {
-      // Cliente aprovado - redireciona para agenda
       router.push('/agenda');
     } else if (user.role === 'admin') {
-      // Admin - redireciona para área admin
       router.push('/admin');
     }
   };
 
-  // Mapear dados reais para o formato esperado pelo componente (ou usar diretamente)
   const vlogItems = realVideos.length > 0
     ? realVideos.map(v => ({
       id: v.id,
@@ -289,7 +282,7 @@ export default function Home() {
                 </div>
               </section>
 
-              {/* Temas Centrais – com CardMovingBorder */}
+              {/* Temas Centrais */}
               <section className="py-24 bg-secondary/50 px-4">
                 <div className="max-w-7xl mx-auto text-center mb-16">
                   <ScrollReveal direction="up">
@@ -361,14 +354,12 @@ export default function Home() {
                                 </span>
                               </div>
                             </div>
-
                             <h3 className="text-xl font-bold font-headline mb-4 group-hover:text-primary transition-colors">
                               {event.title}
                             </h3>
                             <p className="text-sm text-muted-foreground mb-8 flex-grow">
                               {event.description}
                             </p>
-
                             <Button className="w-full rounded-full group-hover:shadow-lg transition-all" asChild>
                               <a href={event.link || '/login'} target={event.link ? "_blank" : "_self"} rel="noreferrer">
                                 {event.link ? 'Inscrição / Detalhes' : 'Mais Informações'}
@@ -448,7 +439,6 @@ export default function Home() {
               </ScrollReveal>
 
               <div className="space-y-12">
-                {/* Carrossel de Fotos da Trajetória */}
                 <ScrollReveal direction="up">
                   <div className="relative aspect-video md:aspect-[21/9] rounded-[3rem] overflow-hidden shadow-2xl border-8 border-background bg-muted">
                     {trajectoryGallery[currentTraj].url && (
@@ -547,12 +537,7 @@ export default function Home() {
                       <Link href={`/blog/${(post as any).slug || post.id}`} className="block h-full">
                         <div className="aspect-[16/10] bg-secondary relative overflow-hidden">
                           {post.image ? (
-                            <Image
-                              src={post.image}
-                              alt={post.title}
-                              fill
-                              className="object-cover group-hover:scale-105 transition-transform duration-500"
-                            />
+                            <Image src={post.image} alt={post.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center bg-primary/5">
                               <BookOpen size={48} className="text-primary/20" />
@@ -591,7 +576,6 @@ export default function Home() {
               <ScrollReveal direction="up" delay={100}>
                 <InteractiveCalendar />
               </ScrollReveal>
-
             </section>
           )}
         </main>
@@ -601,30 +585,18 @@ export default function Home() {
           <p className="font-allison text-foreground text-4xl">luciana telles</p>
 
           <div className="flex justify-center gap-4 mt-6 mb-4">
-            <a
-              href="https://www.linkedin.com/in/luciana-telles-ferri-b9966817"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-10 h-10 rounded-full bg-primary/10 hover:bg-primary hover:text-white flex items-center justify-center transition-all hover:scale-110"
-              aria-label="LinkedIn Luciana Telles"
-            >
+            <a href="https://www.linkedin.com/in/luciana-telles-ferri-b9966817" target="_blank" rel="noopener noreferrer"
+              className="w-10 h-10 rounded-full bg-primary/10 hover:bg-primary hover:text-white flex items-center justify-center transition-all hover:scale-110" aria-label="LinkedIn Luciana Telles">
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
               </svg>
             </a>
-
-            <a
-              href="https://www.instagram.com/lucianatellesf.psi/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-10 h-10 rounded-full bg-primary/10 hover:bg-primary hover:text-white flex items-center justify-center transition-all hover:scale-110"
-              aria-label="Instagram Luciana Telles"
-            >
+            <a href="https://www.instagram.com/lucianatellesf.psi/" target="_blank" rel="noopener noreferrer"
+              className="w-10 h-10 rounded-full bg-primary/10 hover:bg-primary hover:text-white flex items-center justify-center transition-all hover:scale-110" aria-label="Instagram Luciana Telles">
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
               </svg>
             </a>
-
           </div>
 
           <p className="text-xs text-muted-foreground mt-6 italic">CRP 06/88158 • © 2026 Luciana Telles Ferri. Todos os direitos reservados.</p>
@@ -634,12 +606,8 @@ export default function Home() {
               <Link href="/privacidade" className="hover:text-primary transition-colors">Política de Privacidade</Link>
               <Link href="/cookies" className="hover:text-primary transition-colors">Aviso de Cookies</Link>
             </div>
-            <a
-              href="https://www.instagram.com/vempreender.ia/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[9px] text-muted-foreground/50 hover:text-primary transition-all flex items-center gap-1"
-            >
+            <a href="https://www.instagram.com/vempreender.ia/" target="_blank" rel="noopener noreferrer"
+              className="text-[9px] text-muted-foreground/50 hover:text-primary transition-all flex items-center gap-1">
               Desenvolvido com carinho por <span className="font-bold border-b border-primary/20">Vempreender</span>
             </a>
           </div>

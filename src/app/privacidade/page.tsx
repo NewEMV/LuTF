@@ -18,65 +18,38 @@ export default function PrivacyPolicyPage() {
                     </Button>
                 </div>
             </nav>
-
             <main className="pt-32 px-4 max-w-4xl mx-auto">
                 <ScrollReveal direction="up">
                     <h1 className="text-4xl font-headline font-bold mb-8 text-primary">Política de Privacidade</h1>
-
                     <div className="prose prose-purple dark:prose-invert max-w-none space-y-6 text-muted-foreground">
-                        <p>
-                            Esta Política de Privacidade descreve como suas informações pessoais são coletadas, usadas e compartilhadas quando você visita o site de Luciana Telles Ferri.
-                        </p>
-
+                        <p>Esta Política de Privacidade descreve como suas informações pessoais são coletadas, usadas e compartilhadas quando você visita o site de Luciana Telles Ferri.</p>
                         <section className="space-y-4">
                             <h2 className="text-2xl font-bold text-foreground">1. Informações que coletamos</h2>
-                            <p>
-                                Quando você se cadastra no site para solicitar um contato ou agendamento, coletamos as seguintes informações:
-                            </p>
                             <ul className="list-disc pl-6">
-                                <li>Nome completo</li>
-                                <li>E-mail</li>
-                                <li>Número de telefone</li>
-                                <li>Assunto específico do contato</li>
+                                <li>Nome completo</li><li>E-mail</li><li>Número de telefone</li><li>Assunto específico do contato</li>
                             </ul>
                         </section>
-
                         <section className="space-y-4">
                             <h2 className="text-2xl font-bold text-foreground">2. Como usamos suas informações</h2>
-                            <p>
-                                Usamos as informações coletadas para:
-                            </p>
                             <ul className="list-disc pl-6">
                                 <li>Entrar em contato para agendamentos de consultas ou eventos.</li>
                                 <li>Fornecer suporte e informações solicitadas por você.</li>
                                 <li>Melhorar a experiência do usuário em nosso site.</li>
                             </ul>
                         </section>
-
                         <section className="space-y-4">
                             <h2 className="text-2xl font-bold text-foreground">3. Compartilhamento de informações</h2>
-                            <p>
-                                Não vendemos nem compartilhamos suas informações pessoais com terceiros, exceto quando necessário para cumprir obrigações legais ou com o seu consentimento explícito.
-                            </p>
+                            <p>Não vendemos nem compartilhamos suas informações pessoais com terceiros, exceto quando necessário para cumprir obrigações legais.</p>
                         </section>
-
                         <section className="space-y-4">
                             <h2 className="text-2xl font-bold text-foreground">4. Segurança</h2>
-                            <p>
-                                Tomamos medidas de segurança adequadas para proteger seus dados contra acesso não autorizado, alteração ou destruição.
-                            </p>
+                            <p>Tomamos medidas de segurança adequadas para proteger seus dados contra acesso não autorizado.</p>
                         </section>
-
                         <section className="space-y-4">
                             <h2 className="text-2xl font-bold text-foreground">5. Seus Direitos</h2>
-                            <p>
-                                Você tem o direito de acessar, corrigir ou excluir as informações pessoais que possuímos sobre você. Para isso, entre em contato através do e-mail oficial disponível no site.
-                            </p>
+                            <p>Você tem o direito de acessar, corrigir ou excluir as informações pessoais que possuímos sobre você.</p>
                         </section>
-
-                        <p className="pt-8 text-xs italic">
-                            Última atualização: 18 de fevereiro de 2026.
-                        </p>
+                        <p className="pt-8 text-xs italic">Última atualização: 18 de fevereiro de 2026.</p>
                     </div>
                 </ScrollReveal>
             </main>

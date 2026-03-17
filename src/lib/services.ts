@@ -18,15 +18,11 @@ import type { Service, CreateServiceData, UpdateServiceData } from '@/types/serv
 
 const COLLECTION_NAME = 'services';
 
-/**
- * Cria os rascunhos iniciais de serviços para facilitar o setup
- */
 export async function seedServices() {
     const servicesRef = collection(db, COLLECTION_NAME);
     const q = query(servicesRef, limit(1));
     const snapshot = await getDocs(q);
 
-    // Só cria se a coleção estiver vazia
     if (snapshot.empty) {
         const batch = writeBatch(db);
         const now = Timestamp.now();

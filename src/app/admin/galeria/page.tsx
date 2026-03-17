@@ -82,6 +82,7 @@ export default function GaleriaPage() {
         try {
             await createAlbum({
                 name: newAlbum.name,
+                slug: newAlbum.name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '-'),
                 description: newAlbum.description,
                 coverImage: newAlbum.coverImage || 'https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&q=80'
             });
@@ -145,9 +146,8 @@ export default function GaleriaPage() {
     const handleSetAsCover = async (imageUrl: string) => {
         if (!selectedAlbum) return;
         try {
-            await updateAlbum(selectedAlbum.id, { coverImage: imageUrl });
+            await updateAlbum(selectedAlbum.id, { coverImage: imageUrl, updatedAt: undefined as any });
             setSelectedAlbum({ ...selectedAlbum, coverImage: imageUrl });
-            // Atualizar lista de álbuns para refletir a mudança
             loadAlbums();
         } catch (error) {
             console.error('Erro ao definir capa:', error);

@@ -76,7 +76,6 @@ export default function EventosPage() {
     const handleOpenModal = (evento: Evento | null = null) => {
         if (evento) {
             setEditingEvento(evento);
-            // Formatar data do Firestore para o input date (YYYY-MM-DD)
             const dateStr = evento.date.toDate().toISOString().split('T')[0];
             setFormData({
                 title: evento.title,
@@ -234,7 +233,6 @@ export default function EventosPage() {
                     </DialogHeader>
 
                     <div className="space-y-6 py-4">
-                        {/* Seção Principal */}
                         <div className="space-y-4">
                             <div className="space-y-2">
                                 <label className="text-sm font-medium">Título do Evento</label>
@@ -284,7 +282,6 @@ export default function EventosPage() {
                             </div>
                         </div>
 
-                        {/* Imagem de Capa */}
                         <div className="space-y-4 border-t pt-4">
                             <h3 className="font-bold text-sm uppercase tracking-wider text-muted-foreground">Imagem de Capa</h3>
                             <div className="flex items-center gap-4">
@@ -310,7 +307,6 @@ export default function EventosPage() {
                             </div>
                         </div>
 
-                        {/* Meta Tags / SEO */}
                         <div className="space-y-4 border-t pt-4">
                             <h3 className="font-bold text-sm uppercase tracking-wider text-muted-foreground">SEO (Google)</h3>
                             <div className="space-y-2">

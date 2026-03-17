@@ -32,23 +32,18 @@ const testimonials: Testimonial[] = [
   },
 ];
 
-interface TestimonialsCarouselProps {
-  items?: Testimonial[];
-}
-
-export function TestimonialsCarousel({ items }: TestimonialsCarouselProps) {
-  const displayTestimonials = items && items.length > 0 ? items : testimonials;
+export function TestimonialsCarousel() {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(0);
 
   const next = () => {
     setDirection(1);
-    setCurrent((prev) => (prev + 1) % displayTestimonials.length);
+    setCurrent((prev) => (prev + 1) % testimonials.length);
   };
 
   const prev = () => {
     setDirection(-1);
-    setCurrent((prev) => (prev - 1 + displayTestimonials.length) % displayTestimonials.length);
+    setCurrent((prev) => (prev - 1 + testimonials.length) % testimonials.length);
   };
 
   useEffect(() => {
@@ -86,16 +81,16 @@ export function TestimonialsCarousel({ items }: TestimonialsCarouselProps) {
               }}
             >
               <p className="text-xl md:text-2xl text-gray-700 leading-relaxed mb-8 italic font-light">
-                "{displayTestimonials[current].content}"
+                "{testimonials[current].content}"
               </p>
 
               <div className="flex items-center gap-4">
                 <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white text-xl font-bold shadow-lg">
-                  {displayTestimonials[current].name[0]}
+                  {testimonials[current].name[0]}
                 </div>
                 <div>
-                  <p className="font-bold text-lg text-foreground dark:text-gray-700">{displayTestimonials[current].name}</p>
-                  <p className="text-sm text-muted-foreground dark:text-gray-700/80">{displayTestimonials[current].role}</p>
+                  <p className="font-bold text-lg text-gray-900">{testimonials[current].name}</p>
+                  <p className="text-sm text-primary">{testimonials[current].role}</p>
                 </div>
               </div>
             </div>
@@ -113,13 +108,13 @@ export function TestimonialsCarousel({ items }: TestimonialsCarouselProps) {
 
             {/* Indicators */}
             <div className="flex items-center gap-2">
-              {displayTestimonials.map((_, idx) => (
+              {testimonials.map((_, idx) => (
                 <button
                   key={idx}
                   onClick={() => setCurrent(idx)}
                   className={`transition-all duration-300 rounded-full ${idx === current
-                    ? 'w-8 h-3 bg-gradient-to-r from-primary to-accent'
-                    : 'w-3 h-3 bg-gray-300 hover:bg-primary/50'
+                      ? 'w-8 h-3 bg-gradient-to-r from-primary to-accent'
+                      : 'w-3 h-3 bg-gray-300 hover:bg-primary/50'
                     }`}
                   aria-label={`Ir para depoimento ${idx + 1}`}
                 />

@@ -8,7 +8,7 @@ import type { BlogPost } from '@/types/blog';
 import { LucianaLogo } from "@/components/luciana-logo";
 import { Button } from "@/components/ui/button";
 import { ScrollReveal } from '@/components/scroll-reveal';
-import { BookOpen, ArrowRight, Tag, Loader2 } from 'lucide-react';
+import { BookOpen, ArrowRight, Loader2 } from 'lucide-react';
 import { CardMovingBorder } from '@/components/card-moving-border';
 
 export default function BlogListPage() {
@@ -70,7 +70,6 @@ export default function BlogListPage() {
                         </p>
                     </ScrollReveal>
                 </div>
-
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {posts.map((post, idx) => (
                         <ScrollReveal key={post.id} direction="up" delay={idx * 100}>
@@ -78,12 +77,7 @@ export default function BlogListPage() {
                                 <Link href={`/blog/${post.slug || post.id}`} className="block h-full border border-border rounded-[2rem] overflow-hidden">
                                     <div className="aspect-[16/10] bg-secondary relative overflow-hidden">
                                         {post.coverImage ? (
-                                            <Image
-                                                src={post.coverImage}
-                                                alt={post.title}
-                                                fill
-                                                className="object-cover group-hover:scale-105 transition-transform duration-500"
-                                            />
+                                            <Image src={post.coverImage} alt={post.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
                                         ) : (
                                             <div className="w-full h-full flex items-center justify-center bg-primary/5">
                                                 <BookOpen size={48} className="text-primary/20" />
@@ -96,12 +90,8 @@ export default function BlogListPage() {
                                         </div>
                                     </div>
                                     <div className="p-8">
-                                        <h3 className="text-xl font-headline font-bold mb-4 group-hover:text-primary transition-colors line-clamp-2">
-                                            {post.title}
-                                        </h3>
-                                        <p className="text-sm text-muted-foreground mb-8 line-clamp-3">
-                                            {post.excerpt}
-                                        </p>
+                                        <h3 className="text-xl font-headline font-bold mb-4 group-hover:text-primary transition-colors line-clamp-2">{post.title}</h3>
+                                        <p className="text-sm text-muted-foreground mb-8 line-clamp-3">{post.excerpt}</p>
                                         <div className="font-bold flex items-center gap-2 text-sm text-muted-foreground group-hover:text-primary group-hover:gap-4 transition-all mt-auto">
                                             Ler completo <ArrowRight size={16} />
                                         </div>

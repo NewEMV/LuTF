@@ -36,7 +36,7 @@ export default function ServicesPublicPage() {
     useEffect(() => {
         const load = async () => {
             try {
-                const data = await getServices(false); // Apenas públicos
+                const data = await getServices(false);
                 setServices(data);
             } catch (error) {
                 console.error("Erro ao carregar serviços:", error);
@@ -55,7 +55,6 @@ export default function ServicesPublicPage() {
         );
     }
 
-    // Se não houver nada, mostramos um estado amigável (Empty State)
     if (services.length === 0) {
         return (
             <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 text-center">
@@ -107,7 +106,7 @@ export default function ServicesPublicPage() {
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {services.map((service, idx) => {
-                        const Icon = CATEGORY_ICONS[service.category] || LayoutGrid;
+                        const Icon = CATEGORY_ICONS[service.category as ServiceCategory] || LayoutGrid;
                         return (
                             <ScrollReveal key={service.id} direction="up" delay={idx * 100}>
                                 <CardMovingBorder className="h-full" borderRadius="2rem">
@@ -122,29 +121,22 @@ export default function ServicesPublicPage() {
                                                 </div>
                                             )}
                                         </div>
-
                                         <h3 className="text-2xl font-headline font-bold mb-4">{service.title}</h3>
-                                        <p className="text-muted-foreground mb-8 flex-grow leading-relaxed">
-                                            {service.description}
-                                        </p>
-
+                                        <p className="text-muted-foreground mb-8 flex-grow leading-relaxed">{service.description}</p>
                                         <div className="space-y-4 pt-6 border-t border-border mt-auto">
-                                            {service.dateInfo && (
+                                            {(service as any).dateInfo && (
                                                 <div className="flex items-center gap-2 text-sm text-primary font-medium">
                                                     <Calendar size={16} />
-                                                    {service.dateInfo}
+                                                    {(service as any).dateInfo}
                                                 </div>
                                             )}
-
                                             <div className="flex flex-col gap-3 pt-2">
                                                 <Button className="w-full rounded-full h-12 text-md font-semibold font-headline" asChild>
-                                                    <Link href="/login">
-                                                        Contato | Agendamento
-                                                    </Link>
+                                                    <Link href="/login">Contato | Agendamento</Link>
                                                 </Button>
-                                                {service.price && (
+                                                {(service as any).price && (
                                                     <span className="text-xs text-center text-muted-foreground">
-                                                        Investimento: {service.price}
+                                                        Investimento: {(service as any).price}
                                                     </span>
                                                 )}
                                             </div>

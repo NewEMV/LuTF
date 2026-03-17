@@ -6,7 +6,7 @@ export interface FutureEvent {
     description: string;
     date: Timestamp;
     location: string;
-    link?: string; // Link para inscrição ou zoom
+    link?: string;
     status: 'draft' | 'published';
     createdAt: Timestamp;
     updatedAt: Timestamp;

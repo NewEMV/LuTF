@@ -15,11 +15,9 @@ export interface Video {
     // SEO
     metaTitle: string;
     metaDescription: string;
-    customCover?: string; // Capa personalizada opcional
 }
 
-export interface CreateVideoData extends Omit<Video, 'id' | 'createdAt' | 'youtubeId' | 'thumbnail' | 'customCover'> {
+export interface CreateVideoData extends Omit<Video, 'id' | 'createdAt' | 'youtubeId' | 'thumbnail'> {
     youtubeUrl: string;
-    customCover?: string;
 }
 export interface UpdateVideoData extends Partial<CreateVideoData> { }

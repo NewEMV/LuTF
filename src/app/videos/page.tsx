@@ -8,7 +8,7 @@ import type { Video } from '@/types/video';
 import { LucianaLogo } from "@/components/luciana-logo";
 import { Button } from "@/components/ui/button";
 import { ScrollReveal } from '@/components/scroll-reveal';
-import { PlayCircle, ArrowRight, Tag, Loader2 } from 'lucide-react';
+import { PlayCircle, ArrowRight, Loader2 } from 'lucide-react';
 import { CardMovingBorder } from '@/components/card-moving-border';
 
 export default function VideoListPage() {
@@ -36,17 +36,10 @@ export default function VideoListPage() {
     }, []);
 
     const categories = ['todos', ...Array.from(new Set(videos.map(v => v.category)))];
-
-    const filteredVideos = filter === 'todos'
-        ? videos
-        : videos.filter(v => v.category === filter);
+    const filteredVideos = filter === 'todos' ? videos : videos.filter(v => v.category === filter);
 
     if (loading) {
-        return (
-            <div className="flex items-center justify-center min-h-screen">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            </div>
-        );
+        return <div className="flex items-center justify-center min-h-screen"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>;
     }
 
     return (
@@ -76,15 +69,11 @@ export default function VideoListPage() {
                             Conteúdo em vídeo sobre saúde emocional, oncologia e cuidados paliativos de forma leve e informativa.
                         </p>
                     </ScrollReveal>
-
                     <ScrollReveal direction="up" delay={100}>
                         <div className="flex flex-wrap justify-center gap-2 mt-8">
                             {categories.map(cat => (
-                                <button
-                                    key={cat}
-                                    onClick={() => setFilter(cat)}
-                                    className={`px-5 py-2 rounded-full capitalize text-sm transition-all ${filter === cat ? 'bg-primary text-primary-foreground shadow-lg' : 'bg-secondary text-foreground hover:bg-primary/10'}`}
-                                >
+                                <button key={cat} onClick={() => setFilter(cat)}
+                                    className={`px-5 py-2 rounded-full capitalize text-sm transition-all ${filter === cat ? 'bg-primary text-primary-foreground shadow-lg' : 'bg-secondary text-foreground hover:bg-primary/10'}`}>
                                     {cat}
                                 </button>
                             ))}
@@ -108,12 +97,8 @@ export default function VideoListPage() {
                                         </span>
                                     </div>
                                     <div className="p-6">
-                                        <h4 className="text-xl font-headline font-bold mb-2 group-hover:text-primary transition-colors line-clamp-2">
-                                            {video.title}
-                                        </h4>
-                                        <p className="text-sm text-muted-foreground line-clamp-3">
-                                            {video.description}
-                                        </p>
+                                        <h4 className="text-xl font-headline font-bold mb-2 group-hover:text-primary transition-colors line-clamp-2">{video.title}</h4>
+                                        <p className="text-sm text-muted-foreground line-clamp-3">{video.description}</p>
                                     </div>
                                 </Link>
                             </CardMovingBorder>

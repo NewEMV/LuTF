@@ -67,7 +67,6 @@ export default function ClientesPage() {
         try {
             const clientRef = doc(db, 'users', clientId);
             await updateDoc(clientRef, { status: newStatus });
-            // Atualizar lista local
             setClients(clients.map(c => c.id === clientId ? { ...c, status: newStatus } : c));
         } catch (error) {
             console.error('Erro ao atualizar status:', error);
@@ -141,12 +140,12 @@ export default function ClientesPage() {
                             {loading ? (
                                 Array(3).fill(0).map((_, i) => (
                                     <tr key={i} className="animate-pulse">
-                                        <td colSpan={5} className="p-6 text-center text-muted-foreground">Carregando pacientes...</td>
+                                        <td colSpan={6} className="p-6 text-center text-muted-foreground">Carregando pacientes...</td>
                                     </tr>
                                 ))
                             ) : filteredClients.length === 0 ? (
                                 <tr>
-                                    <td colSpan={5} className="p-12 text-center text-muted-foreground">
+                                    <td colSpan={6} className="p-12 text-center text-muted-foreground">
                                         Nenhum paciente encontrado.
                                     </td>
                                 </tr>
@@ -197,7 +196,7 @@ export default function ClientesPage() {
                                                 }) :
                                                 'Data não disponível'}
                                         </td>
-                                        <td className="p-4 text-right space-x-2">
+                                        <td className="p-4 text-right">
                                             {client.status === 'pending' ? (
                                                 <div className="flex justify-end gap-2">
                                                     <Button

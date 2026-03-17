@@ -191,12 +191,10 @@ export default function BlogPage() {
             const newPosts = arrayMove(posts, oldIndex, newIndex);
             setPosts(newPosts);
 
-            // Atualizar ordem no Firestore
             try {
                 await reorderPosts(newPosts.map((p) => p.id));
             } catch (error) {
                 console.error('Erro ao reordenar posts:', error);
-                // Reverter em caso de erro
                 loadPosts();
             }
         }

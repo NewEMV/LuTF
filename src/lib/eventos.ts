@@ -16,13 +16,9 @@ import type { Evento, CreateEventoData, UpdateEventoData } from '@/types/evento'
 
 const COLLECTION_NAME = 'events';
 
-/**
- * Criar um novo evento
- */
 export async function createEvento(data: CreateEventoData): Promise<string> {
     const now = Timestamp.now();
 
-    // Gerar slug a partir do título
     const slug = data.title
         .toLowerCase()
         .normalize('NFD')
@@ -44,9 +40,6 @@ export async function createEvento(data: CreateEventoData): Promise<string> {
     return docRef.id;
 }
 
-/**
- * Listar todos os eventos (mais recentes primeiro)
- */
 export async function getEventos(maxLimit?: number): Promise<Evento[]> {
     let q = query(collection(db, COLLECTION_NAME), orderBy('date', 'desc'));
 
@@ -61,9 +54,6 @@ export async function getEventos(maxLimit?: number): Promise<Evento[]> {
     } as Evento));
 }
 
-/**
- * Atualizar um evento existente
- */
 export async function updateEvento(id: string, data: UpdateEventoData): Promise<void> {
     const docRef = doc(db, COLLECTION_NAME, id);
     await updateDoc(docRef, {
@@ -72,16 +62,10 @@ export async function updateEvento(id: string, data: UpdateEventoData): Promise<
     });
 }
 
-/**
- * Deletar um evento
- */
 export async function deleteEvento(id: string): Promise<void> {
     await deleteDoc(doc(db, COLLECTION_NAME, id));
 }
 
-/**
- * Buscar evento por ID
- */
 export async function getEventoById(id: string): Promise<Evento | null> {
     const docRef = doc(db, COLLECTION_NAME, id);
     const docSnap = await getDoc(docRef);

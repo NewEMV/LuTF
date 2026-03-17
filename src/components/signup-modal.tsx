@@ -22,7 +22,6 @@ const signupSchema = z.object({
     phone: z.string().min(10, 'Telefone inválido'),
     password: z.string().min(6, 'Senha deve ter pelo menos 6 caracteres'),
     confirmPassword: z.string(),
-    subject: z.string().optional(),
 }).refine((data) => data.password === data.confirmPassword, {
     message: 'As senhas não coincidem',
     path: ['confirmPassword'],
@@ -62,7 +61,6 @@ export function SignupModal({ open, onClose }: SignupModalProps) {
                 email: data.email,
                 phone: data.phone,
                 password: data.password,
-                subject: data.subject,
             };
 
             await signup(signupData);
@@ -157,16 +155,6 @@ export function SignupModal({ open, onClose }: SignupModalProps) {
                             {errors.phone && (
                                 <p className="text-sm text-red-600 dark:text-red-400 mt-1">{errors.phone.message}</p>
                             )}
-                        </div>
-
-                        <div>
-                            <Label htmlFor="subject">Você tem um assunto específico pra tratar comigo?</Label>
-                            <Input
-                                id="subject"
-                                {...register('subject')}
-                                placeholder="Ex: Parceria, convite para palestra, dúvida específica..."
-                                className="mt-1"
-                            />
                         </div>
 
                         <div>
