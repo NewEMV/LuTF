@@ -1,7 +1,7 @@
 const { onRequest } = require("firebase-functions/v2/https");
 const next = require("next");
 
-const nextjsDistDir = "../.next";
+const nextjsDistDir = "./.next";
 
 const nextjsApp = next({
     dev: false,
@@ -48,6 +48,7 @@ exports.onUserCreated = onDocumentCreated("users/{userId}", async (event) => {
                     <li><strong>Nome:</strong> ${newUser.name}</li>
                     <li><strong>E-mail:</strong> ${newUser.email}</li>
                     <li><strong>Telefone:</strong> ${newUser.phone}</li>
+                    <li><strong>Assunto/Motivo:</strong> ${newUser.subject || 'Não informado'}</li>
                 </ul>
                 <p>Acesse o painel administrativo para aprovar ou negar o acesso.</p>
                 <a href="https://lucianatf.web.app/admin/clientes" style="background: #7c3aed; color: white; padding: 10px 20px; text-decoration: none; border-radius: 8px;">Ir para Gestão de Clientes</a>

@@ -138,10 +138,12 @@ export async function getVideos(filters?: {
     }
 
     const querySnapshot = await getDocs(q);
-    const videos: Video[] = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-    })) as Video[];
+    const videos: Video[] = querySnapshot.docs
+        .map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+        }))
+        .filter(Boolean) as Video[];
 
     // Ordenar: fixados primeiro, depois por order, depois por data
     videos.sort((a, b) => {

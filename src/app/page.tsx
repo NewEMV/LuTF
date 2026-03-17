@@ -271,7 +271,7 @@ export default function Home() {
                       <Sparkles size={16} /> Seja Gentil com Você!
                     </div>
                     <h1 className="text-5xl md:text-7xl font-headline text-foreground leading-tight">
-                      Acolher o <span className="text-primary">desafio</span> com dignidade.
+                      Acolher o <span className="text-primary">desafio</span> com <span className="text-primary">dignidade</span>.
                     </h1>
                     <p className="text-xl text-muted-foreground max-w-xl mx-auto lg:mx-0 font-medium">
                       Psicóloga dedicada ao suporte, presença e cuidado especializado em fases de transição.

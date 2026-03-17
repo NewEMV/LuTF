@@ -238,11 +238,15 @@ export default function VideosPage() {
         }
     };
 
-    const filteredVideos = videos.filter((video) =>
-        (video.title?.toLowerCase() || '').includes(searchQuery.toLowerCase()) ||
-        (video.description?.toLowerCase() || '').includes(searchQuery.toLowerCase()) ||
-        (video.category?.toLowerCase() || '').includes(searchQuery.toLowerCase())
-    );
+    const filteredVideos = (videos || []).filter((video) => {
+        if (!video) return false;
+        const search = (searchQuery || '').toLowerCase();
+        const title = (video.title || '').toLowerCase();
+        const desc = (video.description || '').toLowerCase();
+        const cat = (video.category || '').toLowerCase();
+        
+        return title.includes(search) || desc.includes(search) || cat.includes(search);
+    });
 
     return (
         <div className="space-y-6">

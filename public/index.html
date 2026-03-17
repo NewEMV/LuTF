@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Luciana Telles Ferri | Psicologia</title>
-    
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- Fontes Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Allison&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Allison&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
 
     <!-- React, ReactDOM e Babel -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    
+
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -38,23 +41,56 @@
             --terracotta-800: #853e2f;
             --terracotta-900: #5a2a1f;
         }
-        body { font-family: 'Inter', sans-serif; background-color: #FFFDFB; margin: 0; padding: 0; }
-        .font-serif { font-family: 'Playfair Display', serif; }
-        .font-allison { font-family: 'Allison', cursive; }
-        
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FFFDFB;
+            margin: 0;
+            padding: 0;
+        }
+
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .font-allison {
+            font-family: 'Allison', cursive;
+        }
+
         @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
         }
-        .animate-float { animation: float 6s ease-in-out infinite; }
-        
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
         @keyframes bounce-slow {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
         }
-        .animate-bounce-slow { animation: bounce-slow 4s ease-in-out infinite; }
+
+        .animate-bounce-slow {
+            animation: bounce-slow 4s ease-in-out infinite;
+        }
     </style>
 </head>
+
 <body>
     <div id="root"></div>
 
@@ -65,7 +101,7 @@
             useEffect(() => {
                 if (window.lucide) window.lucide.createIcons();
             }, [name]);
-            return <i data-lucide={name} style={{width: size, height: size}} className={`inline-block shrink-0 ${className}`}></i>;
+            return <i data-lucide={name} style={{ width: size, height: size }} className={`inline-block shrink-0 ${className}`}></i>;
         };
 
         const LucianaLogo = ({ className = "w-10 h-10" }) => (
@@ -115,7 +151,7 @@
             ];
 
             const NavLink = ({ id, label }) => (
-                <button 
+                <button
                     onClick={() => setActiveTab(id)}
                     className={`px-4 py-2 font-medium transition-all duration-300 relative group ${activeTab === id ? 'text-[#c15b46]' : 'text-gray-600 hover:text-[#c15b46]'}`}
                 >
@@ -163,7 +199,7 @@
                                                 <Icon name="sparkles" size={16} /> Seja Gentil com Você!
                                             </div>
                                             <h1 className="text-5xl md:text-7xl font-serif text-gray-900 leading-tight">
-                                                Acolher o <span className="text-[#c15b46]">desafio</span> com dignidade.
+                                                Acolher o <span className="text-[#c15b46]">desafio</span> com <span className="text-[#c15b46]">dignidade</span>.
                                             </h1>
                                             <p className="text-xl text-gray-600 max-w-xl mx-auto lg:mx-0 font-medium">
                                                 Psicóloga dedicada a transformar momentos de transição em processos de suporte e cuidado humanizado.
@@ -336,4 +372,5 @@
         root.render(<App />);
     </script>
 </body>
+
 </html>
