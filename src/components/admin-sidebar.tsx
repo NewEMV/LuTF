@@ -12,6 +12,10 @@ import {
     ChevronLeft,
     ChevronRight,
     LogOut,
+    BookMarked,
+    Briefcase,
+    CalendarClock,
+    MessageSquareQuote,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { LucianaLogo } from '@/components/luciana-logo';
@@ -36,9 +40,29 @@ const navItems: NavItem[] = [
         icon: Users,
     },
     {
+        title: 'Depoimentos',
+        href: '/admin/depoimentos',
+        icon: MessageSquareQuote,
+    },
+    {
         title: 'Eventos',
         href: '/admin/eventos',
         icon: Calendar,
+    },
+    {
+        title: 'Eventos Futuros',
+        href: '/admin/eventos-futuros',
+        icon: CalendarClock,
+    },
+    {
+        title: 'Trajetória',
+        href: '/admin/trajetoria',
+        icon: BookMarked,
+    },
+    {
+        title: 'Serviços',
+        href: '/admin/servicos',
+        icon: Briefcase,
     },
     {
         title: 'Blog',
@@ -94,7 +118,7 @@ export function AdminSidebar() {
             </div>
 
             {/* Navigation */}
-            <nav className="flex-1 p-4 space-y-2">
+            <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
                 {navItems.map((item) => {
                     const Icon = item.icon;
                     const isActive = pathname === item.href;

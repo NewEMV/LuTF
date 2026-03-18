@@ -59,3 +59,4 @@ exports.onUserCreated = onDocumentCreated("users/{userId}", async (event) => {
         console.error('Erro ao enviar e-mail:', error);
     }
 });
+// deploy Wed Mar 18 04:43:42 AM UTC 2026
