@@ -145,17 +145,23 @@ export async function getVideos(filters?: {
 
     // Ordenar: fixados primeiro, depois por order, depois por data
     videos.sort((a, b) => {
-        // Fixados primeiro
-        if (a.isPinned && !b.isPinned) return -1;
-        if (!a.isPinned && b.isPinned) return 1;
+        // Fixados primeiro (com fallback para false)
+        const aPinned = a.isPinned ?? false;
+        const bPinned = b.isPinned ?? false;
+        if (aPinned && !bPinned) return -1;
+        if (!aPinned && bPinned) return 1;
 
-        // Se ambos fixados ou ambos não fixados, ordenar por order
-        if (a.order !== b.order) {
-            return a.order - b.order;
+        // Se ambos fixados ou ambos não fixados, ordenar por order (com fallback para 9999)
+        const aOrder = a.order ?? 9999;
+        const bOrder = b.order ?? 9999;
+        if (aOrder !== bOrder) {
+            return aOrder - bOrder;
         }
 
-        // Se order igual, ordenar por data (mais recente primeiro)
-        return b.publishedAt.seconds - a.publishedAt.seconds;
+        // Se order igual, ordenar por data (mais recente primeiro, com fallback para 0)
+        const aSeconds = a.publishedAt?.seconds ?? 0;
+        const bSeconds = b.publishedAt?.seconds ?? 0;
+        return bSeconds - aSeconds;
     });
 
     // Aplicar limit se especificado

@@ -35,8 +35,8 @@ export default function VideoListPage() {
         loadData();
     }, []);
 
-    const categories = ['todos', ...Array.from(new Set(videos.map(v => v.category)))];
-    const filteredVideos = filter === 'todos' ? videos : videos.filter(v => v.category === filter);
+    const categories = ['todos', ...Array.from(new Set(videos.map(v => v.category).filter((cat): cat is string => !!cat)))];
+    const filteredVideos = filter === 'todos' ? videos : videos.filter(v => (v.category || '') === filter);
 
     if (loading) {
         return <div className="flex items-center justify-center min-h-screen"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>;
