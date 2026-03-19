@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { Timestamp } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { storage } from '@/lib/firebase';
 import { createVideo, updateVideo, getVideoById, extractYouTubeId } from '@/lib/videos';
 import type { Video } from '@/types/video';
 import { Button } from '@/components/ui/button';
@@ -11,7 +13,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
 import { SEOFields } from '@/components/seo-fields';
-import { ArrowLeft, Save, Loader2, Youtube } from 'lucide-react';
+import { ArrowLeft, Save, Loader2, Youtube, Image as ImageIcon, Upload, X } from 'lucide-react';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 
@@ -28,6 +30,8 @@ export default function VideoFormPage() {
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('');
     const [isPinned, setIsPinned] = useState(false);
+    const [customCover, setCustomCover] = useState('');
+    const [uploadingCover, setUploadingCover] = useState(false);
 
     // SEO
     const [metaTitle, setMetaTitle] = useState('');
@@ -36,14 +40,12 @@ export default function VideoFormPage() {
     // Preview
     const [previewId, setPreviewId] = useState<string | null>(null);
 
-    // Carregar vídeo se estiver editando
     useEffect(() => {
         if (isEditing) {
             loadVideo();
         }
     }, [isEditing, videoId]);
 
-    // Extrair ID do YouTube quando URL mudar
     useEffect(() => {
         if (youtubeUrl) {
             const id = extractYouTubeId(youtubeUrl);
@@ -53,7 +55,6 @@ export default function VideoFormPage() {
         }
     }, [youtubeUrl]);
 
-    // Auto-gerar meta title se estiver vazio
     useEffect(() => {
         if (title && !metaTitle) {
             setMetaTitle(title);
@@ -77,10 +78,31 @@ export default function VideoFormPage() {
             setIsPinned(video.isPinned);
             setMetaTitle(video.metaTitle);
             setMetaDescription(video.metaDescription);
+            setCustomCover(video.customCover || '');
         } catch (error) {
             console.error('Erro ao carregar vídeo:', error);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleCoverUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setUploadingCover(true);
+        try {
+            const timestamp = Date.now();
+            const filename = `${timestamp}_${file.name.replace(/\s+/g, '_')}`;
+            const storageRef = ref(storage, `video-covers/${filename}`);
+            await uploadBytes(storageRef, file);
+            const url = await getDownloadURL(storageRef);
+            setCustomCover(url);
+        } catch (error) {
+            console.error('Erro ao fazer upload da capa:', error);
+            alert('Erro ao fazer upload da imagem. Tente novamente.');
+        } finally {
+            setUploadingCover(false);
         }
     };
 
@@ -95,7 +117,6 @@ export default function VideoFormPage() {
             return;
         }
 
-        // Validar URL do YouTube
         const ytId = extractYouTubeId(youtubeUrl);
         if (!ytId) {
             alert('URL do YouTube inválida');
@@ -115,6 +136,7 @@ export default function VideoFormPage() {
                 publishedAt: Timestamp.now(),
                 metaTitle,
                 metaDescription,
+                ...(customCover ? { customCover } : {}),
             };
 
             if (isEditing) {
@@ -281,6 +303,77 @@ export default function VideoFormPage() {
 
                         <Separator />
 
+                        {/* Imagem de Capa Personalizada */}
+                        <div className="space-y-2">
+                            <Label className="flex items-center gap-2">
+                                <ImageIcon className="h-4 w-4" />
+                                Imagem de Capa Personalizada
+                            </Label>
+                            <p className="text-xs text-muted-foreground">
+                                Opcional. Substitui o thumbnail automático do YouTube.
+                            </p>
+
+                            {/* Upload do computador */}
+                            <div className="relative">
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleCoverUpload}
+                                    className="absolute inset-0 opacity-0 cursor-pointer"
+                                    disabled={uploadingCover}
+                                />
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    className="w-full"
+                                    disabled={uploadingCover}
+                                >
+                                    {uploadingCover ? (
+                                        <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Enviando...</>
+                                    ) : (
+                                        <><Upload className="h-4 w-4 mr-2" /> Enviar do Computador</>
+                                    )}
+                                </Button>
+                            </div>
+
+                            {/* Ou por URL */}
+                            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                                <div className="flex-1 h-px bg-border" />
+                                <span>ou cole uma URL</span>
+                                <div className="flex-1 h-px bg-border" />
+                            </div>
+                            <Input
+                                value={customCover}
+                                onChange={(e) => setCustomCover(e.target.value)}
+                                placeholder="https://..."
+                            />
+
+                            {/* Preview da capa */}
+                            {customCover && (
+                                <div className="relative mt-2">
+                                    <div className="aspect-video rounded-md overflow-hidden border border-border bg-muted">
+                                        <img
+                                            src={customCover}
+                                            alt="Preview da capa"
+                                            className="w-full h-full object-cover"
+                                            onError={(e) => {
+                                                (e.target as HTMLImageElement).style.display = 'none';
+                                            }}
+                                        />
+                                    </div>
+                                    <button
+                                        onClick={() => setCustomCover('')}
+                                        className="absolute top-1 right-1 p-1 bg-black/50 rounded-full text-white hover:bg-red-500 transition-colors"
+                                        title="Remover imagem de capa"
+                                    >
+                                        <X className="h-3 w-3" />
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+
+                        <Separator />
+
                         {/* Destacar Vídeo */}
                         <div className="flex items-center justify-between">
                             <div>
@@ -309,6 +402,7 @@ export default function VideoFormPage() {
                             <li>• Funciona com vídeos e Shorts</li>
                             <li>• Cole a URL completa do YouTube</li>
                             <li>• O thumbnail é extraído automaticamente</li>
+                            <li>• Use uma imagem de capa para personalizar</li>
                             <li>• Preencha os campos SEO para melhor posicionamento</li>
                         </ul>
                     </div>

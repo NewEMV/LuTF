@@ -1,5 +1,4 @@
 import { Timestamp } from 'firebase/firestore';
-
 export interface Video {
     id: string;
     title: string;
@@ -7,6 +6,7 @@ export interface Video {
     youtubeUrl: string;
     youtubeId: string; // Extraído da URL
     thumbnail: string; // Extraído automaticamente do YouTube
+    customCover?: string; // Imagem de capa personalizada (substitui o thumbnail)
     category: string;
     isPinned: boolean; // Vídeo fixado no topo
     order: number; // Ordem manual de exibição
@@ -16,7 +16,6 @@ export interface Video {
     metaTitle: string;
     metaDescription: string;
 }
-
 export interface CreateVideoData extends Omit<Video, 'id' | 'createdAt' | 'youtubeId' | 'thumbnail'> {
     youtubeUrl: string;
 }
