@@ -93,13 +93,18 @@ export default function BlogFormPage() {
     };
 
     const handleSave = async (publishNow: boolean = false) => {
-        if (!title || !content || !coverImage) {
-            alert('Por favor, preencha todos os campos obrigatórios');
+        if (!title || !content) {
+            alert('Por favor, preencha o título e o conteúdo do post');
             return;
         }
 
-        if (!metaTitle || !metaDescription) {
-            alert('Por favor, preencha os campos de SEO');
+        if (publishNow && !coverImage) {
+            alert('Por favor, adicione uma imagem de capa antes de publicar');
+            return;
+        }
+
+        if (publishNow && (!metaTitle || !metaDescription)) {
+            alert('Por favor, preencha os campos de SEO antes de publicar');
             return;
         }
 
@@ -111,8 +116,8 @@ export default function BlogFormPage() {
                 slug: slug || generateSlug(title),
                 content,
                 excerpt: excerpt || content.substring(0, 160).replace(/<[^>]*>/g, ''),
-                coverImage,
-                coverImageAlt,
+                coverImage: coverImage || '',
+                coverImageAlt: coverImageAlt || '',
                 author: user?.displayName || user?.email || 'Admin',
                 publishedAt: publishNow ? Timestamp.now() : null,
                 status: publishNow ? 'published' as const : 'draft' as const,
@@ -126,8 +131,8 @@ export default function BlogFormPage() {
                     .filter((t) => t),
                 isPinned,
                 order: 0,
-                metaTitle,
-                metaDescription,
+                metaTitle: metaTitle || title,
+                metaDescription: metaDescription || '',
             };
 
             if (isEditing) {
@@ -305,7 +310,12 @@ export default function BlogFormPage() {
 
                     {/* Imagem de Capa */}
                     <div className="space-y-2">
-                        <Label>Imagem de Capa *</Label>
+                        <Label>
+                            Imagem de Capa
+                            <span className="text-xs text-muted-foreground ml-2">
+                                Obrigatória para publicar
+                            </span>
+                        </Label>
                         <ImageUpload
                             value={coverImage}
                             onChange={(url, alt) => {
