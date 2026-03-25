@@ -67,6 +67,7 @@ export default function Home() {
   const [realTestimonials, setRealTestimonials] = useState<Testimonial[]>([]);
   const [hasServices, setHasServices] = useState(false);
   const [futureEvents, setFutureEvents] = useState<any[]>([]);
+  const [modalContent, setModalContent] = useState<{ title: string; text: string } | null>(null);
 
   useEffect(() => {
     const loadData = async () => {
@@ -171,13 +172,16 @@ export default function Home() {
       { id: 4, title: "Saúde Emocional e Câncer", summary: "O papel da psicologia na jornada do tratamento.", tag: "Saúde", image: "" },
     ];
 
-  const trajectoryGallery = realTrajectory.length > 0
-    ? realTrajectory.map(t => ({ url: t.imageUrl, title: t.title, desc: t.description }))
+  // Filtrar itens de trajetória: apenas os que têm imagem e título real (não "Nova Etapa")
+  const filteredTrajectory = realTrajectory.filter(t => t.imageUrl && t.title !== 'Nova Etapa');
+
+  const trajectoryGallery = filteredTrajectory.length > 0
+    ? filteredTrajectory.map(t => ({ url: t.imageUrl, title: t.title, desc: t.description, position: t.imagePosition || 'center' }))
     : [
-      { url: heroImage?.imageUrl, title: "Atendimento Clínico", desc: "Suporte especializado." },
-      { url: vlogThumbOncologia?.imageUrl, title: "Psico-Oncologia", desc: "Acompanhamento no tratamento." },
-      { url: vlogThumbPaliativos?.imageUrl, title: "Cuidados Paliativos", desc: "Dignidade e presença." },
-      { url: vlogThumbReflexao?.imageUrl, title: "Docência e Palestras", desc: "Compartilhando conhecimento." },
+      { url: heroImage?.imageUrl, title: "Atendimento Clínico", desc: "Suporte especializado.", position: 'center' },
+      { url: vlogThumbOncologia?.imageUrl, title: "Psico-Oncologia", desc: "Acompanhamento no tratamento.", position: 'center' },
+      { url: vlogThumbPaliativos?.imageUrl, title: "Cuidados Paliativos", desc: "Dignidade e presença.", position: 'center' },
+      { url: vlogThumbReflexao?.imageUrl, title: "Docência e Palestras", desc: "Compartilhando conhecimento.", position: 'center' },
     ];
 
   const [currentTraj, setCurrentTraj] = useState(0);
@@ -267,7 +271,7 @@ export default function Home() {
                       Acolher o <span className="text-primary">desafio</span> com <span className="text-primary">dignidade</span>.
                     </h1>
                     <p className="text-xl text-muted-foreground max-w-xl mx-auto lg:mx-0 font-medium">
-                      Psicóloga dedicada ao suporte, presença e cuidado especializado em fases de transição.
+                      Psicóloga dedicada ao suporte e cuidado especializado em fases de transição.
                     </p>
                     <div className="flex flex-wrap justify-center lg:justify-start gap-4">
                       <Button onClick={handleAgendarConsulta} size="lg" className="px-10 py-5 text-lg rounded-2xl h-auto hover-lift">Contato | Agendamento</Button>
@@ -292,19 +296,49 @@ export default function Home() {
                 </div>
                 <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-10">
                   {[
-                    { title: "Psico-Oncologia", icon: Speech, color: "bg-purple-500", desc: "Acolhimento e intervenção a pessoas com câncer e familiares desde o diagnóstico, no tratamento, reabilitação e luto." },
-                    { title: "Cuidados Paliativos", icon: Sun, color: "bg-purple-400", desc: "Qualidade de vida e manejo emocional de doenças graves." },
-                    { title: "Clínica do Luto", icon: HandHeart, color: "bg-purple-600", desc: "Acolhimento aos processos de perdas. Suporte a dor da ausência." }
+                    {
+                      title: "Psico-Oncologia",
+                      icon: "speech",
+                      color: "bg-purple-500",
+                      desc: "Acolhimento e intervenção a pessoas com câncer e familiares desde o diagnóstico, no tratamento, reabilitação e luto.",
+                      full: "A Psico-oncologia é o cuidado que olha para além do diagnóstico.\nÉ a escuta que acolhe o medo após a notícia difícil.\nÉ o espaço onde a dor pode ser nomeada.\nÉ o apoio nas decisões complexas, nas mudanças do corpo, nas incertezas do tratamento.\n\nA Psico-oncologia cuida do paciente, da família e também da equipe de saúde, integrando o olhar técnico à dimensão humana do adoecer.\n\nDo diagnóstico aos cuidados paliativos, da esperança à elaboração do luto, seu papel é sustentar sentido, dignidade e qualidade de vida — mesmo em meio à vulnerabilidade.\n\nPorque onde há vida, há subjetividade.\nE onde há subjetividade, há cuidado possível."
+                    },
+                    {
+                      title: "Cuidados Paliativos",
+                      icon: "butterfly",
+                      color: "bg-purple-400",
+                      desc: "Qualidade de vida e manejo emocional de doenças graves.",
+                      full: "Ainda os cuidados paliativos vem acompanhado da frase não há mais nada a fazer. E com isso a sensação de abandono e a proximidade da morte.\n\nAqui eu apresento que cuidados paliativos é sobre Há o que fazer e desde o diagnóstico de uma doença grave.\n\nÉ oferecer, junto a sua equipe médica, uma jornada de cuidado mais próximo do que é importante para você, respeitando sua dignidade.\n\nDoenças graves atravessam o corpo — mas também atravessam a identidade, os vínculos, os projetos e o sentido da existência.\n\nOs cuidados paliativos atuam justamente nesse território sensível:\n✔️ Acolhendo o sofrimento emocional\n✔️ Favorecendo comunicação clara e ética\n✔️ Sustentando decisões difíceis\n✔️ Cuidando da família e da rede de apoio\n✔️ Promovendo qualidade de vida e alívio possível do sofrimento\n\nO manejo emocional não é um detalhe do tratamento — ele é parte essencial do cuidado. Há sempre alguém ali, com história, valores, medos e desejos. Cuidar é também sustentar o que é humano quando a vida se torna frágil."
+                    },
+                    {
+                      title: "Clínica do Luto",
+                      icon: "handheart",
+                      color: "bg-purple-600",
+                      desc: "Acolhimento aos processos de perdas. Suporte a dor da ausência.",
+                      full: "O luto é um processo natural diante de uma perda significativa. Cada pessoa vivencia a perda de maneira singular, conforme sua história, vínculo estabelecido e contexto da morte.\n\nA Clínica do Luto oferece atendimento psicológico fundamentado em referenciais técnicos sobre processos de perda, luto antecipatório e luto complicado/prolongado.\n\nO acompanhamento é indicado para pessoas que apresentam:\n• Sofrimento intenso e persistente após uma perda\n• Dificuldade de retomar atividades e vínculos\n• Sentimentos recorrentes de culpa, ambivalência ou revolta\n• Impacto significativo no sono, apetite e funcionamento diário\n• Lutos traumáticos ou inesperados\n• Perdas gestacionais e neonatais\n• Vivência de luto antecipatório diante de doenças graves\n\nO objetivo do atendimento é:\n✔️ Favorecer a elaboração psíquica da perda\n✔️ Auxiliar na integração da ausência à história de vida\n✔️ Prevenir complicações emocionais associadas ao luto\n✔️ Promover reorganização interna e adaptação à nova realidade\n✔️ Ressignificar a história preservando o vínculo\n\nVocê não precisa atravessar o luto sozinho(a)."
+                    },
                   ].map((item, idx) => (
                     <ScrollReveal key={idx} direction="up" delay={idx * 100}>
                       <CardMovingBorder className="bg-card shadow-sm transition-all duration-300 group" borderRadius="2.5rem">
                         <div className="p-10">
                           <div className={`w-14 h-14 ${item.color} text-white rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
-                            <item.icon size={28} />
+                            {item.icon === 'butterfly' ? (
+                              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M12 22V12" />
+                                <path d="M12 12C12 12 8 10 5 6C3 3 3 1 5 1C7 1 10 3 12 7" />
+                                <path d="M12 12C12 12 16 10 19 6C21 3 21 1 19 1C17 1 14 3 12 7" />
+                                <path d="M12 12C12 12 8 14 5 18C3 21 3 23 5 23C7 23 10 21 12 17" />
+                                <path d="M12 12C12 12 16 14 19 18C21 21 21 23 19 23C17 23 14 21 12 17" />
+                              </svg>
+                            ) : item.icon === 'speech' ? (
+                              <Speech size={28} />
+                            ) : (
+                              <HandHeart size={28} />
+                            )}
                           </div>
                           <h3 className="text-2xl font-headline mb-4">{item.title}</h3>
                           <p className="text-muted-foreground mb-6">{item.desc}</p>
-                          <button onClick={() => setActiveTab('contato')} className="font-bold text-primary flex items-center gap-2 group-hover:gap-4 transition-all">
+                          <button onClick={() => setModalContent({ title: item.title, text: item.full })} className="font-bold text-primary flex items-center gap-2 group-hover:gap-4 transition-all">
                             Saiba mais <ArrowRight size={18} />
                           </button>
                         </div>
@@ -440,28 +474,44 @@ export default function Home() {
 
               <div className="space-y-12">
                 <ScrollReveal direction="up">
-                  <div className="relative aspect-video md:aspect-[21/9] rounded-[3rem] overflow-hidden shadow-2xl border-8 border-background bg-muted">
-                    {trajectoryGallery[currentTraj].url && (
-                      <Image
-                        src={trajectoryGallery[currentTraj].url}
-                        alt={trajectoryGallery[currentTraj].title}
-                        fill
-                        className="object-cover transition-all duration-700 ease-in-out"
-                        key={currentTraj}
-                      />
-                    )}
-                    <div className="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-black/80 to-transparent text-white">
-                      <h4 className="text-2xl font-bold">{trajectoryGallery[currentTraj].title}</h4>
-                      <p className="text-white/80">{trajectoryGallery[currentTraj].desc}</p>
+                  <div className="space-y-0">
+                    {/* Imagem sem texto sobreposto */}
+                    <div className="relative aspect-video md:aspect-[21/9] rounded-t-[3rem] overflow-hidden shadow-2xl border-8 border-b-0 border-background bg-muted">
+                      {trajectoryGallery[currentTraj].url && (
+                        <Image
+                          src={trajectoryGallery[currentTraj].url}
+                          alt={trajectoryGallery[currentTraj].title}
+                          fill
+                          className="object-cover transition-all duration-700 ease-in-out"
+                          style={{ objectPosition: trajectoryGallery[currentTraj].position }}
+                          key={currentTraj}
+                        />
+                      )}
+                      <div className="absolute top-1/2 -translate-y-1/2 w-full flex justify-between px-4">
+                        <button onClick={prevTraj} className="w-12 h-12 rounded-full glass flex items-center justify-center text-primary hover:scale-110 transition-all">
+                          <ChevronLeft size={24} />
+                        </button>
+                        <button onClick={nextTraj} className="w-12 h-12 rounded-full glass flex items-center justify-center text-primary hover:scale-110 transition-all">
+                          <ChevronRight size={24} />
+                        </button>
+                      </div>
                     </div>
-
-                    <div className="absolute top-1/2 -translate-y-1/2 w-full flex justify-between px-4">
-                      <button onClick={prevTraj} className="w-12 h-12 rounded-full glass flex items-center justify-center text-primary hover:scale-110 transition-all">
-                        <ChevronLeft size={24} />
-                      </button>
-                      <button onClick={nextTraj} className="w-12 h-12 rounded-full glass flex items-center justify-center text-primary hover:scale-110 transition-all">
-                        <ChevronRight size={24} />
-                      </button>
+                    {/* Descrição abaixo da imagem */}
+                    <div className="bg-card border-8 border-t-0 border-background rounded-b-[3rem] px-8 py-6 shadow-2xl">
+                      <h4 className="text-2xl font-bold text-foreground">{trajectoryGallery[currentTraj].title}</h4>
+                      {trajectoryGallery[currentTraj].desc && (
+                        <p className="text-muted-foreground mt-2">{trajectoryGallery[currentTraj].desc}</p>
+                      )}
+                      {/* Indicadores */}
+                      <div className="flex gap-2 mt-4">
+                        {trajectoryGallery.map((_, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => setCurrentTraj(idx)}
+                            className={`h-1.5 rounded-full transition-all ${idx === currentTraj ? 'w-6 bg-primary' : 'w-1.5 bg-border'}`}
+                          />
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </ScrollReveal>
@@ -469,9 +519,12 @@ export default function Home() {
                 <ScrollReveal direction="up" delay={100}>
                   <div className="p-8 bg-secondary border-l-8 border-primary rounded-3xl hover-lift">
                     <h3 className="text-2xl font-bold text-muted-foreground mb-4">Experiência</h3>
-                    <p className="mb-4"><strong>Psicóloga Clínica na Abrale:</strong> Foco em onco-hematologia.</p>
-                    <p className="mb-4"><strong>Instituto de Imunologia e Oncologia:</strong> Psico-oncologista.</p>
-                    <p><strong>Rede Nacional de Tanatologia:</strong> Docente.</p>
+                    <p className="mb-2 font-bold">Psicóloga Clínica:</p>
+                    <p className="mb-2"><strong>Abrale:</strong> Foco em onco-hematologia e Cuidados Paliativos</p>
+                    <p className="mb-2"><strong>Residencial Sênior Leger:</strong> Foco na saúde do idoso em Instituições.</p>
+                    <p className="mb-4"><strong>Consultório Particular:</strong> Cuidado em saúde mental em fases de transição.</p>
+                    <p className="mb-2 font-bold">Docente/Tutora/Palestrante:</p>
+                    <p>Foco em tutoria e docência em psico-oncologia; mercado de trabalho & adoecimento; luto; comunicação em saúde e inteligência emocional.</p>
                   </div>
                 </ScrollReveal>
                 <div className="grid md:grid-cols-2 gap-6">
@@ -613,6 +666,29 @@ export default function Home() {
           </div>
         </footer>
       </div>
+
+      {modalContent && (
+        <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setModalContent(null)}>
+          <div className="bg-card border border-border rounded-3xl max-w-2xl w-full max-h-[80vh] overflow-y-auto shadow-2xl" onClick={e => e.stopPropagation()}>
+            <div className="sticky top-0 bg-card border-b border-border px-8 py-6 flex items-center justify-between rounded-t-3xl">
+              <h3 className="text-2xl font-headline font-bold text-primary">{modalContent.title}</h3>
+              <button onClick={() => setModalContent(null)} className="p-2 hover:bg-muted rounded-full transition-colors">
+                <X size={20} />
+              </button>
+            </div>
+            <div className="px-8 py-6 space-y-3">
+              {modalContent.text.split('\n').map((line, i) => (
+                <p key={i} className={line === '' ? 'h-2' : 'text-foreground leading-relaxed'}>{line}</p>
+              ))}
+            </div>
+            <div className="px-8 py-6 border-t border-border">
+              <button onClick={() => { setModalContent(null); setActiveTab('contato'); }} className="w-full bg-primary text-primary-foreground rounded-2xl py-3 font-bold hover:bg-primary/90 transition-colors">
+                Contato | Agendamento
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* <FloatingChat /> */}
       <BackToTop />

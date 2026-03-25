@@ -99,7 +99,7 @@ export default function ServicesPublicPage() {
                         </span>
                         <h1 className="text-4xl md:text-6xl font-headline font-bold mt-4">Serviços e Atendimentos</h1>
                         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                            Apoio especializado em psico-oncologia, cuidados paliativos e luto para pacientes, familiares e profissionais.
+                            Apoio especializado para o público: infanto-juvenil - adulto - idoso
                         </p>
                     </ScrollReveal>
                 </div>

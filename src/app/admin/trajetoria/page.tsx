@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card } from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
 import { ImageUpload } from '@/components/image-upload';
 import {
     getTrajectory,
@@ -23,6 +24,18 @@ import {
     deleteTrajectoryItem
 } from '@/lib/trajectory';
 import type { TrajectoryItem } from '@/types/trajectory';
+
+const positionOptions = [
+    { value: 'center', label: 'Centro' },
+    { value: 'top', label: 'Topo' },
+    { value: 'bottom', label: 'Base' },
+    { value: 'left', label: 'Esquerda' },
+    { value: 'right', label: 'Direita' },
+    { value: '25% 25%', label: 'Superior Esquerdo' },
+    { value: '75% 25%', label: 'Superior Direito' },
+    { value: '25% 75%', label: 'Inferior Esquerdo' },
+    { value: '75% 75%', label: 'Inferior Direito' },
+];
 
 export default function TrajectoryAdminPage() {
     const [items, setItems] = useState<TrajectoryItem[]>([]);
@@ -50,6 +63,7 @@ export default function TrajectoryAdminPage() {
             title: 'Nova Etapa',
             description: 'Descrição da etapa...',
             imageUrl: '',
+            imagePosition: 'center',
             order: items.length
         };
         try {
@@ -113,8 +127,7 @@ export default function TrajectoryAdminPage() {
             </div>
 
             {message && (
-                <div className={`p-4 rounded-2xl flex items-center gap-3 ${message.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                    }`}>
+                <div className={`p-4 rounded-2xl flex items-center gap-3 ${message.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
                     {message.type === 'success' ? <CheckCircle2 size={20} /> : <AlertCircle size={20} />}
                     {message.text}
                 </div>
@@ -141,6 +154,23 @@ export default function TrajectoryAdminPage() {
                                         storagePath="trajectory"
                                     />
                                     <p className="text-[10px] text-muted-foreground text-center italic">Recomendado: 1200x800px</p>
+
+                                    {/* Controle de posição */}
+                                    <div className="space-y-2">
+                                        <Label className="text-sm font-bold">Posição do Recorte</Label>
+                                        <select
+                                            value={item.imagePosition || 'center'}
+                                            onChange={(e) => handleUpdateItem(item.id, { imagePosition: e.target.value })}
+                                            className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm"
+                                        >
+                                            {positionOptions.map(opt => (
+                                                <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                            ))}
+                                        </select>
+                                        <p className="text-[10px] text-muted-foreground italic">
+                                            Ajusta onde a imagem é cortada quando redimensionada.
+                                        </p>
+                                    </div>
                                 </div>
                                 <div className="space-y-4">
                                     <div className="grid grid-cols-[1fr_auto] gap-4">
