@@ -299,14 +299,14 @@ export default function Home() {
                     {
                       title: "Psico-Oncologia",
                       icon: "speech",
-                      color: "bg-purple-500",
+                      color: "bg-purple-600",
                       desc: "Acolhimento e intervenção a pessoas com câncer e familiares desde o diagnóstico, no tratamento, reabilitação e luto.",
                       full: "A Psico-oncologia é o cuidado que olha para além do diagnóstico.\nÉ a escuta que acolhe o medo após a notícia difícil.\nÉ o espaço onde a dor pode ser nomeada.\nÉ o apoio nas decisões complexas, nas mudanças do corpo, nas incertezas do tratamento.\n\nA Psico-oncologia cuida do paciente, da família e também da equipe de saúde, integrando o olhar técnico à dimensão humana do adoecer.\n\nDo diagnóstico aos cuidados paliativos, da esperança à elaboração do luto, seu papel é sustentar sentido, dignidade e qualidade de vida — mesmo em meio à vulnerabilidade.\n\nPorque onde há vida, há subjetividade.\nE onde há subjetividade, há cuidado possível."
                     },
                     {
                       title: "Cuidados Paliativos",
                       icon: "butterfly",
-                      color: "bg-purple-400",
+                      color: "bg-purple-600",
                       desc: "Qualidade de vida e manejo emocional de doenças graves.",
                       full: "Ainda os cuidados paliativos vem acompanhado da frase não há mais nada a fazer. E com isso a sensação de abandono e a proximidade da morte.\n\nAqui eu apresento que cuidados paliativos é sobre Há o que fazer e desde o diagnóstico de uma doença grave.\n\nÉ oferecer, junto a sua equipe médica, uma jornada de cuidado mais próximo do que é importante para você, respeitando sua dignidade.\n\nDoenças graves atravessam o corpo — mas também atravessam a identidade, os vínculos, os projetos e o sentido da existência.\n\nOs cuidados paliativos atuam justamente nesse território sensível:\n✔️ Acolhendo o sofrimento emocional\n✔️ Favorecendo comunicação clara e ética\n✔️ Sustentando decisões difíceis\n✔️ Cuidando da família e da rede de apoio\n✔️ Promovendo qualidade de vida e alívio possível do sofrimento\n\nO manejo emocional não é um detalhe do tratamento — ele é parte essencial do cuidado. Há sempre alguém ali, com história, valores, medos e desejos. Cuidar é também sustentar o que é humano quando a vida se torna frágil."
                     },
@@ -315,7 +315,7 @@ export default function Home() {
                       icon: "handheart",
                       color: "bg-purple-600",
                       desc: "Acolhimento aos processos de perdas. Suporte a dor da ausência.",
-                      full: "O luto é um processo natural diante de uma perda significativa. Cada pessoa vivencia a perda de maneira singular, conforme sua história, vínculo estabelecido e contexto da morte.\n\nA Clínica do Luto oferece atendimento psicológico fundamentado em referenciais técnicos sobre processos de perda, luto antecipatório e luto complicado/prolongado.\n\nO acompanhamento é indicado para pessoas que apresentam:\n• Sofrimento intenso e persistente após uma perda\n• Dificuldade de retomar atividades e vínculos\n• Sentimentos recorrentes de culpa, ambivalência ou revolta\n• Impacto significativo no sono, apetite e funcionamento diário\n• Lutos traumáticos ou inesperados\n• Perdas gestacionais e neonatais\n• Vivência de luto antecipatório diante de doenças graves\n\nO objetivo do atendimento é:\n✔️ Favorecer a elaboração psíquica da perda\n✔️ Auxiliar na integração da ausência à história de vida\n✔️ Prevenir complicações emocionais associadas ao luto\n✔️ Promover reorganização interna e adaptação à nova realidade\n✔️ Ressignificar a história preservando o vínculo\n\nVocê não precisa atravessar o luto sozinho(a)."
+                      full: "O luto é um processo natural diante de uma perda significativa. Cada pessoa vivencia a perda de maneira singular, conforme sua história, vínculo estabelecido e contexto da morte.\n\nA Clínica do Luto oferece atendimento psicológico fundamentado em referenciais técnicos sobre processos de perda, luto antecipatório e luto complicado/prolongado.\n\nO acompanhamento é indicado para pessoas que apresentam:\n• Sofrimento intenso e persistente após uma perda\n• Dificuldade de retomar atividades e vínculos\n• Sentimentos recorrentes de culpa, ambivalência ou revolta\n• Impacto significativo no sono, apetite e funcionamento diário\n• Lutos traumáticos ou inesperados\n• Perdas gestacionais e neonatais\n• Vivência de luto antecipatório diante de doenças graves\n\nO objetivo do atendimento é:\n✔️ Favorecer a elaboração psíquica da perda\n✔️ Auxiliar na integração da ausência à história de vida\n✔️ Prevenir complicações emocionais associadas ao luto\n✔️ Promover reorganização interna e adaptação à nova realidade\n✔️ Ressignificar a história preservando a história de vínculo.\n\nO processo terapêutico respeita o tempo individual, prioriza escuta qualificada e atua na construção de sentidos possíveis diante da perda.\n\nVocê não precisa atravessar o luto sozinho(a)."
                     },
                   ].map((item, idx) => (
                     <ScrollReveal key={idx} direction="up" delay={idx * 100}>
@@ -323,7 +323,7 @@ export default function Home() {
                         <div className="p-10">
                           <div className={`w-14 h-14 ${item.color} text-white rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
                             {item.icon === 'butterfly' ? (
-                              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="rotate-90">
                                 <path d="M12 22V12" />
                                 <path d="M12 12C12 12 8 10 5 6C3 3 3 1 5 1C7 1 10 3 12 7" />
                                 <path d="M12 12C12 12 16 10 19 6C21 3 21 1 19 1C17 1 14 3 12 7" />
