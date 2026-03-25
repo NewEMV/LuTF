@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "lucianatf-8395f"
-  }
+  },
+  "targets": {
+    "lucianatf-8395f": {
+      "hosting": {
+        "main": [
+          "lucianatf"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
