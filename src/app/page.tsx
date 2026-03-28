@@ -323,18 +323,7 @@ export default function Home() {
                         <div className="p-10">
                           <div className={`w-14 h-14 ${item.color} text-white rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
                             {item.icon === 'butterfly' ? (
-                              <svg width="28" height="28" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round">
-                                {/* Asa superior esquerda */}
-                                <path d="M50 50 C50 35 35 15 20 18 C8 20 8 35 18 42 C26 48 38 48 44 55" />
-                                {/* Asa superior direita */}
-                                <path d="M50 50 C50 35 65 15 80 18 C92 20 92 35 82 42 C74 48 62 48 56 55" />
-                                {/* Asa inferior esquerda */}
-                                <path d="M50 55 C44 62 26 62 18 70 C10 78 14 90 24 88 C36 86 46 72 50 62" />
-                                {/* Asa inferior direita */}
-                                <path d="M50 55 C56 62 74 62 82 70 C90 78 86 90 76 88 C64 86 54 72 50 62" />
-                                {/* Corpo */}
-                                <path d="M50 28 C48 35 48 65 50 75" strokeWidth="4" />
-                              </svg>
+                              <Image src="/images/butterfly.png" alt="Borboleta" width={28} height={28} className="invert" />
                             ) : item.icon === 'speech' ? (
                               <Speech size={28} />
                             ) : (

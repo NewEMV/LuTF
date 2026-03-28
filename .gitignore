@@ -38,3 +38,10 @@ next-env.d.ts
 .genkit/
 .genkit-cache.json
 functions/.next
+
+# Firebase internal
+.firebase/
+firebase-debug.log*
+
+# Next.js static build in public
+public/_next/
