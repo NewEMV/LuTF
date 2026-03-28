@@ -6,24 +6,33 @@ export const dynamic = 'force-dynamic';
 
 export default function AgendaPage() {
     useEffect(() => {
-        (function (C, A, L, T, I, V, E) {
-            C.Cal || (C.Cal = function () {
-                let e = C.Cal; if (!e.q) { e.q = [] } e.q.push(arguments)
-            });
-            I = A.createElement(L), V = A.getElementsByTagName(L)[0];
-            I.async = 1; I.src = T; V.parentNode.insertBefore(I, V)
-        })(window, document, "script", "https://embed.cal.com/embed.js");
+        const script = document.createElement('script');
+        script.src = 'https://embed.cal.com/embed.js';
+        script.async = true;
 
-        const cal = (window as any).Cal;
-        if (cal) {
-            cal("init", { origin: "https://cal.com" });
-            cal("inline", {
-                elementOrSelector: "#my-cal-inline",
-                calLink: "newton-botuem-calendar/45min",
-                layout: "month_view"
-            });
-            cal("ui", { "theme": "light", "styles": { "branding": { "brandColor": "#000000" } }, "hideEventTypeDetails": false, "layout": "month_view" });
-        }
+        script.onload = () => {
+            const cal = (window as any).Cal;
+            if (cal) {
+                cal('init', { origin: 'https://cal.com' });
+                cal('inline', {
+                    elementOrSelector: '#my-cal-inline',
+                    calLink: 'newton-botuem-calendar/45min',
+                    layout: 'month_view',
+                });
+                cal('ui', {
+                    theme: 'light',
+                    styles: { branding: { brandColor: '#000000' } },
+                    hideEventTypeDetails: false,
+                    layout: 'month_view',
+                });
+            }
+        };
+
+        document.body.appendChild(script);
+
+        return () => {
+            document.body.removeChild(script);
+        };
     }, []);
 
     return (
@@ -38,7 +47,7 @@ export default function AgendaPage() {
                     </header>
 
                     <div className="bg-card border border-border rounded-[2rem] overflow-hidden shadow-2xl h-[700px]">
-                        <div id="my-cal-inline" style={{ width: "100%", height: "100%", overflow: "scroll" }}></div>
+                        <div id="my-cal-inline" style={{ width: '100%', height: '100%', overflow: 'scroll' }} />
                     </div>
                 </div>
             </div>
