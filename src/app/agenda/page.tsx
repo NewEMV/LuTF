@@ -1,23 +1,24 @@
 'use client';
 import { ProtectedRoute } from '@/components/protected-route';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 export const dynamic = 'force-dynamic';
 
-export default function AgendaPage() {
+function CalEmbed() {
+    const initialized = useRef(false);
+
     useEffect(() => {
+        if (initialized.current) return;
+        initialized.current = true;
+
         (function (C: any, A: any, L: any, T: any, I: any, V: any, E: any) {
             C.Cal = C.Cal || function (...args: any[]) {
                 (C.Cal.q = C.Cal.q || []).push(args);
             };
-            C.Cal.__loaded = false;
             I = A.createElement(L);
             V = A.getElementsByTagName(L)[0];
             I.async = 1;
             I.src = T;
-            I.onload = function () {
-                C.Cal.__loaded = true;
-            };
             V.parentNode.insertBefore(I, V);
         })(window, document, 'script', 'https://app.cal.com/embed/embed.js', 0, 0, 0);
 
@@ -37,6 +38,12 @@ export default function AgendaPage() {
     }, []);
 
     return (
+        <div id="my-cal-inline" style={{ width: '100%', height: '100%', overflow: 'scroll' }} />
+    );
+}
+
+export default function AgendaPage() {
+    return (
         <ProtectedRoute requireApprovedClient>
             <div className="min-h-screen p-4 md:p-12 bg-background">
                 <div className="max-w-6xl mx-auto">
@@ -48,7 +55,7 @@ export default function AgendaPage() {
                     </header>
 
                     <div className="bg-card border border-border rounded-[2rem] overflow-hidden shadow-2xl h-[700px]">
-                        <div id="my-cal-inline" style={{ width: '100%', height: '100%', overflow: 'scroll' }} />
+                        <CalEmbed />
                     </div>
                 </div>
             </div>
