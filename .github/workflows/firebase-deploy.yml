@@ -23,6 +23,13 @@ jobs:
 
       - name: 🏗️ Build do Next.js
         run: npm run build
+        env:
+          NEXT_PUBLIC_FIREBASE_API_KEY: "AIzaSyCZjcmdQ2PjK7quZyWgUaGHOAdEeBj7y_U"
+          NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: "lucianatf-8395f.firebaseapp.com"
+          NEXT_PUBLIC_FIREBASE_PROJECT_ID: "lucianatf-8395f"
+          NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: "lucianatf-8395f.firebasestorage.app"
+          NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: "222698045073"
+          NEXT_PUBLIC_FIREBASE_APP_ID: "1:222698045073:web:4b2b68a7c6a392946f4930"
 
       - name: 📦 Instalar Dependências das Functions
         working-directory: ./functions
@@ -33,9 +40,11 @@ jobs:
           rm -rf functions/.next
           cp -r .next functions/
 
+      - name: 🔑 Autenticação no Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_LUCIANATF_8395F }}
+
       - name: ☁️ Deploy para o Firebase
         run: |
           npx firebase-tools deploy --only hosting,functions --project lucianatf-8395f
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_LUCIANATF_8395F }}
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }} # Se possuir o token, caso contrário as credenciais acima devem bastar
