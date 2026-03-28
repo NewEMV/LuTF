@@ -12,7 +12,7 @@ export default function AgendaPage() {
             C.Cal = C.Cal || function () {
                 let am = arguments;
                 let g = function (t, e, i, a) { p(t, [e, i, a]); };
-                if (am.length === 0) { g(am, "root", "p", am); } else { g(am, am[0], am[1], am[2]); }
+                if (am.length === 0) { g(C.Cal, "root", "p", am); } else { g(C.Cal, am[0], am[1], am[2]); }
             };
             C.Cal.q = C.Cal.q || [];
         })(window, btoa, "cal");
