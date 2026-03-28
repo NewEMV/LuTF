@@ -15,7 +15,12 @@ export default function AgendaPage() {
                 if (am.length === 0) { g(C.Cal, "root", "p", am); } else { g(C.Cal, am[0], am[1], am[2]); }
             };
             C.Cal.q = C.Cal.q || [];
-        })(window, btoa, "cal");
+            let s = d.createElement("script");
+            s.src = L;
+            s.async = true;
+            let n = d.getElementsByTagName("script")[0];
+            n?.parentNode?.insertBefore(s, n);
+        })(window, btoa, "https://embed.cal.com/embed.js");
 
         const calInstance = (window as any).Cal;
         if (calInstance) {
