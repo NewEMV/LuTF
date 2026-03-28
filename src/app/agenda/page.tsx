@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 export default function AgendaPage() {
     useEffect(() => {
         const script = document.createElement('script');
-        script.src = 'https://embed.cal.com/embed.js';
+        script.src = 'https://app.cal.com/embed/embed.js';
         script.async = true;
 
         script.onload = () => {
