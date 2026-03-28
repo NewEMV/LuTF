@@ -6,37 +6,34 @@ export const dynamic = 'force-dynamic';
 
 export default function AgendaPage() {
     useEffect(() => {
-        const script = document.createElement('script');
-        script.src = 'https://app.cal.com/embed/embed.js';
-        script.async = true;
+        (function (C: any, A: any, L: any, T: any, I: any, V: any, E: any) {
+            C.Cal = C.Cal || function (...args: any[]) {
+                (C.Cal.q = C.Cal.q || []).push(args);
+            };
+            C.Cal.__loaded = false;
+            I = A.createElement(L);
+            V = A.getElementsByTagName(L)[0];
+            I.async = 1;
+            I.src = T;
+            I.onload = function () {
+                C.Cal.__loaded = true;
+            };
+            V.parentNode.insertBefore(I, V);
+        })(window, document, 'script', 'https://app.cal.com/embed/embed.js', 0, 0, 0);
 
-        script.onload = () => {
-            setTimeout(() => {
-                const cal = (window as any).Cal;
-                if (cal) {
-                    cal('init', { origin: 'https://cal.com' });
-                    cal('inline', {
-                        elementOrSelector: '#my-cal-inline',
-                        calLink: 'newton-botuem-calendar/45min',
-                        layout: 'month_view',
-                    });
-                    cal('ui', {
-                        theme: 'light',
-                        styles: { branding: { brandColor: '#000000' } },
-                        hideEventTypeDetails: false,
-                        layout: 'month_view',
-                    });
-                }
-            }, 500);
-        };
-
-        document.body.appendChild(script);
-
-        return () => {
-            if (document.body.contains(script)) {
-                document.body.removeChild(script);
-            }
-        };
+        const cal = (window as any).Cal;
+        cal('init', { origin: 'https://cal.com' });
+        cal('inline', {
+            elementOrSelector: '#my-cal-inline',
+            calLink: 'newton-botuem-calendar/45min',
+            layout: 'month_view',
+        });
+        cal('ui', {
+            theme: 'light',
+            styles: { branding: { brandColor: '#000000' } },
+            hideEventTypeDetails: false,
+            layout: 'month_view',
+        });
     }, []);
 
     return (
