@@ -6,31 +6,23 @@ export const dynamic = 'force-dynamic';
 
 export default function AgendaPage() {
     useEffect(() => {
-        (function (C, A, L) {
-            let p = function (a, ar) { a.q.push(ar); };
-            let d = C.document;
-            C.Cal = C.Cal || function () {
-                let am = arguments;
-                let g = function (t, e, i, a) { p(t, [e, i, a]); };
-                if (am.length === 0) { g(C.Cal, "root", "p", am); } else { g(C.Cal, am[0], am[1], am[2]); }
-            };
-            C.Cal.q = C.Cal.q || [];
-            let s = d.createElement("script");
-            s.src = L;
-            s.async = true;
-            let n = d.getElementsByTagName("script")[0];
-            n?.parentNode?.insertBefore(s, n);
-        })(window, btoa, "https://embed.cal.com/embed.js");
+        (function (C, A, L, T, I, V, E) {
+            C.Cal || (C.Cal = function () {
+                let e = C.Cal; if (!e.q) { e.q = [] } e.q.push(arguments)
+            });
+            I = A.createElement(L), V = A.getElementsByTagName(L)[0];
+            I.async = 1; I.src = T; V.parentNode.insertBefore(I, V)
+        })(window, document, "script", "https://embed.cal.com/embed.js");
 
-        const calInstance = (window as any).Cal;
-        if (calInstance) {
-            calInstance("init", { origin: "https://cal.com" });
-            calInstance("inline", {
+        const cal = (window as any).Cal;
+        if (cal) {
+            cal("init", { origin: "https://cal.com" });
+            cal("inline", {
                 elementOrSelector: "#my-cal-inline",
                 calLink: "newton-botuem-calendar/45min",
                 layout: "month_view"
             });
-            calInstance("ui", { "theme": "light", "styles": { "branding": { "brandColor": "#000000" } }, "hideEventTypeDetails": false, "layout": "month_view" });
+            cal("ui", { "theme": "light", "styles": { "branding": { "brandColor": "#000000" } }, "hideEventTypeDetails": false, "layout": "month_view" });
         }
     }, []);
 
