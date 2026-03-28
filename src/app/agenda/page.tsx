@@ -11,27 +11,31 @@ export default function AgendaPage() {
         script.async = true;
 
         script.onload = () => {
-            const cal = (window as any).Cal;
-            if (cal) {
-                cal('init', { origin: 'https://cal.com' });
-                cal('inline', {
-                    elementOrSelector: '#my-cal-inline',
-                    calLink: 'newton-botuem-calendar/45min',
-                    layout: 'month_view',
-                });
-                cal('ui', {
-                    theme: 'light',
-                    styles: { branding: { brandColor: '#000000' } },
-                    hideEventTypeDetails: false,
-                    layout: 'month_view',
-                });
-            }
+            setTimeout(() => {
+                const cal = (window as any).Cal;
+                if (cal) {
+                    cal('init', { origin: 'https://cal.com' });
+                    cal('inline', {
+                        elementOrSelector: '#my-cal-inline',
+                        calLink: 'newton-botuem-calendar/45min',
+                        layout: 'month_view',
+                    });
+                    cal('ui', {
+                        theme: 'light',
+                        styles: { branding: { brandColor: '#000000' } },
+                        hideEventTypeDetails: false,
+                        layout: 'month_view',
+                    });
+                }
+            }, 500);
         };
 
         document.body.appendChild(script);
 
         return () => {
-            document.body.removeChild(script);
+            if (document.body.contains(script)) {
+                document.body.removeChild(script);
+            }
         };
     }, []);
 

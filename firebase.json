@@ -22,9 +22,11 @@
       "codebase": "default",
       "ignore": [
         "node_modules",
+        ".next/cache",
         ".git",
         "firebase-debug.log",
-        "firebase-debug.*.log"
+        "firebase-debug.*.log",
+        "*.local"
       ]
     }
   ]
