@@ -57,6 +57,9 @@ jobs:
         with:
           credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_LUCIANATF_8395F }}
 
+      - name: 📝 Criar .env para Functions
+        run: echo "RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}" > functions/.env
+
       - name: ☁️ Deploy para o Firebase
         run: |
           npx firebase-tools deploy --only hosting,functions --project lucianatf-8395f --non-interactive --force
