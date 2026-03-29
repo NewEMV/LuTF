@@ -1,10 +1,12 @@
 import { Resend } from 'resend';
 import { NextResponse } from 'next/server';
 
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 export async function POST(request: Request) {
-    const resend = new Resend(process.env.RESEND_API_KEY);
     try {
-        const { name, email, phone } = await request.json();
+        const body = await request.text();
+        const { name, email, phone } = JSON.parse(body);
 
         await resend.emails.send({
             from: 'Contato <contato@lucianatelles-psi.com.br>',
@@ -16,7 +18,7 @@ export async function POST(request: Request) {
                 <p><strong>Email:</strong> ${email}</p>
                 <p><strong>Telefone:</strong> ${phone}</p>
                 <br/>
-                <a href="https://lucianatf-8395f.web.app/admin/clientes" 
+                <a href="https://lucianatelles-psi.com.br/admin/clientes" 
                    style="background:#000;color:#fff;padding:12px 24px;text-decoration:none;border-radius:6px;">
                     Aprovar no painel
                 </a>

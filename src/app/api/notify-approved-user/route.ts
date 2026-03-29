@@ -1,10 +1,12 @@
 import { Resend } from 'resend';
 import { NextResponse } from 'next/server';
 
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 export async function POST(request: Request) {
-    const resend = new Resend(process.env.RESEND_API_KEY);
     try {
-        const { name, email } = await request.json();
+        const body = await request.text();
+        const { name, email } = JSON.parse(body);
 
         await resend.emails.send({
             from: 'Contato <contato@lucianatelles-psi.com.br>',
@@ -15,7 +17,7 @@ export async function POST(request: Request) {
                 <p>Sua solicitação de acesso foi aprovada.</p>
                 <p>Você já pode fazer login e agendar sua consulta.</p>
                 <br/>
-                <a href="https://lucianatf-8395f.web.app/login"
+                <a href="https://lucianatelles-psi.com.br/login"
                    style="background:#000;color:#fff;padding:12px 24px;text-decoration:none;border-radius:6px;">
                     Fazer login
                 </a>

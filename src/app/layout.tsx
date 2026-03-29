@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { AuthProvider } from '@/contexts/AuthContext';
 import { ThemeProvider } from '@/contexts/ThemeContext';
+import { CookieConsent } from '@/components/cookie-consent';
 
 export const metadata: Metadata = {
   title: "Luciana Telles Ferri | Psicologia",
@@ -27,6 +28,7 @@ export default function RootLayout({
         <ThemeProvider>
           <AuthProvider>
             {children}
+            <CookieConsent />
           </AuthProvider>
         </ThemeProvider>
       </body>
