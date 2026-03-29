@@ -17,7 +17,7 @@ export default function AgendaPage() {
 
                     <div className="bg-card border border-border rounded-[2rem] overflow-hidden shadow-2xl h-[700px]">
                         <iframe
-                            src="https://cal.com/newton-botuem-calendar/30min?embed=true"
+                            src="https://cal.com/luciana-telles/60min?embed=true"
                             style={{ width: '100%', height: '100%', border: 'none' }}
                             title="Agendamento"
                         />
