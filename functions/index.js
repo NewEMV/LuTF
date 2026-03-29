@@ -17,6 +17,7 @@ exports.nextServer = onRequest(
         region: "southamerica-east1",
         memory: "512MiB",
         timeoutSeconds: 60,
+        secrets: ["RESEND_API_KEY"],
     },
     async (req, res) => {
         await nextjsApp.prepare();
