@@ -64,10 +64,17 @@ export function SignupModal({ open, onClose }: SignupModalProps) {
             };
 
             await signup(signupData);
+
+            // Notifica Luciana por email
+            await fetch('/api/notify-new-user', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: data.name, email: data.email, phone: data.phone }),
+            });
+
             setSuccess(true);
             reset();
 
-            // Fechar modal após 3 segundos
             setTimeout(() => {
                 setSuccess(false);
                 onClose();

@@ -67,6 +67,19 @@ export default function ClientesPage() {
         try {
             const clientRef = doc(db, 'users', clientId);
             await updateDoc(clientRef, { status: newStatus });
+
+            // Notifica o lead se foi aprovado
+            if (newStatus === 'approved') {
+                const client = clients.find(c => c.id === clientId);
+                if (client) {
+                    await fetch('/api/notify-approved-user', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name: client.name, email: client.email }),
+                    });
+                }
+            }
+
             setClients(clients.map(c => c.id === clientId ? { ...c, status: newStatus } : c));
         } catch (error) {
             console.error('Erro ao atualizar status:', error);
