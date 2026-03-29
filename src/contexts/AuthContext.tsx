@@ -40,6 +40,7 @@ export interface SignupData {
     name: string;
     email: string;
     phone: string;
+    subject: string;
     password: string;
 }
 
@@ -129,6 +130,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 name: userData.name,
                 email: userData.email,
                 phone: userData.phone,
+                subject: userData.subject,
                 role: 'client',
                 status: 'pending',
                 createdAt: serverTimestamp(),

@@ -46,6 +46,7 @@ exports.notifyNewUser = onDocumentCreated(
                 <p><strong>Nome:</strong> ${data.name}</p>
                 <p><strong>Email:</strong> ${data.email}</p>
                 <p><strong>Telefone:</strong> ${data.phone || "Não informado"}</p>
+                <p><strong>Motivo/Assunto:</strong> ${data.subject || "Não informado"}</p>
                 <br/>
                 <a href="https://lucianatelles-psi.com.br/admin/clientes"
                    style="background:#000;color:#fff;padding:12px 24px;text-decoration:none;border-radius:6px;">

@@ -6,7 +6,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export async function POST(request: Request) {
     try {
         const body = await request.text();
-        const { name, email, phone } = JSON.parse(body);
+        const { name, email, phone, subject } = JSON.parse(body);
 
         await resend.emails.send({
             from: 'Contato <contato@lucianatelles-psi.com.br>',
@@ -17,6 +17,7 @@ export async function POST(request: Request) {
                 <p><strong>Nome:</strong> ${name}</p>
                 <p><strong>Email:</strong> ${email}</p>
                 <p><strong>Telefone:</strong> ${phone}</p>
+                <p><strong>Motivo/Assunto:</strong> ${subject || 'Não informado'}</p>
                 <br/>
                 <a href="https://lucianatelles-psi.com.br/admin/clientes" 
                    style="background:#000;color:#fff;padding:12px 24px;text-decoration:none;border-radius:6px;">

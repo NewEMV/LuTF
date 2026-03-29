@@ -20,6 +20,7 @@ const signupSchema = z.object({
     name: z.string().min(3, 'Nome deve ter pelo menos 3 caracteres'),
     email: z.string().email('Email inválido'),
     phone: z.string().min(10, 'Telefone inválido'),
+    subject: z.string().min(10, 'Por favor, detalhe um pouco mais o motivo do contato (mín. 10 caracteres)'),
     password: z.string().min(6, 'Senha deve ter pelo menos 6 caracteres'),
     confirmPassword: z.string(),
 }).refine((data) => data.password === data.confirmPassword, {
@@ -60,6 +61,7 @@ export function SignupModal({ open, onClose }: SignupModalProps) {
                 name: data.name,
                 email: data.email,
                 phone: data.phone,
+                subject: data.subject,
                 password: data.password,
             };
 
@@ -69,7 +71,12 @@ export function SignupModal({ open, onClose }: SignupModalProps) {
             await fetch('/api/notify-new-user', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name: data.name, email: data.email, phone: data.phone }),
+                body: JSON.stringify({ 
+                    name: data.name, 
+                    email: data.email, 
+                    phone: data.phone,
+                    subject: data.subject 
+                }),
             });
 
             setSuccess(true);
@@ -161,6 +168,19 @@ export function SignupModal({ open, onClose }: SignupModalProps) {
                             />
                             {errors.phone && (
                                 <p className="text-sm text-red-600 dark:text-red-400 mt-1">{errors.phone.message}</p>
+                            )}
+                        </div>
+
+                        <div>
+                            <Label htmlFor="subject">Motivo do Cadastro / Assunto</Label>
+                            <Input
+                                id="subject"
+                                {...register('subject')}
+                                placeholder="Ex: Gostaria de agendar uma consulta para luto..."
+                                className="mt-1"
+                            />
+                            {errors.subject && (
+                                <p className="text-sm text-red-600 dark:text-red-400 mt-1">{errors.subject.message}</p>
                             )}
                         </div>
 
