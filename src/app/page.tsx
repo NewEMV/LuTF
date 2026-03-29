@@ -651,6 +651,7 @@ export default function Home() {
           <div className="flex flex-col items-center gap-2 mt-8 mb-4">
             <div className="flex justify-center gap-6 text-[10px] font-medium text-muted-foreground">
               <Link href="/privacidade" className="hover:text-primary transition-colors">Política de Privacidade</Link>
+              <Link href="/politicas" target="_blank" className="hover:text-primary transition-colors">Políticas</Link>
               <Link href="/cookies" className="hover:text-primary transition-colors">Aviso de Cookies</Link>
             </div>
             <a href="https://www.instagram.com/vempreender.ia/" target="_blank" rel="noopener noreferrer"
