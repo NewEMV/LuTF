@@ -58,4 +58,4 @@ jobs:
 
       - name: ☁️ Deploy para o Firebase
         run: |
-          npx firebase-tools deploy --only hosting,functions --project lucianatf-8395f --non-interactive
+          npx firebase-tools deploy --only hosting,functions --project lucianatf-8395f --non-interactive --force
