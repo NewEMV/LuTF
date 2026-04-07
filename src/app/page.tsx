@@ -33,6 +33,7 @@ import { ScrollProgress, BackToTop } from '@/components/scroll-components';
 import { ThemeToggle } from '@/contexts/ThemeContext';
 import { CardMovingBorder } from '@/components/card-moving-border';
 import { useAuth } from '@/contexts/AuthContext';
+import { ContactModal } from '@/components/contact-modal';
 import { getPublishedPosts } from '@/lib/blog';
 import { getVideos } from '@/lib/videos';
 import { getEventos } from '@/lib/eventos';
@@ -58,6 +59,7 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState('home');
   const [vlogFilter, setVlogFilter] = useState('todos');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [realPosts, setRealPosts] = useState<BlogPost[]>([]);
@@ -210,7 +212,10 @@ export default function Home() {
           <Link href="/servicos" className="px-4 py-2 font-medium text-gray-600 dark:text-gray-300 hover:text-primary transition-colors">Serviços</Link>
         )}
         <Link href="/galeria" className="px-4 py-2 font-medium text-gray-600 dark:text-gray-300 hover:text-primary transition-colors">Galeria</Link>
-        <Button onClick={handleAgendarConsulta} className="mt-4" size="lg">Contato | Agendamento</Button>
+        <div className="flex flex-col gap-3 mt-4 w-full px-8">
+          <Button onClick={() => setIsContactModalOpen(true)} variant="outline" size="lg" className="w-full">Contato</Button>
+          <Button onClick={handleAgendarConsulta} size="lg" className="w-full">Agendamento</Button>
+        </div>
       </div>
     </div>
   );
@@ -243,7 +248,10 @@ export default function Home() {
                 <div className="ml-4">
                   <ThemeToggle />
                 </div>
-                <Button onClick={handleAgendarConsulta} className="ml-6 rounded-full px-7 py-3 font-bold" size="lg">Contato | Agendamento</Button>
+                <div className="flex items-center gap-2 ml-6">
+                  <Button onClick={() => setIsContactModalOpen(true)} variant="outline" className="rounded-full px-5 py-3 font-bold" size="lg">Contato</Button>
+                  <Button onClick={handleAgendarConsulta} className="rounded-full px-5 py-3 font-bold" size="lg">Agendamento</Button>
+                </div>
               </div>
               <div className="lg:hidden flex items-center gap-3">
                 <ThemeToggle />
@@ -274,8 +282,9 @@ export default function Home() {
                       Psicóloga dedicada ao suporte e cuidado especializado em fases de transição.
                     </p>
                     <div className="flex flex-wrap justify-center lg:justify-start gap-4">
-                      <Button onClick={handleAgendarConsulta} size="lg" className="px-10 py-5 text-lg rounded-2xl h-auto hover-lift">Contato | Agendamento</Button>
-                      <Button onClick={() => setActiveTab('trajetoria')} variant="outline" size="lg" className="px-10 py-5 text-lg rounded-2xl h-auto">Ver Trajetória</Button>
+                      <Button onClick={() => setIsContactModalOpen(true)} variant="outline" size="lg" className="px-8 py-5 text-lg rounded-2xl h-auto hover-lift border-primary text-primary hover:bg-primary/5">Contato</Button>
+                      <Button onClick={handleAgendarConsulta} size="lg" className="px-8 py-5 text-lg rounded-2xl h-auto hover-lift bg-primary hover:bg-primary/90 text-primary-foreground">Agendamento</Button>
+                      <Button onClick={() => setActiveTab('trajetoria')} variant="outline" size="lg" className="px-8 py-5 text-lg rounded-2xl h-auto">Ver Trajetória</Button>
                     </div>
                   </ScrollReveal>
                   <ScrollReveal direction="right" delay={200} className="lg:w-1/2 relative">
@@ -618,7 +627,7 @@ export default function Home() {
           {activeTab === 'contato' && (
             <section className="pt-40 pb-32 px-4 max-w-7xl mx-auto">
               <ScrollReveal direction="up">
-                <h2 className="text-4xl font-headline text-center mb-12">Contato | Agendamento</h2>
+                <h2 className="text-4xl font-headline text-center mb-12">Agendamento</h2>
               </ScrollReveal>
               <ScrollReveal direction="up" delay={100}>
                 <InteractiveCalendar />
@@ -680,6 +689,8 @@ export default function Home() {
           </div>
         </div>
       )}
+
+      <ContactModal open={isContactModalOpen} onClose={() => setIsContactModalOpen(false)} />
 
       {/* <FloatingChat /> */}
       <BackToTop />

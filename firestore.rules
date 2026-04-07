@@ -53,5 +53,11 @@ service cloud.firestore {
     match /mail/{mailId} {
       allow read, write: if isAdmin();
     }
+    
+    // Contatos do Site: qualquer um pode criar, apenas admin lê
+    match /mensagens_contato/{contatoId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
   }
 }

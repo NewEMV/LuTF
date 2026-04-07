@@ -98,10 +98,10 @@ export default function VideoPage() {
                         <p className="text-lg text-muted-foreground leading-relaxed whitespace-pre-wrap">{video.description}</p>
                     </div>
                     <Separator className="my-8" />
-                    <div className="flex flex-col md:flex-row justify-between items-center gap-8 py-8 px-8 bg-secondary/30 rounded-[2.5rem] border border-primary/10">
-                        <div className="space-y-4 text-center md:text-left">
+                    <div className="flex flex-col md:flex-row justify-center items-center gap-8 py-8 px-8 bg-secondary/30 rounded-[2.5rem] border border-primary/10">
+                        <div className="space-y-4 text-center">
                             <h4 className="text-2xl font-headline font-bold">Compartilhe este vídeo</h4>
-                            <div className="flex gap-3 justify-center md:justify-start">
+                            <div className="flex gap-3 justify-center">
                                 <Button variant="outline" size="icon" className="rounded-full w-12 h-12 hover:bg-primary hover:text-white transition-all" asChild>
                                     <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${typeof window !== 'undefined' ? encodeURIComponent(window.location.href) : ''}`} target="_blank" rel="noopener noreferrer">
                                         <Share2 size={20} />
@@ -112,12 +112,6 @@ export default function VideoPage() {
                                     <LinkIcon size={20} />
                                 </Button>
                             </div>
-                        </div>
-                        <div className="flex flex-col items-center gap-3">
-                            <p className="text-sm text-muted-foreground text-center max-w-[300px]">entre em contato para agendar uma consulta personalizada ou convite a participação em eventos.</p>
-                            <Button size="lg" className="rounded-full px-10 h-14 text-lg font-bold shadow-xl shadow-primary/20 hover:scale-105 transition-all" asChild>
-                                <Link href="/login">Contato | Agendamento</Link>
-                            </Button>
                         </div>
                     </div>
                 </ScrollReveal>

@@ -18,6 +18,7 @@ import { Button } from '@/components/ui/button';
 import { LucianaLogo } from '@/components/luciana-logo';
 import { ScrollReveal } from '@/components/scroll-reveal';
 import { CardMovingBorder } from '@/components/card-moving-border';
+import { ContactModal } from '@/components/contact-modal';
 import { getServices } from '@/lib/services';
 import type { Service, ServiceCategory } from '@/types/service';
 
@@ -32,6 +33,7 @@ const CATEGORY_ICONS: Record<ServiceCategory, any> = {
 export default function ServicesPublicPage() {
     const [services, setServices] = useState<Service[]>([]);
     const [loading, setLoading] = useState(true);
+    const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
     useEffect(() => {
         const load = async () => {
@@ -57,23 +59,26 @@ export default function ServicesPublicPage() {
 
     if (services.length === 0) {
         return (
-            <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 text-center">
-                <div className="bg-primary/5 p-8 rounded-full mb-6">
-                    <Calendar size={48} className="text-primary/50" />
+            <>
+                <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 text-center">
+                    <div className="bg-primary/5 p-8 rounded-full mb-6">
+                        <Calendar size={48} className="text-primary/50" />
+                    </div>
+                    <h1 className="text-3xl font-headline font-bold mb-4">Novidades em breve</h1>
+                    <p className="text-muted-foreground max-w-md mb-8">
+                        No momento não temos serviços ou turmas com inscrições abertas, mas você pode entrar em contato para saber mais sobre atendimentos e supervisões.
+                    </p>
+                    <div className="flex gap-4">
+                        <Button variant="outline" asChild className="rounded-full">
+                            <Link href="/">Voltar ao Início</Link>
+                        </Button>
+                        <Button className="rounded-full" onClick={() => setIsContactModalOpen(true)}>
+                            Contato
+                        </Button>
+                    </div>
                 </div>
-                <h1 className="text-3xl font-headline font-bold mb-4">Novidades em breve</h1>
-                <p className="text-muted-foreground max-w-md mb-8">
-                    No momento não temos serviços ou turmas com inscrições abertas, mas você pode entrar em contato para saber mais sobre atendimentos e supervisões.
-                </p>
-                <div className="flex gap-4">
-                    <Button variant="outline" asChild className="rounded-full">
-                        <Link href="/">Voltar ao Início</Link>
-                    </Button>
-                    <Button asChild className="rounded-full">
-                        <Link href="/login">Contato | Agendamento</Link>
-                    </Button>
-                </div>
-            </div>
+                <ContactModal open={isContactModalOpen} onClose={() => setIsContactModalOpen(false)} />
+            </>
         );
     }
 
@@ -131,8 +136,8 @@ export default function ServicesPublicPage() {
                                                 </div>
                                             )}
                                             <div className="flex flex-col gap-3 pt-2">
-                                                <Button className="w-full rounded-full h-12 text-md font-semibold font-headline" asChild>
-                                                    <Link href="/login">Contato | Agendamento</Link>
+                                                <Button className="w-full rounded-full h-12 text-md font-semibold font-headline" onClick={() => setIsContactModalOpen(true)}>
+                                                    Contato
                                                 </Button>
                                                 {(service as any).price && (
                                                     <span className="text-xs text-center text-muted-foreground">
@@ -154,14 +159,13 @@ export default function ServicesPublicPage() {
                         <p className="text-muted-foreground max-w-xl mx-auto">
                             Estou à disposição para conversar e entender qual o melhor caminho para o seu momento ou para o seu projeto institucional.
                         </p>
-                        <Button variant="ghost" className="mt-4 hover:bg-transparent hover:text-primary group" asChild>
-                            <Link href="/login" className="flex items-center gap-2">
-                                Falar diretamente comigo <ChevronRight size={16} className="transition-transform group-hover:translate-x-1" />
-                            </Link>
+                        <Button variant="ghost" className="mt-4 hover:bg-transparent hover:text-primary group flex items-center gap-2 mx-auto text-base" onClick={() => setIsContactModalOpen(true)}>
+                            Falar diretamente comigo <ChevronRight size={16} className="transition-transform group-hover:translate-x-1" />
                         </Button>
                     </ScrollReveal>
                 </section>
             </main>
+            <ContactModal open={isContactModalOpen} onClose={() => setIsContactModalOpen(false)} />
         </div>
     );
 }

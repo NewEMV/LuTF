@@ -34,10 +34,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
         setTheme(prev => prev === 'light' ? 'dark' : 'light');
     };
 
-    if (!mounted) {
-        return <>{children}</>;
-    }
-
+    // Removed structural bypass. Render normally.
+    // To avoid hydration mismatch, you generally render the Provider anyway.
     return (
         <ThemeContext.Provider value={{ theme, toggleTheme }}>
             {children}

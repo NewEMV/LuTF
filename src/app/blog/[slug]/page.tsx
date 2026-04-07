@@ -116,10 +116,10 @@ export default function BlogPostPage() {
                     </ScrollReveal>
 
                     <Separator className="my-12" />
-                    <div className="flex flex-col md:flex-row justify-between items-center gap-8 py-8 px-8 bg-secondary/30 rounded-[2rem] border border-primary/10">
-                        <div className="space-y-4 text-center md:text-left">
+                    <div className="flex flex-col md:flex-row justify-center items-center gap-8 py-8 px-8 bg-secondary/30 rounded-[2rem] border border-primary/10">
+                        <div className="space-y-4 text-center">
                             <h4 className="text-2xl font-headline font-bold">Gostou deste conteúdo?</h4>
-                            <div className="flex items-center gap-4 justify-center md:justify-start">
+                            <div className="flex items-center gap-4 justify-center">
                                 <span className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Compartilhe:</span>
                                 <div className="flex gap-2">
                                     <Button variant="outline" size="icon" className="rounded-full w-10 h-10 hover:bg-primary hover:text-white transition-all" asChild>
@@ -133,12 +133,6 @@ export default function BlogPostPage() {
                                     </Button>
                                 </div>
                             </div>
-                        </div>
-                        <div className="flex flex-col items-center gap-3">
-                            <p className="text-sm text-muted-foreground max-w-[300px] text-center">entre em contato para agendar uma consulta personalizada ou convite a participação em eventos.</p>
-                            <Button size="lg" className="rounded-full px-10 h-14 text-lg font-bold shadow-xl shadow-primary/20 hover:scale-105 transition-all" asChild>
-                                <Link href="/login">Contato | Agendamento</Link>
-                            </Button>
                         </div>
                     </div>
                 </article>
