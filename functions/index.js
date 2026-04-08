@@ -88,3 +88,29 @@ exports.notifyApprovedUser = onDocumentUpdated(
         });
     }
 );
+
+exports.notifyNewContact = onDocumentCreated(
+    {
+        document: "mensagens_contato/{contatoId}",
+        region: "southamerica-east1",
+    },
+    async (event) => {
+        const data = event.data.data();
+        if (!data) return;
+
+        const resend = new Resend(process.env.RESEND_API_KEY);
+
+        await resend.emails.send({
+            from: "Contato <contato@lucianatelles-psi.com.br>",
+            to: "luciana.tfsuporte@gmail.com",
+            subject: "Novo Contato pelo Site",
+            html: `
+                <h2>Novo Contato recebido pelo site</h2>
+                <p><strong>Nome:</strong> ${data.name}</p>
+                <p><strong>Email:</strong> ${data.email}</p>
+                <p><strong>Whatsapp:</strong> ${data.phone}</p>
+                <p><strong>Motivo da conversa:</strong> ${data.subject}</p>
+            `,
+        });
+    }
+);

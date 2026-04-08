@@ -59,16 +59,7 @@ export function ContactModal({ open, onClose }: ContactModalProps) {
                 status: 'pendente'
             });
 
-            // Notifica Luciana por email
-            const res = await fetch('/api/contact', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data),
-            });
-
-            if (!res.ok) {
-                console.error('Falha ao enviar e-mail');
-            }
+            // O email será enviado automaticamente por uma Firebase Function engatilhada por essa inserção no banco
 
             setSuccess(true);
             reset();
