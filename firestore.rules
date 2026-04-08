@@ -21,7 +21,7 @@ service cloud.firestore {
     }
     
     // Eventos: leitura pública, escrita apenas admin
-    match /eventos/{eventoId} {
+    match /events/{eventoId} {
       allow read: if true;
       allow write: if isAdmin();
     }
@@ -39,7 +39,7 @@ service cloud.firestore {
     }
     
     // Galeria: leitura pública, escrita apenas admin
-    match /galeria/{albumId} {
+    match /galeria_albums/{albumId} {
       allow read: if true;
       allow write: if isAdmin();
     }
