@@ -1,55 +1,59 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
-
-interface Testimonial {
-  id: number;
-  name: string;
-  role: string;
-  content: string;
-  avatar?: string;
-}
-
-const testimonials: Testimonial[] = [
-  {
-    id: 1,
-    name: 'Maria Silva',
-    role: 'Paciente Oncológica',
-    content: 'O acolhimento da Dra. Luciana foi fundamental no meu tratamento. Ela me ajudou a encontrar força onde eu pensava não haver mais.',
-  },
-  {
-    id: 2,
-    name: 'João Santos',
-    role: 'Familiar em Luto',
-    content: 'O processo de perder minha mãe foi menos doloroso graças ao suporte da psicóloga. Ela nos ensinou a honrar a memória com amor.',
-  },
-  {
-    id: 3,
-    name: 'Ana Paula',
-    role: 'Cuidadora',
-    content: 'Aprendi que cuidar de mim também é cuidar de quem amo. A terapia me devolveu o equilíbrio emocional que eu precisava.',
-  },
-];
+import { ChevronLeft, ChevronRight, Quote, Loader2 } from 'lucide-react';
+import { getTestimonials } from '@/lib/testimonials';
+import type { Testimonial } from '@/types/testimonial';
 
 export function TestimonialsCarousel() {
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [loading, setLoading] = useState(true);
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(0);
 
+  useEffect(() => {
+    async function load() {
+      try {
+        const data = await getTestimonials(false);
+        setTestimonials(data);
+      } catch (error) {
+        console.error('Error loading testimonials:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    load();
+  }, []);
+
   const next = () => {
+    if (testimonials.length === 0) return;
     setDirection(1);
     setCurrent((prev) => (prev + 1) % testimonials.length);
   };
 
   const prev = () => {
+    if (testimonials.length === 0) return;
     setDirection(-1);
     setCurrent((prev) => (prev - 1 + testimonials.length) % testimonials.length);
   };
 
   useEffect(() => {
+    if (testimonials.length === 0) return;
     const timer = setInterval(next, 6000);
     return () => clearInterval(timer);
-  }, []);
+  }, [testimonials.length]);
+
+  if (loading) {
+    return (
+      <section className="py-24 bg-gradient-to-br from-secondary via-background to-muted/30 relative overflow-hidden flex items-center justify-center min-h-[400px]">
+        <Loader2 className="w-12 h-12 animate-spin text-primary opacity-50" />
+      </section>
+    );
+  }
+
+  if (testimonials.length === 0) {
+    return null;
+  }
 
   return (
     <section className="py-24 bg-gradient-to-br from-secondary via-background to-muted/30 relative overflow-hidden">
