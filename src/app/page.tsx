@@ -461,6 +461,7 @@ export default function Home() {
                       <p className="opacity-80 mb-3">• Congresso Todos Juntos Contra o Câncer</p>
                       <p className="opacity-80 mb-3">• Movimento "World Cancer Day"</p>
                       <p className="opacity-80 mb-3">• Fórum do Ophicina de Cuidados Paliativos</p>
+                      <p className="opacity-80 mb-3">• Congressos e Simpósios na Hematologia</p>
                       <p className="opacity-80">• Apoio a ações sociais.</p>
                     </div>
                   </ScrollReveal>
