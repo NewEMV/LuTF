@@ -84,18 +84,6 @@ export default function ServicesPublicPage() {
 
     return (
         <div className="min-h-screen bg-background text-foreground pb-20">
-            <nav className="fixed w-full z-50 bg-white/50 dark:bg-gray-900/40 backdrop-blur-2xl shadow-sm py-4">
-                <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
-                    <Link href="/" className="flex items-center gap-2 group">
-                        <LucianaLogo className="w-8 h-8 transition-transform group-hover:rotate-12" />
-                        <span className="text-2xl font-allison pt-1">luciana telles</span>
-                    </Link>
-                    <Button variant="outline" size="sm" asChild className="rounded-full">
-                        <Link href="/">Voltar ao Início</Link>
-                    </Button>
-                </div>
-            </nav>
-
             <main className="pt-32 px-4 max-w-7xl mx-auto">
                 <div className="text-center mb-20 space-y-4">
                     <ScrollReveal direction="up">

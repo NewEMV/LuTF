@@ -3,6 +3,8 @@ import "./globals.css";
 import { AuthProvider } from '@/contexts/AuthContext';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { CookieConsent } from '@/components/cookie-consent';
+import { Navbar } from '@/components/navbar';
+import { Footer } from '@/components/footer';
 
 export const metadata: Metadata = {
   title: "Luciana Telles Ferri | Psicologia",
@@ -24,10 +26,14 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="font-body bg-background text-foreground antialiased" suppressHydrationWarning>
+      <body className="font-body bg-background text-foreground antialiased flex flex-col min-h-screen" suppressHydrationWarning>
         <ThemeProvider>
           <AuthProvider>
-            {children}
+            <Navbar />
+            <main className="flex-grow flex flex-col">
+              {children}
+            </main>
+            <Footer />
             <CookieConsent />
           </AuthProvider>
         </ThemeProvider>

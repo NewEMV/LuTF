@@ -57,17 +57,6 @@ export default function PublicGaleriaPage() {
 
     return (
         <div className="min-h-screen bg-background">
-            <header className="fixed w-full z-50 bg-background/80 backdrop-blur-xl border-b border-border">
-                <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
-                    <Link href="/" className="flex items-center gap-2 group">
-                        <ChevronLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-                        <span className="font-medium">Voltar ao Início</span>
-                    </Link>
-                    <h1 className="text-xl md:text-2xl font-headline font-bold text-primary">Galeria de Memórias</h1>
-                    <div className="w-24" />
-                </div>
-            </header>
-
             <main className="pt-32 pb-20 px-4">
                 <div className="max-w-7xl mx-auto">
                     {!selectedAlbum ? (
