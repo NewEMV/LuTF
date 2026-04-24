@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { Suspense } from "react";
 import "./globals.css";
 import { AuthProvider } from '@/contexts/AuthContext';
 import { ThemeProvider } from '@/contexts/ThemeContext';
@@ -50,7 +51,9 @@ export default function RootLayout({
         </Script>
         <ThemeProvider>
           <AuthProvider>
-            <AnalyticsTracker />
+            <Suspense fallback={null}>
+              <AnalyticsTracker />
+            </Suspense>
             <Navbar />
             <main className="flex-grow flex flex-col">
               {children}
