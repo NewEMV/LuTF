@@ -16,6 +16,8 @@ import { LucianaLogo } from '@/components/luciana-logo';
 
 export const dynamic = 'force-dynamic';
 
+// metadata moved out of client component
+
 const loginSchema = z.object({
     email: z.string().email('Email inválido'),
     password: z.string().min(1, 'Senha é obrigatória'),

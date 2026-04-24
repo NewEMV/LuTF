@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/contexts/ThemeContext';
 import { CookieConsent } from '@/components/cookie-consent';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
+import { AnalyticsTracker } from '@/components/analytics-tracker';
 
 // Google Analytics 4 — ID vinculado ao Firebase do projeto LucianaTF
 const GA_ID = 'G-LHM1QM68RP';
@@ -49,6 +50,7 @@ export default function RootLayout({
         </Script>
         <ThemeProvider>
           <AuthProvider>
+            <AnalyticsTracker />
             <Navbar />
             <main className="flex-grow flex flex-col">
               {children}
