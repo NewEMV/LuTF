@@ -96,23 +96,56 @@ export function AnalyticsTracker() {
       const anchor = target.closest('a');
       const button = target.closest('button');
 
+      // Helper para extrair identificação (ID, Name, Text)
+      const getElementId = (el: Element | null) => el?.id || '';
+      const getElementName = (el: Element | null) => el?.getAttribute('name') || el?.getAttribute('aria-label') || el?.getAttribute('data-cta') || '';
+      const getElementText = (el: Element | null) => el?.textContent?.trim().slice(0, 50) || '';
+
       if (anchor) {
         const href = anchor.getAttribute('href');
-        if (href) {
-          // Verifica se é link externo ou interno
-          const isExternal = href.startsWith('http') && !href.includes(window.location.hostname);
-          
+        const isExternal = href?.startsWith('http') && !href.includes(window.location.hostname);
+        
+        // Alguns CTAs são tags <a> (ex: link do whatsapp, link para agendamento)
+        const isCtaLink = anchor.classList.contains('btn') || anchor.classList.contains('cta') || anchor.getAttribute('role') === 'button';
+
+        if (isCtaLink) {
+          sendEvent('click_cta', { 
+            event_category: 'engagement', 
+            event_label: eventLabel, 
+            button_text: getElementText(anchor) || 'Link CTA',
+            button_id: getElementId(anchor),
+            button_name: getElementName(anchor),
+            link_url: href
+          });
+        } else if (href) {
           if (isExternal) {
-            sendEvent('click_external', { event_category: 'engagement', event_label: eventLabel, link_url: href });
+            sendEvent('click_external', { 
+              event_category: 'engagement', 
+              event_label: eventLabel, 
+              link_url: href,
+              link_text: getElementText(anchor),
+              link_id: getElementId(anchor)
+            });
           } else {
-            sendEvent('click_internal', { event_category: 'engagement', event_label: eventLabel, link_url: href });
+            sendEvent('click_internal', { 
+              event_category: 'engagement', 
+              event_label: eventLabel, 
+              link_url: href,
+              link_text: getElementText(anchor),
+              link_id: getElementId(anchor)
+            });
           }
         }
       } else if (button || target.closest('[role="button"]') || target.closest('.btn') || target.closest('.cta')) {
         // Consideramos botões e elementos com role="button" como CTAs
         const btnElement = button || target.closest('[role="button"]') || target.closest('.btn') || target.closest('.cta');
-        const btnText = btnElement?.textContent?.trim().slice(0, 50) || 'Botão';
-        sendEvent('click_cta', { event_category: 'engagement', event_label: eventLabel, button_text: btnText });
+        sendEvent('click_cta', { 
+          event_category: 'engagement', 
+          event_label: eventLabel, 
+          button_text: getElementText(btnElement) || 'Botão',
+          button_id: getElementId(btnElement),
+          button_name: getElementName(btnElement)
+        });
       }
     };
 
