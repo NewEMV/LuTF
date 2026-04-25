@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { LucianaLogo } from '@/components/luciana-logo';
+import { trackEvent } from '@/lib/analytics/firestore-tracker';
 
 export const dynamic = 'force-dynamic';
 
@@ -33,6 +34,13 @@ export default function LoginPage() {
     const [showSignup, setShowSignup] = useState(false);
     const [showForgotPassword, setShowForgotPassword] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const loginFormStartTracked = useRef(false);
+
+    const handleLoginFormFocus = () => {
+        if (loginFormStartTracked.current) return;
+        loginFormStartTracked.current = true;
+        trackEvent('form_start', { form_type: 'login', form_id: 'login_form', page: typeof window !== 'undefined' ? window.location.href : '' });
+    };
 
     const {
         register,
@@ -54,6 +62,8 @@ export default function LoginPage() {
 
             // Redirecionar usando window.location para garantir que funciona com static export
             if (userData) {
+                trackEvent('form_submit', { form_type: 'login', form_id: 'login_form', page: typeof window !== 'undefined' ? window.location.href : '' });
+                loginFormStartTracked.current = false;
                 console.log('4. userData existe, role:', userData.role, 'status:', userData.status);
                 if (userData.role === 'admin') {
                     console.log('5. Redirecionando para /admin');
@@ -150,7 +160,7 @@ export default function LoginPage() {
                         </div>
                     )}
 
-                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                    <form onSubmit={handleSubmit(onSubmit)} onFocus={handleLoginFormFocus} className="space-y-4">
                         <div>
                             <Label htmlFor="email">Email</Label>
                             <Input

@@ -1,10 +1,11 @@
 'use client';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
+import { trackEvent } from '@/lib/analytics/firestore-tracker';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -34,6 +35,13 @@ export function ContactModal({ open, onClose }: ContactModalProps) {
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState('');
+    const formStartTracked = useRef(false);
+
+    const handleFormFocus = () => {
+        if (formStartTracked.current) return;
+        formStartTracked.current = true;
+        trackEvent('form_start', { form_type: 'contact', form_id: 'contact_modal', page: typeof window !== 'undefined' ? window.location.href : '' });
+    };
 
     const {
         register,
@@ -60,9 +68,11 @@ export function ContactModal({ open, onClose }: ContactModalProps) {
             });
 
             // O email será enviado automaticamente por uma Firebase Function engatilhada por essa inserção no banco
+            trackEvent('form_submit', { form_type: 'contact', form_id: 'contact_modal', page: typeof window !== 'undefined' ? window.location.href : '' });
 
             setSuccess(true);
             reset();
+            formStartTracked.current = false;
 
             setTimeout(() => {
                 setSuccess(false);
@@ -106,7 +116,7 @@ export function ContactModal({ open, onClose }: ContactModalProps) {
                         </p>
                     </div>
                 ) : (
-                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                    <form onSubmit={handleSubmit(onSubmit)} onFocus={handleFormFocus} className="space-y-4">
                         {error && (
                             <div className="p-3 bg-red-100 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg text-red-800 dark:text-red-200 text-sm">
                                 {error}
