@@ -14,7 +14,7 @@ const GA_ID = 'G-LHM1QM68RP';
 
 export const metadata: Metadata = {
   title: "Luciana Telles Ferri | Psicologia",
-  description: "Psicóloga dedicada a transformar momentos de transição em processos de suporte e cuidado humanizado.",
+  description: "Psicóloga com atuação no cuidado de pessoas em momentos de transição, com suporte e escuta qualificada.",
   verification: {
     google: "463thUJEFIyYdS8yeWmLbuVPc63EkKh0XarHP8AJ39I",
   },
