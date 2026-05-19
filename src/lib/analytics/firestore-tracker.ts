@@ -17,6 +17,7 @@ const UTM_STORAGE_KEY = 'lt_utm_data';
 const SESSION_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutos
 const BATCH_FLUSH_INTERVAL_MS = 3000; // flush a cada 3s
 const RATE_LIMIT_MS = 1000; // 1 evento do mesmo tipo por segundo
+const MAX_BUFFER_SIZE = 50; // máximo de eventos na fila (evita acúmulo em falhas)
 const COLLECTION = 'analytics_events';
 
 // ─────────────────────────────────────────────
@@ -210,9 +211,13 @@ function isRateLimited(eventName: string): boolean {
 // ─────────────────────────────────────────────
 let eventBuffer: AnalyticsEvent[] = [];
 let flushTimer: ReturnType<typeof setTimeout> | null = null;
+let isFlushing = false; // impede execuções paralelas do flush
 
 async function flushBuffer() {
-  if (eventBuffer.length === 0) return;
+  // Garante que apenas uma execução ocorra por vez
+  if (isFlushing || eventBuffer.length === 0) return;
+  isFlushing = true;
+
   const eventsToWrite = [...eventBuffer];
   eventBuffer = [];
 
@@ -232,10 +237,11 @@ async function flushBuffer() {
       await batch.commit();
     }
   } catch (err) {
-    console.warn('[Analytics] Falha no batch write, reagendando...', err);
-    // Retry: devolve ao buffer e tenta novamente em 5s
-    eventBuffer = [...eventsToWrite, ...eventBuffer];
-    setTimeout(flushBuffer, 5000);
+    // Em falha, descarta silenciosamente para não criar loops de retry.
+    // O próximo evento do usuário vai acionar um novo flush naturalmente.
+    console.warn('[Analytics] Falha no batch write, eventos descartados para evitar loop:', err);
+  } finally {
+    isFlushing = false;
   }
 }
 
@@ -279,6 +285,12 @@ function validateParams(params: Record<string, any>): Record<string, any> {
 export function trackEvent(eventName: string, params: Record<string, any> = {}) {
   if (typeof window === 'undefined') return;
   if (isRateLimited(eventName)) return;
+
+  // Descarta o evento se o buffer estiver cheio (proteção contra acúmulo em falhas)
+  if (eventBuffer.length >= MAX_BUFFER_SIZE) {
+    console.warn('[Analytics] Buffer cheio, evento descartado:', eventName);
+    return;
+  }
 
   const event: AnalyticsEvent = {
     client_id: getOrCreateClientId(),
