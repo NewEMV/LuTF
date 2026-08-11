@@ -76,7 +76,8 @@ export default function EventosPage() {
     const handleOpenModal = (evento: Evento | null = null) => {
         if (evento) {
             setEditingEvento(evento);
-            const dateStr = evento.date.toDate().toISOString().split('T')[0];
+            const d = evento.date.toDate();
+            const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
             setFormData({
                 title: evento.title,
                 description: evento.description,
@@ -130,7 +131,8 @@ export default function EventosPage() {
         if (!formData.title || !formData.date) return;
 
         try {
-            const dateObj = new Date(formData.date);
+            const [year, month, day] = formData.date.split('-').map(Number);
+            const dateObj = new Date(year, month - 1, day, 12, 0, 0);
             const timestamp = Timestamp.fromDate(dateObj);
 
             const payload = {
@@ -190,7 +192,7 @@ export default function EventosPage() {
                                     className="object-cover"
                                 />
                             </div>
-                            <div className="p-6 flex-grow flex flex-col justify-between">
+                            <div className="p-6 flex-grow flex flex-col justify-between min-h-[160px]">
                                 <div>
                                     <h3 className="text-xl font-bold mb-2">{evento.title}</h3>
                                     <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-muted-foreground mb-4">
@@ -339,3 +341,7 @@ export default function EventosPage() {
         </div>
     );
 }
+
+
+
+

@@ -404,3 +404,16 @@ html {
 .dark ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--accent));
 }
+
+/* ========================================
+   DATE INPUT PICKER ICON (DARK MODE)
+   ======================================== */
+
+.dark input[type="date"] {
+  color-scheme: dark;
+}
+
+.dark input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+}
